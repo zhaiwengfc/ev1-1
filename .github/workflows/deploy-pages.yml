@@ -1,0 +1,63 @@
+# Build the Vite app and publish dist/ to GitHub Pages.
+# Expected site: https://zhaiwengfc.github.io/ev1-1/
+#
+# actions/configure-pages accepts enablement: true, but that input
+# requires a personal access token or GitHub App token with
+# administration rights. The default GITHUB_TOKEN cannot create a Pages
+# site and fails with "Resource not accessible by integration", so
+# enablement is omitted. Before the first deploy, set
+# Settings → Pages → Build and deployment → Source to "GitHub Actions".
+
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
