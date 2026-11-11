@@ -1,13 +1,8 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import DroneArt from '../components/DroneArt.jsx'
-import {
-  products,
-  productCategories,
-  priceFilters,
-  labArticles,
-  formatSamplePrice,
-} from '../data/content.js'
+import OfficialPrice, { ProductVisual } from '../components/OfficialPrice.jsx'
+import { productCategories, priceFilters, labArticles } from '../data/content.js'
+import { useShopCatalog, hasFilterPrice } from '../data/shopLive.js'
 
 function ProductTags({ product }) {
   const tags = [product.brandTag || product.brand, product.formTag, product.useTag].filter(Boolean)
@@ -21,16 +16,19 @@ function ProductTags({ product }) {
 export default function Shop() {
   const [cat, setCat] = useState('all')
   const [price, setPrice] = useState('all')
+  const shop = useShopCatalog()
 
   const list = useMemo(() => {
     const range = priceFilters.find((item) => item.id === price)
-    return products.filter((item) => {
+    return shop.products.filter((item) => {
       const okCat = cat === 'all' || item.category === cat
       const okPrice =
-        !range || range.id === 'all' || (item.price >= range.min && item.price < range.max)
+        !range ||
+        range.id === 'all' ||
+        (hasFilterPrice(item) && item.price >= range.min && item.price < range.max)
       return okCat && okPrice
     })
-  }, [cat, price])
+  }, [cat, price, shop.products])
 
   return (
     <div className="shop-page">
@@ -77,22 +75,7 @@ export default function Shop() {
       ) : (
         <div className="product-grid">
           {list.map((product) => (
-            <Link key={product.id} to={`/shop/${product.id}`} className="product-card">
-              <div className="product-art">
-                <DroneArt variant={product.variant} accent={product.accent} />
-                <span className="tag-sticker on-art">{product.tag}</span>
-              </div>
-              <div className="product-body">
-                <div className="card-meta">
-                  <ProductTags product={product} />
-                </div>
-                <h2>{product.name}</h2>
-                <p className="sample-price lg">
-                  {formatSamplePrice(product.price)}
-                  <span> {product.priceLabel}</span>
-                </p>
-              </div>
-            </Link>
+            <ProductCard key={product.id} product={product} />
           ))}
         </div>
       )}
@@ -115,5 +98,25 @@ export default function Shop() {
         </div>
       </section>
     </div>
+  )
+}
+
+function ProductCard({ product }) {
+  return (
+    <Link to={`/shop/${product.id}`} className="product-card">
+      <ProductVisual product={product}>
+        <span className="tag-sticker on-art">{product.tag}</span>
+      </ProductVisual>
+      <div className="product-body">
+        <div className="card-meta">
+          <ProductTags product={product} />
+          {product.pendingCopy ? <span className="copy-badge">待补充介绍</span> : null}
+          {product.recentLaunch ? <span className="tag-sticker">新品</span> : null}
+        </div>
+        <h2>{product.name}</h2>
+        {product.tagline ? <p className="product-tagline">{product.tagline}</p> : null}
+        <OfficialPrice product={product} size="lg" />
+      </div>
+    </Link>
   )
 }

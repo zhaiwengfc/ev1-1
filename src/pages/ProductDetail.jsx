@@ -2,8 +2,15 @@ import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import Stars from '../components/Stars.jsx'
 import Sources from '../components/Sources.jsx'
-import DroneArt from '../components/DroneArt.jsx'
-import { getProduct, getLabItem, formatSamplePrice, labArticles } from '../data/content.js'
+import OfficialPrice, { BundlePrices, ProductVisual } from '../components/OfficialPrice.jsx'
+import { getLabItem, labArticles } from '../data/content.js'
+import { useShopCatalog } from '../data/shopLive.js'
+
+function specPairs(specs) {
+  return (specs || [])
+    .map((row) => (Array.isArray(row) ? row : [row?.label, row?.value]))
+    .filter((row) => row[0] && row[1])
+}
 
 function Fold({ title, tease, children }) {
   const [open, setOpen] = useState(false)
@@ -25,12 +32,13 @@ function Fold({ title, tease, children }) {
 
 export default function ProductDetail() {
   const { id } = useParams()
-  const product = getProduct(id)
+  const shop = useShopCatalog()
+  const product = shop.getProduct(id)
 
   if (!product) {
     return (
       <div className="detail-page">
-        <p>没有找到这款机型。</p>
+        <p>{shop.status === 'loading' ? '正在读取机型…' : '没有找到这款机型。'}</p>
         <Link to="/shop" className="btn-ghost">
           返回商城
         </Link>
@@ -52,9 +60,7 @@ export default function ProductDetail() {
         ← 返回无人机商城
       </Link>
       <div className="product-detail-grid">
-        <div className="product-stage">
-          <DroneArt variant={product.variant} accent={product.accent} />
-        </div>
+        <ProductVisual product={product} stage />
         <div className="product-intro-card">
           <div className="card-meta">
             {tags.map((tag) => (
@@ -62,42 +68,92 @@ export default function ProductDetail() {
                 {tag}
               </span>
             ))}
+            {product.pendingCopy ? <span className="copy-badge">待补充介绍</span> : null}
+            {product.recentLaunch ? <span className="tag-sticker">新品</span> : null}
           </div>
           <h1 className="detail-title">{product.name}</h1>
-          <p className="sample-price xl">
-            {formatSamplePrice(product.price)}
-            <span> {product.priceLabel}</span>
-          </p>
-          {product.priceNote ? <p className="detail-summary">{product.priceNote}</p> : null}
-          <p className="tiny-note">本站只做资料整理，没有购买或比价下单。</p>
+          {product.tagline ? <p className="product-tagline">{product.tagline}</p> : null}
+          <OfficialPrice product={product} size="xl" />
+          <BundlePrices product={product} />
+          {!product.priceUncertain && product.priceNote ? <p className="detail-summary">{product.priceNote}</p> : null}
+          <p className="tiny-note">本站只做资料整理，没有购买或比价下单。下单请以官方商城结算页为准。</p>
           <Sources sources={product.sources} />
+          {product.checkedDate ? <p className="price-check">查阅日期：{product.checkedDate}</p> : null}
+          {product.writtenIntro ? (
+            <p className="price-check">介绍依据大疆官网整理，引号内为官网原文</p>
+          ) : null}
         </div>
       </div>
 
-      <Fold title="产品介绍" tease={intro[0] || ''}>
-        {intro.map((para, index) => (
-          <p key={`${index}-${para.slice(0, 16)}`}>{para}</p>
-        ))}
-      </Fold>
+      {product.writtenIntro ? (
+        <section className="fold-card">
+          <h2>技术亮点</h2>
+          <ul className="highlight-list">
+            {highlights.map((line) => (
+              <li key={line}>{line}</li>
+            ))}
+          </ul>
+          <h2>规格</h2>
+          <dl>
+            {specPairs(product.specs).map(([label, value]) => (
+              <div key={label} className="spec-row">
+                <dt>{label}</dt>
+                <dd>{value}</dd>
+              </div>
+            ))}
+          </dl>
+          {product.suitableFor ? (
+            <>
+              <h2>适合谁</h2>
+              <p>{product.suitableFor}</p>
+            </>
+          ) : null}
+        </section>
+      ) : null}
 
-      <Fold title="技术亮点与解读" tease={highlights.slice(0, 2).join('；')}>
-        <ul className="highlight-list">
-          {highlights.map((line) => (
-            <li key={line}>{line}</li>
+      {!product.writtenIntro && intro.length > 0 ? (
+        <Fold title="产品介绍" tease={intro[0] || ''}>
+          {intro.map((para, index) => (
+            <p key={`${index}-${para.slice(0, 16)}`}>{para}</p>
           ))}
-        </ul>
-        {(product.techBody || []).map((para, index) => (
-          <p key={`${index}-${para.slice(0, 16)}`}>{para}</p>
-        ))}
-        <dl>
-          {product.specs.map(([label, value]) => (
-            <div key={label} className="spec-row">
-              <dt>{label}</dt>
-              <dd>{value}</dd>
-            </div>
+        </Fold>
+      ) : null}
+
+      {product.pendingCopy && product.officialBlurb ? (
+        <section className="fold-card">
+          <h2>官方简介</h2>
+          <p>{product.officialBlurb}</p>
+          <p className="price-check">来自官方商城，不是本站撰写的介绍。</p>
+        </section>
+      ) : null}
+
+      {!product.writtenIntro && (highlights.length > 0 || (product.specs || []).length > 0) ? (
+        <Fold title="技术亮点与解读" tease={highlights.slice(0, 2).join('；') || '官方规格'}>
+          {highlights.length > 0 ? (
+            <ul className="highlight-list">
+              {highlights.map((line) => (
+                <li key={line}>{line}</li>
+              ))}
+            </ul>
+          ) : null}
+          {(product.techBody || []).map((para, index) => (
+            <p key={`${index}-${para.slice(0, 16)}`}>{para}</p>
           ))}
-        </dl>
-      </Fold>
+          {(product.specs || []).length > 0 ? (
+            <>
+              {product.specSource ? <p className="price-check">规格来自{product.specSource}</p> : null}
+              <dl>
+                {product.specs.map(([label, value]) => (
+                  <div key={label} className="spec-row">
+                    <dt>{label}</dt>
+                    <dd>{value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </>
+          ) : null}
+        </Fold>
+      ) : null}
 
       {review ? (
         <Fold title="资料评测" tease={review.summary}>

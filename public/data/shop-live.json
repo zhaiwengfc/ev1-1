@@ -1,0 +1,629 @@
+{
+  "checkedAt": "2026-11-11T19:05:02+08:00",
+  "products": {
+    "dji-mini-5-pro": {
+      "name": "DJI Mini 5 Pro",
+      "officialPrice": 4788,
+      "listPrice": null,
+      "currency": "CNY",
+      "priceLabel": "DJI Mini 5 Pro",
+      "availability": "in_stock",
+      "bundles": [
+        {
+          "id": "dji-mini-5-pro",
+          "name": "DJI Mini 5 Pro",
+          "price": 4788,
+          "listPrice": null,
+          "status": "in_stock"
+        },
+        {
+          "id": "dji-mini-5-pro-fly-more-combo-dji-rc-n3",
+          "name": "DJI Mini 5 Pro 畅飞套装（DJI RC-N3）",
+          "price": 5988,
+          "listPrice": null,
+          "status": "in_stock"
+        },
+        {
+          "id": "dji-mini-5-pro-fly-more-combo-dji-rc2",
+          "name": "DJI Mini 5 Pro 畅飞套装（DJI RC 2）",
+          "price": 6988,
+          "listPrice": null,
+          "status": "in_stock"
+        },
+        {
+          "id": "dji-mini-5-pro-fly-more-combo-plus-dji-rc2-quick-transmission",
+          "name": "DJI Mini 5 Pro 长续航畅飞套装（DJI RC 2，增强图传）",
+          "price": 7688,
+          "listPrice": null,
+          "status": "in_stock"
+        }
+      ],
+      "officialBlurb": "一英寸大底全能迷你航拍机 DJI Mini 5 Pro 搭载 5000 万像素影像系统、225° 旋转云台及夜景级全向主动避障，助你轻松捕捉每一帧灵感画面。",
+      "image": "images/products/dji-mini-5-pro.webp",
+      "sourceUrl": "https://store.dji.com/cn/product/dji-mini-5-pro",
+      "specsUrl": "https://www.dji.com/cn/mini-5-pro/specs",
+      "specSource": "大疆官网规格页",
+      "specs": [
+        [
+          "起飞重量",
+          "标准起飞重量：249.9 克"
+        ],
+        [
+          "最长飞行时间",
+          "36 分钟（搭载 DJI Mini 5 Pro 智能飞行电池）"
+        ],
+        [
+          "影像传感器",
+          "1 英寸 CMOS，有效像素 5000 万"
+        ],
+        [
+          "镜头",
+          "视角：84°"
+        ],
+        [
+          "图传方案",
+          "O4+"
+        ]
+      ],
+      "checkedAt": "2026-11-11T19:05:02+08:00",
+      "ok": true,
+      "error": ""
+    },
+    "dji-air-3s": {
+      "name": "DJI Air 3S（普通遥控器）",
+      "officialPrice": 6988,
+      "listPrice": null,
+      "currency": "CNY",
+      "priceLabel": "DJI Air 3S（普通遥控器）",
+      "availability": "in_stock",
+      "bundles": [
+        {
+          "id": "dji-air-3s-fly-more-combo",
+          "name": "DJI Air 3S 畅飞套装（普通遥控器）",
+          "price": 8788,
+          "listPrice": null,
+          "status": "in_stock"
+        },
+        {
+          "id": "dji-air-3s-fly-more-combo-rc-2",
+          "name": "DJI Air 3S 畅飞套装（带屏遥控器）",
+          "price": 9988,
+          "listPrice": null,
+          "status": "in_stock"
+        },
+        {
+          "id": "dji-air-3s",
+          "name": "DJI Air 3S（普通遥控器）",
+          "price": 6988,
+          "listPrice": null,
+          "status": "in_stock"
+        }
+      ],
+      "officialBlurb": "",
+      "image": "images/products/dji-air-3s.webp",
+      "sourceUrl": "https://store.dji.com/cn/product/dji-air-3s",
+      "specsUrl": "https://www.dji.com/cn/air-3s/specs",
+      "specSource": "大疆官网规格页",
+      "specs": [
+        [
+          "起飞重量",
+          "724 克"
+        ],
+        [
+          "最长飞行时间",
+          "45 分钟"
+        ],
+        [
+          "影像传感器",
+          "广角相机：1 英寸 CMOS，有效像素 5000 万"
+        ],
+        [
+          "镜头",
+          "广角相机"
+        ],
+        [
+          "图传方案",
+          "O4"
+        ]
+      ],
+      "checkedAt": "2026-11-11T19:05:02+08:00",
+      "ok": true,
+      "error": ""
+    },
+    "dji-neo-2": {
+      "name": "DJI Neo 2（仅飞行器）",
+      "officialPrice": 1499,
+      "listPrice": null,
+      "currency": "CNY",
+      "priceLabel": "DJI Neo 2（仅飞行器）",
+      "availability": "in_stock",
+      "bundles": [
+        {
+          "id": "dji-neo-2",
+          "name": "DJI Neo 2（仅飞行器）",
+          "price": 1499,
+          "listPrice": null,
+          "status": "in_stock"
+        },
+        {
+          "id": "dji-neo-2-fly-more-combo-drone-only",
+          "name": "DJI Neo 2 畅飞套装（仅飞行器）",
+          "price": 1999,
+          "listPrice": null,
+          "status": "in_stock"
+        },
+        {
+          "id": "dji-neo-2-fly-more-combo",
+          "name": "DJI Neo 2 畅飞套装",
+          "price": 2499,
+          "listPrice": null,
+          "status": "in_stock"
+        },
+        {
+          "id": "dji-neo-2-motion-fly-more-combo",
+          "name": "DJI Neo 2 体感畅飞套装",
+          "price": 3699,
+          "listPrice": null,
+          "status": "in_stock"
+        }
+      ],
+      "officialBlurb": "DJI Neo 2 是 DJI 迄今最小的全向避障无人机，支持手势操控、智能自拍和智能跟随等多样玩法，零基础也能快速上手。它就像一位会飞的跟拍摄影师，随时记录你的精彩瞬间。",
+      "image": "images/products/dji-neo-2.webp",
+      "sourceUrl": "https://store.dji.com/cn/product/dji-neo-2",
+      "specsUrl": "https://www.dji.com/cn/neo-2/specs",
+      "specSource": "大疆官网规格页",
+      "specs": [
+        [
+          "起飞重量",
+          "151 克（不含 DJI Neo 2 数字图传模块）"
+        ],
+        [
+          "最长飞行时间",
+          "约 19 分钟（带桨叶保护罩约 17 分钟）*"
+        ],
+        [
+          "影像传感器",
+          "1/2 英寸影像传感器"
+        ],
+        [
+          "镜头",
+          "视角范围（FOV）：119.8°"
+        ],
+        [
+          "图传方案",
+          "标配 Wi-Fi 图传"
+        ]
+      ],
+      "checkedAt": "2026-11-11T19:05:02+08:00",
+      "ok": true,
+      "error": ""
+    },
+    "antigravity-a1": {
+      "name": "全景飞行标准套装",
+      "officialPrice": 5599,
+      "listPrice": 6799,
+      "currency": "CNY",
+      "priceLabel": "全景飞行标准套装",
+      "availability": "in_stock",
+      "bundles": [
+        {
+          "id": "1992913968419799042",
+          "name": "全景飞行标准套装",
+          "price": 5599,
+          "listPrice": 6799,
+          "status": "in_stock"
+        },
+        {
+          "id": "1992914024745107457",
+          "name": "全景飞行探索套装",
+          "price": 6799,
+          "listPrice": 7999,
+          "status": "in_stock"
+        },
+        {
+          "id": "2089604873358843905",
+          "name": "经典遥控器套装",
+          "price": 7309,
+          "listPrice": 8499,
+          "status": "in_stock"
+        },
+        {
+          "id": "1992914064993648642",
+          "name": "全景飞行长续航探索套装",
+          "price": 7299,
+          "listPrice": 8499,
+          "status": "in_stock"
+        }
+      ],
+      "officialBlurb": "",
+      "image": "images/products/antigravity-a1.webp",
+      "sourceUrl": "https://www.antigravity.tech/cn/drone/antigravity-a1/buy",
+      "specsUrl": "https://www.antigravity.tech/cn/drone/antigravity-a1/specs",
+      "specSource": "",
+      "specs": [],
+      "checkedAt": "2026-11-11T19:05:02+08:00",
+      "ok": true,
+      "error": ""
+    }
+  },
+  "newLaunches": [
+    {
+      "id": "dji-mavic-4-pro",
+      "name": "DJI Mavic 4 Pro（DJI RC 2）",
+      "brand": "DJI",
+      "officialPrice": 13888,
+      "listPrice": null,
+      "currency": "CNY",
+      "priceLabel": "DJI Mavic 4 Pro（DJI RC 2）",
+      "availability": "in_stock",
+      "bundles": [
+        {
+          "id": "dji-mavic-4-pro-capture-combo",
+          "name": "DJI Mavic 4 Pro 畅拍套装（DJI RC 2）",
+          "price": null,
+          "listPrice": null,
+          "status": "out_of_stock"
+        },
+        {
+          "id": "dji-mavic-4-pro",
+          "name": "DJI Mavic 4 Pro（DJI RC 2）",
+          "price": 13888,
+          "listPrice": null,
+          "status": "in_stock"
+        },
+        {
+          "id": "dji-mavic-4-pro-fly-more-combo-dji-rc-2",
+          "name": "DJI Mavic 4 Pro 畅飞套装（DJI RC 2）",
+          "price": null,
+          "listPrice": null,
+          "status": "out_of_stock"
+        },
+        {
+          "id": "dji-mavic-4-pro-fly-more-combo-dji-rc-2-enhanced-transmission",
+          "name": "DJI Mavic 4 Pro 畅飞套装（DJI RC 2，增强图传）",
+          "price": 17888,
+          "listPrice": null,
+          "status": "in_stock"
+        },
+        {
+          "id": "dji-mavic-4-pro-512gb-creator-combo-dji-rc-pro-2",
+          "name": "DJI Mavic 4 Pro 512GB 创作者套装（DJI RC Pro 2）",
+          "price": null,
+          "listPrice": null,
+          "status": "out_of_stock"
+        },
+        {
+          "id": "dji-mavic-4-pro-512gb-creator-combo-dji-rc-pro-2-enhanced-transmission",
+          "name": "DJI Mavic 4 Pro 512GB 创作者套装（DJI RC Pro 2，增强图传）",
+          "price": 23988,
+          "listPrice": null,
+          "status": "in_stock"
+        }
+      ],
+      "officialBlurb": "新一代三摄旗舰影像航拍机 DJI Mavic 4 Pro 配备一亿像素哈苏主摄、大底双长焦相机、360° 旋转万象云台及夜景级全向主动避障，将 DJI 航拍无人机的影像与飞行性能推向新高度。",
+      "image": "images/products/dji-mavic-4-pro.webp",
+      "sourceUrl": "https://store.dji.com/cn/product/dji-mavic-4-pro",
+      "specsUrl": "https://www.dji.com/cn/mavic-4-pro/specs",
+      "status": "pending_copy",
+      "firstSeenAt": "2026-11-11T18:59:34+08:00",
+      "checkedAt": "2026-11-11T19:05:02+08:00",
+      "ok": true
+    },
+    {
+      "id": "dji-avata-360",
+      "name": "DJI Avata 360（仅飞行器，增强图传）",
+      "brand": "DJI",
+      "officialPrice": 2788,
+      "listPrice": null,
+      "currency": "CNY",
+      "priceLabel": "DJI Avata 360（仅飞行器，增强图传）",
+      "availability": "in_stock",
+      "bundles": [
+        {
+          "id": "dji-avata-360",
+          "name": "DJI Avata 360（仅飞行器，增强图传）",
+          "price": 2788,
+          "listPrice": null,
+          "status": "in_stock"
+        },
+        {
+          "id": "dji-avata-360-replacement-lens-kit-with-tools",
+          "name": "DJI Avata 360 镜片拆换套装",
+          "price": 139,
+          "listPrice": null,
+          "status": "in_stock"
+        },
+        {
+          "id": "dji-avata-360-fly-more-combo-dji-rc-2",
+          "name": "DJI Avata 360 畅飞套装（DJI RC 2，增强图传）",
+          "price": 5488,
+          "listPrice": null,
+          "status": "in_stock"
+        },
+        {
+          "id": "dji-avata-360-motion-fly-more-combo",
+          "name": "DJI Avata 360 体感畅飞套装",
+          "price": 5488,
+          "listPrice": null,
+          "status": "in_stock"
+        }
+      ],
+      "officialBlurb": "一英寸[1] 8K 旗舰画质[2]，开辟全景新境界。O4+ 全高清图传，时刻从容畅飞[3]。桨保与避障兼备[4]，拍摄超安心。一次飞行，无限运镜创意。自在好上手，运动跟拍更震撼[2]。Avata 360，带你领略全景创作新维度。",
+      "image": "images/products/dji-avata-360.webp",
+      "sourceUrl": "https://store.dji.com/cn/product/dji-avata-360",
+      "specsUrl": "https://www.dji.com/cn/avata-360/specs",
+      "status": "pending_copy",
+      "firstSeenAt": "2026-11-11T18:59:34+08:00",
+      "checkedAt": "2026-11-11T19:05:02+08:00",
+      "ok": true
+    },
+    {
+      "id": "dji-lito-x1",
+      "name": "DJI Lito X1",
+      "brand": "DJI",
+      "officialPrice": 2488,
+      "listPrice": null,
+      "currency": "CNY",
+      "priceLabel": "DJI Lito X1",
+      "availability": "in_stock",
+      "bundles": [
+        {
+          "id": "dji-lito-x1",
+          "name": "DJI Lito X1",
+          "price": 2488,
+          "listPrice": null,
+          "status": "in_stock"
+        },
+        {
+          "id": "dji-lito-x1-fly-more-combo-dji-rc-n3",
+          "name": "DJI Lito X1 畅飞套装（DJI RC-N3）",
+          "price": 3388,
+          "listPrice": null,
+          "status": "in_stock"
+        },
+        {
+          "id": "dji-lito-x1-fly-more-combo-dji-rc-2",
+          "name": "DJI Lito X1 畅飞套装（DJI RC 2）",
+          "price": 3988,
+          "listPrice": null,
+          "status": "in_stock"
+        },
+        {
+          "id": "dji-lito-x1-fly-more-combo-plus-dji-rc-2",
+          "name": "DJI Lito X1 长续航畅飞套装（DJI RC 2）",
+          "price": 4488,
+          "listPrice": null,
+          "status": "in_stock"
+        }
+      ],
+      "officialBlurb": "1/1.3 英寸传感器新手入门高配航拍机 DJI Lito X1，全向避障，飞行更安全，智能跟随和多种运镜模式，助你轻松创作大片。",
+      "image": "images/products/dji-lito-x1.webp",
+      "sourceUrl": "https://store.dji.com/cn/product/dji-lito-x1",
+      "specsUrl": "https://www.dji.com/cn/lito-x1/specs",
+      "status": "pending_copy",
+      "firstSeenAt": "2026-11-11T18:59:34+08:00",
+      "checkedAt": "2026-11-11T19:05:02+08:00",
+      "ok": true
+    },
+    {
+      "id": "dji-mavic-3-pro",
+      "name": "DJI Mavic 3 Pro 畅飞套装（DJI RC Pro 遥控器）",
+      "brand": "DJI",
+      "officialPrice": 19789,
+      "listPrice": null,
+      "currency": "CNY",
+      "priceLabel": "DJI Mavic 3 Pro 畅飞套装（DJI RC Pro 遥控器）",
+      "availability": "in_stock",
+      "bundles": [
+        {
+          "id": "dji-mavic-3-pro",
+          "name": "DJI Mavic 3 Pro（带屏遥控器）",
+          "price": null,
+          "listPrice": null,
+          "status": "out_of_stock"
+        },
+        {
+          "id": "dji-mavic-3-pro-combo",
+          "name": "DJI Mavic 3 Pro 畅飞套装（带屏遥控器）",
+          "price": null,
+          "listPrice": null,
+          "status": "out_of_stock"
+        },
+        {
+          "id": "dji-mavic-3-pro-combo-rc-pro",
+          "name": "DJI Mavic 3 Pro 畅飞套装（DJI RC Pro 遥控器）",
+          "price": 19789,
+          "listPrice": null,
+          "status": "in_stock"
+        },
+        {
+          "id": "dji-mavic-3-pro-cine-combo",
+          "name": "DJI Mavic 3 Pro Cine 大师套装（DJI RC Pro 遥控器）",
+          "price": 28519,
+          "listPrice": null,
+          "status": "in_stock"
+        }
+      ],
+      "officialBlurb": "开创 DJI 消费级航拍机三摄系统，4/3 CMOS 哈苏主摄与双焦段长焦相机均能录制 4K/60fps 视频，拍摄视角灵活，创作效率与自由度一跃而起。",
+      "image": "images/products/dji-mavic-3-pro.webp",
+      "sourceUrl": "https://store.dji.com/cn/product/dji-mavic-3-pro",
+      "specsUrl": "https://www.dji.com/cn/mavic-3-pro/specs",
+      "status": "pending_copy",
+      "firstSeenAt": "2026-11-11T18:59:34+08:00",
+      "checkedAt": "2026-11-11T19:05:02+08:00",
+      "ok": true
+    },
+    {
+      "id": "dji-neo",
+      "name": "DJI Neo（不含遥控器）",
+      "brand": "DJI",
+      "officialPrice": 1019,
+      "listPrice": 1299,
+      "currency": "CNY",
+      "priceLabel": "DJI Neo（不含遥控器）",
+      "availability": "in_stock",
+      "bundles": [
+        {
+          "id": "dji-neo-motion-fly-more-combo",
+          "name": "DJI Neo 体感畅飞套装",
+          "price": null,
+          "listPrice": null,
+          "status": "out_of_stock"
+        },
+        {
+          "id": "dji-neo",
+          "name": "DJI Neo（不含遥控器）",
+          "price": 1019,
+          "listPrice": 1299,
+          "status": "in_stock"
+        },
+        {
+          "id": "dji-neo-fly-more-combo",
+          "name": "DJI Neo 畅飞套装",
+          "price": 1819,
+          "listPrice": 2299,
+          "status": "in_stock"
+        },
+        {
+          "id": "dji-neo-combo",
+          "name": "DJI Neo 套装",
+          "price": 1429,
+          "listPrice": 1799,
+          "status": "in_stock"
+        }
+      ],
+      "officialBlurb": "超轻小机身仅 135 克，具备全包式保护罩；无需遥控器，即可实现掌上起降，操作零门槛。",
+      "image": "images/products/dji-neo.webp",
+      "sourceUrl": "https://store.dji.com/cn/product/dji-neo",
+      "specsUrl": "https://www.dji.com/cn/neo/specs",
+      "status": "pending_copy",
+      "firstSeenAt": "2026-11-11T18:59:34+08:00",
+      "checkedAt": "2026-11-11T19:05:02+08:00",
+      "ok": true
+    },
+    {
+      "id": "dji-flip",
+      "name": "DJI Flip（普通遥控器）",
+      "brand": "DJI",
+      "officialPrice": 2103,
+      "listPrice": 2788,
+      "currency": "CNY",
+      "priceLabel": "DJI Flip（普通遥控器）",
+      "availability": "in_stock",
+      "bundles": [
+        {
+          "id": "dji-flip",
+          "name": "DJI Flip（普通遥控器）",
+          "price": 2103,
+          "listPrice": 2788,
+          "status": "in_stock"
+        },
+        {
+          "id": "dji-flip-fly-more-combo-rc-2",
+          "name": "DJI Flip 畅飞套装（带屏遥控器）",
+          "price": 3765,
+          "listPrice": 4988,
+          "status": "in_stock"
+        },
+        {
+          "id": "dji-flip-cellular-2-combo",
+          "name": "DJI Flip 增强图传模块套装",
+          "price": 768,
+          "listPrice": null,
+          "status": "in_stock"
+        }
+      ],
+      "officialBlurb": "DJI 首款自带可折叠全包围桨叶保护罩的迷你航拍无人机，掌上起降，智能跟拍，上手简单安全，出国也能轻松飞。支持 2.7K 竖拍及 4K/60fps HDR 视频录制，拍人拍景都好看，直出就是惊艳 vlog。",
+      "image": "images/products/dji-flip.webp",
+      "sourceUrl": "https://store.dji.com/cn/product/dji-flip",
+      "specsUrl": "https://www.dji.com/cn/flip/specs",
+      "status": "pending_copy",
+      "firstSeenAt": "2026-11-11T18:59:34+08:00",
+      "checkedAt": "2026-11-11T19:05:02+08:00",
+      "ok": true
+    },
+    {
+      "id": "dji-mini-4-pro",
+      "name": "DJI Mini 4 Pro（普通遥控器）",
+      "brand": "DJI",
+      "officialPrice": null,
+      "listPrice": null,
+      "currency": "CNY",
+      "priceLabel": "DJI Mini 4 Pro（普通遥控器）",
+      "availability": "out_of_stock",
+      "bundles": [
+        {
+          "id": "dji-mini-4-pro-combo-rc-2-sb",
+          "name": "DJI Mini 4 Pro 畅飞套装（带屏遥控器）",
+          "price": null,
+          "listPrice": null,
+          "status": "out_of_stock"
+        },
+        {
+          "id": "dji-mini-4-pro-combo-plus-rc-2-sb",
+          "name": "DJI Mini 4 Pro 长续航畅飞套装（带屏遥控器）",
+          "price": null,
+          "listPrice": null,
+          "status": "out_of_stock"
+        },
+        {
+          "id": "dji-mini-4-pro",
+          "name": "DJI Mini 4 Pro（普通遥控器）",
+          "price": null,
+          "listPrice": null,
+          "status": "out_of_stock"
+        }
+      ],
+      "officialBlurb": "",
+      "image": "images/products/dji-mini-4-pro.webp",
+      "sourceUrl": "https://store.dji.com/cn/product/dji-mini-4-pro",
+      "specsUrl": "https://www.dji.com/cn/mini-4-pro/specs",
+      "status": "pending_copy",
+      "firstSeenAt": "2026-11-11T18:59:34+08:00",
+      "checkedAt": "2026-11-11T19:05:02+08:00",
+      "ok": true
+    },
+    {
+      "id": "dji-avata-2",
+      "name": "DJI Avata 2 畅飞套装（单电池版）",
+      "brand": "DJI",
+      "officialPrice": 5089,
+      "listPrice": null,
+      "currency": "CNY",
+      "priceLabel": "DJI Avata 2 畅飞套装（单电池版）",
+      "availability": "in_stock",
+      "bundles": [
+        {
+          "id": "dji-avata-2-explorer-combo",
+          "name": "DJI Avata 2 探索套装",
+          "price": null,
+          "listPrice": null,
+          "status": "out_of_stock"
+        },
+        {
+          "id": "dji-avata-2",
+          "name": "DJI Avata 2 畅飞套装（单电池版）",
+          "price": 5089,
+          "listPrice": null,
+          "status": "in_stock"
+        },
+        {
+          "id": "dji-avata-2-three-batteries",
+          "name": "DJI Avata 2 畅飞套装（三电池版）",
+          "price": 5939,
+          "listPrice": null,
+          "status": "in_stock"
+        }
+      ],
+      "officialBlurb": "选购 DJI Avata 2，第一视角飞行体验无人机，配备一体化桨叶保护罩，可配合 DJI 穿越摇杆 3 实现体感操控。现已上架大疆商城。",
+      "image": "images/products/dji-avata-2.webp",
+      "sourceUrl": "https://store.dji.com/cn/product/dji-avata-2",
+      "specsUrl": "https://www.dji.com/cn/avata-2/specs",
+      "status": "pending_copy",
+      "firstSeenAt": "2026-11-11T18:59:34+08:00",
+      "checkedAt": "2026-11-11T19:05:02+08:00",
+      "ok": true
+    }
+  ],
+  "failures": []
+}
