@@ -6,6 +6,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const OUT_FILE = path.join(ROOT, 'public', 'data', 'news.json')
 const MAX_AUTO = 60
+const MAX_GOV = 30
 const REPO = process.env.GITHUB_REPOSITORY || 'zhaiwengfc/ev1-1'
 const ALLOWED_ASSOCIATIONS = new Set(['OWNER', 'MEMBER', 'COLLABORATOR'])
 
@@ -619,6 +620,408 @@ function usableOfficial(item) {
   return item && item.official === true && item.title && item.category && item.id
 }
 
+const GOV_WORDS = ['低空经济', '低空', '无人机', '无人驾驶航空器', 'eVTOL', '电动垂直起降', '通用航空', '飞行汽车']
+const BROWSER_HEADERS = {
+  'User-Agent':
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+  Accept: 'text/html,application/json;q=0.9,*/*;q=0.8',
+  'Accept-Language': 'zh-CN,zh;q=0.9',
+}
+
+export function hasGovKeyword(text) {
+  const folded = String(text || '')
+    .replace(/<[^>]+>/g, '')
+    .replace(/[\s\u00a0\u2002\u2003]+/g, '')
+    .toLowerCase()
+  return GOV_WORDS.some((word) => folded.includes(word.toLowerCase()))
+}
+
+export function govLinkRank(link) {
+  let host = ''
+  try {
+    host = new URL(link).hostname.toLowerCase()
+  } catch {
+    return 0
+  }
+  if (host.includes('news.google.com')) return 0
+  if (host.includes('bing.com')) return 1
+  if (host === 'www.gov.cn' || host === 'gov.cn') return 2
+  if (host.endsWith('.gov.cn')) return 3
+  return 0
+}
+
+export function looseGovTitle(title) {
+  return normalizeTitle(title)
+    .replace(/关于印发/g, '')
+    .replace(/关于/g, '')
+    .replace(/的通知/g, '')
+    .replace(/的通告/g, '')
+    .replace(/通知/g, '')
+}
+
+function govId(title, link) {
+  const hash = createHash('sha1').update(`${looseGovTitle(title)}|${canonicalLink(link)}`).digest('hex').slice(0, 12)
+  return `gov-${hash}`
+}
+
+function parseGovDate(value) {
+  const match = String(value || '').match(/(20\d{2})\s*[-/.年]\s*(\d{1,2})\s*[-/.月]\s*(\d{1,2})/)
+  if (!match) return null
+  const date = `${match[1]}-${match[2].padStart(2, '0')}-${match[3].padStart(2, '0')}`
+  const published = new Date(`${date}T00:00:00+08:00`)
+  if (Number.isNaN(published.getTime())) return null
+  const check = published.toLocaleDateString('en-CA', { timeZone: 'Asia/Shanghai' })
+  if (check !== date) return null
+  return { date, publishedAt: published.toISOString() }
+}
+
+export function normalizeGovSource(source) {
+  return String(source || '')
+    .replaceAll('中国民航局', '中国民用航空局')
+    .replaceAll('民航局', '中国民用航空局')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+function dateFromGovUrl(link) {
+  const match = String(link || '').match(/t(20\d{2})(\d{2})(\d{2})/i)
+  if (!match) return null
+  return parseGovDate(`${match[1]}-${match[2]}-${match[3]}`)
+}
+
+export function makeGovItem({ title, link, summary = '', source, sourceId, when, titleHit = true }) {
+  const cleanTitle = stripTags(title)
+    .replace(/([《「『（(])\s+/gu, '$1')
+    .replace(/\s+([》」』）)])/gu, '$1')
+    .replace(/([\u4e00-\u9fff])\s+(?=[\u4e00-\u9fff《》（）()])/gu, '$1')
+    .replace(/\s+/g, ' ')
+    .trim()
+  const namedSource = normalizeGovSource(source)
+  const namedSummary = summary ? normalizeGovSource(summary) : ''
+  const direct = directLink(link)
+  if (!cleanTitle || govLinkRank(direct) < 2 || !when) return null
+  if (/首页|网站首页/.test(cleanTitle)) return null
+  const scored = categoryScore(cleanTitle, summary)
+  return {
+    id: govId(cleanTitle, direct),
+    title: cleanTitle,
+    summary: titleHit ? namedSummary || `${namedSource}公开发布。` : '文件中提及。',
+    category: scored.score > 0 ? scored.category : 'policy',
+    date: when.date,
+    publishedAt: when.publishedAt,
+    link: direct,
+    source: namedSource,
+    official: true,
+    govSource: sourceId,
+  }
+}
+
+export function selectGovItems(items, limit = MAX_GOV) {
+  const sorted = [...items].sort((a, b) => Date.parse(b.publishedAt || 0) - Date.parse(a.publishedAt || 0))
+  const chosen = []
+  for (const item of sorted) {
+    if (!item?.title || govLinkRank(item.link) < 2) continue
+    const keys = [normalizeTitle(item.title), looseGovTitle(item.title)].filter((key) => key && key.length >= 8)
+    const linkKey = canonicalLink(item.link)
+    const existing = chosen.find((kept) => {
+      if (linkKey && canonicalLink(kept.link) === linkKey) return true
+      const keptKeys = [normalizeTitle(kept.title), looseGovTitle(kept.title)]
+      return keys.some((key) => keptKeys.includes(key))
+    })
+    if (!existing) {
+      chosen.push({
+        ...item,
+        source: normalizeGovSource(item.source),
+        summary: item.summary ? normalizeGovSource(item.summary) : item.summary,
+      })
+      continue
+    }
+    if (govLinkRank(item.link) > govLinkRank(existing.link)) {
+      existing.link = item.link
+      existing.source = normalizeGovSource(item.source)
+      existing.govSource = item.govSource
+      existing.id = govId(existing.title, item.link)
+    }
+  }
+  return chosen.slice(0, limit)
+}
+
+export function mergeGovResults(results, previousGov) {
+  const previousBySource = new Map()
+  for (const item of previousGov) {
+    const key = item.govSource || 'legacy'
+    if (!previousBySource.has(key)) previousBySource.set(key, [])
+    previousBySource.get(key).push(item)
+  }
+  if (results.length > 0 && results.every((result) => !result.ok)) {
+    return selectGovItems(previousGov)
+  }
+  const collected = []
+  for (const result of results) {
+    if (result.ok) collected.push(...result.items)
+    else collected.push(...(previousBySource.get(result.id) || []))
+  }
+  return selectGovItems(collected)
+}
+
+function resolveHref(pageUrl, href) {
+  try {
+    return new URL(decodeXml(href), pageUrl).toString()
+  } catch {
+    return ''
+  }
+}
+
+function dateForListLink(html, match, href) {
+  const end = match.index + match[0].length
+  const nextAnchor = html.slice(end).search(/<a\b/i)
+  const after = html.slice(end, nextAnchor === -1 ? Math.min(html.length, end + 160) : end + nextAnchor)
+  return parseGovDate(match[2]) || parseGovDate(after) || dateFromGovUrl(href)
+}
+
+export function extractDatedLinks(html, pageUrl) {
+  const found = []
+  const pattern = /<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi
+  let match = pattern.exec(html)
+  while (match) {
+    const title = stripTags(match[2]).replace(/\s+/g, ' ').trim()
+    const link = resolveHref(pageUrl, match[1])
+    const when = dateForListLink(html, match, match[1])
+    if (title.length >= 8 && title.length <= 140 && when && link && !/javascript:|^#/.test(match[1])) {
+      found.push({ title, link, when })
+    }
+    match = pattern.exec(html)
+  }
+  return found
+}
+
+async function fetchText(url) {
+  const response = await fetch(url, {
+    headers: BROWSER_HEADERS,
+    signal: AbortSignal.timeout(15000),
+    redirect: 'follow',
+  })
+  if (!response.ok) throw new Error(`HTTP ${response.status}`)
+  return response.text()
+}
+
+async function fetchGovLibrary() {
+  const queries = [
+    ['低空经济', 'title'],
+    ['无人驾驶航空器', 'title'],
+    ['通用航空', 'title'],
+    ['无人机', 'title'],
+    ['eVTOL', 'title'],
+    ['电动垂直起降', 'title'],
+    ['飞行汽车', 'title'],
+    ['低空', 'title'],
+    ['低空经济', 'title:content:summary'],
+    ['无人机', 'title:content:summary'],
+  ]
+  const items = []
+  let raw = 0
+  let successes = 0
+  for (const [query, searchfield] of queries) {
+    const url = `https://sousuo.www.gov.cn/search-gov/data?${new URLSearchParams({
+      t: 'zhengcelibrary_gw_bm_gb',
+      q: query,
+      searchfield,
+      sort: 'pubtime',
+      sortType: '1',
+      p: '1',
+      n: '20',
+    })}`
+    try {
+      const response = await fetch(url, {
+        headers: { ...BROWSER_HEADERS, Accept: 'application/json' },
+        signal: AbortSignal.timeout(15000),
+      })
+      if (!response.ok) throw new Error(`HTTP ${response.status}`)
+      const data = await response.json()
+      const catMap = data?.searchVO?.catMap
+      if (!catMap || typeof catMap !== 'object') throw new Error('missing catMap')
+      successes += 1
+      for (const bucket of Object.values(catMap)) {
+        const list = Array.isArray(bucket?.listVO) ? bucket.listVO : []
+        for (const record of list) {
+          raw += 1
+          const title = stripTags(record.title || '')
+          if (!hasGovKeyword(title)) continue
+          const when = parseGovDate(record.pubtimeStr || record.pubtime || '')
+          const item = makeGovItem({
+            title,
+            link: record.url,
+            summary: `${record.puborg || '中国政府网'}公开发布。`,
+            source: String(record.puborg || '中国政府网').trim() || '中国政府网',
+            sourceId: 'gov-library',
+            when,
+          })
+          if (item) items.push(item)
+        }
+      }
+    } catch (error) {
+      console.warn(`[gov] gov-library query ${query} failed: ${error.message}`)
+    }
+  }
+  if (successes === 0) throw new Error('all policy-library queries failed')
+  return { raw, items }
+}
+
+async function fetchHtmlSource(source) {
+  const html = await fetchText(source.url)
+  const found = extractDatedLinks(html, source.url)
+  if (found.length === 0) throw new Error('no dated links')
+  const items = []
+  for (const entry of found) {
+    if (!hasGovKeyword(entry.title)) continue
+    const item = makeGovItem({
+      title: entry.title,
+      link: entry.link,
+      summary: `${source.source}公开发布。`,
+      source: source.source,
+      sourceId: source.id,
+      when: entry.when,
+    })
+    if (item) items.push(item)
+  }
+  return { raw: found.length, items: items.slice(0, 12) }
+}
+
+async function fetchBingGov(source) {
+  const items = []
+  let raw = 0
+  let successes = 0
+  for (const query of ['低空经济', '无人机', '无人驾驶航空器']) {
+    const url = bingUrl(`${query} site:${source.site}`)
+    try {
+      const xml = await fetchText(url)
+      if (!/<item\b/i.test(xml)) throw new Error('no RSS items')
+      successes += 1
+      const parsed = parseRssItems(xml, 'policy')
+      raw += parsed.length
+      for (const entry of parsed) {
+        if (govLinkRank(entry.link) < 2) continue
+        if (!hasGovKeyword(entry.title)) continue
+        const item = makeGovItem({
+          title: entry.title,
+          link: entry.link,
+          summary: `${source.source}公开发布。`,
+          source: source.source,
+          sourceId: source.id,
+          when: { date: entry.date, publishedAt: entry.publishedAt },
+        })
+        if (item) items.push(item)
+      }
+    } catch (error) {
+      console.warn(`[gov] ${source.id} query ${query} failed: ${error.message}`)
+    }
+  }
+  if (successes === 0) throw new Error('all Bing queries failed')
+  return { raw, items }
+}
+
+function govSources() {
+  return [
+    { id: 'gov-library', label: '中国政府网·政策文件库', kind: 'library' },
+    {
+      id: 'ndrc-dks',
+      label: '国家发展改革委低空经济发展司',
+      source: '国家发展改革委',
+      url: 'https://www.ndrc.gov.cn/fzggw/jgsj/dks/zygz/',
+      kind: 'html',
+    },
+    {
+      id: 'caac-yjzj',
+      label: '中国民用航空局·征求意见',
+      source: '中国民用航空局',
+      url: 'https://www.caac.gov.cn/HDJL/YJZJ/',
+      kind: 'html',
+    },
+    {
+      id: 'mot-news',
+      label: '交通运输部·交通要闻',
+      source: '交通运输部',
+      url: 'https://www.mot.gov.cn/xinwen/jiaotongyaowen/index.html',
+      kind: 'html',
+    },
+    {
+      id: 'mot-zcjd',
+      label: '交通运输部·政策解读',
+      source: '交通运输部',
+      url: 'https://www.mot.gov.cn/gongkai/zcjd/index.html',
+      kind: 'html',
+    },
+    {
+      id: 'beijing',
+      label: '北京市人民政府·政策法规',
+      source: '北京市人民政府',
+      url: 'https://www.beijing.gov.cn/zhengce/zhengcefagui/',
+      kind: 'html',
+    },
+    {
+      id: 'shanghai',
+      label: '上海市人民政府·规章与部门文件',
+      source: '上海市人民政府',
+      url: 'https://www.shanghai.gov.cn/nw12344/index.html',
+      kind: 'html',
+    },
+    {
+      id: 'guangdong',
+      label: '广东省人民政府·全部文件',
+      source: '广东省人民政府',
+      url: 'https://www.gd.gov.cn/zwgk/wjk/qbwj/',
+      kind: 'html',
+    },
+    {
+      id: 'chongqing',
+      label: '重庆市政府信息公开',
+      source: '重庆市人民政府',
+      url: 'https://www.cq.gov.cn/zwgk/',
+      kind: 'html',
+    },
+    {
+      id: 'hunan',
+      label: '湖南省人民政府门户',
+      source: '湖南省人民政府',
+      url: 'https://www.hunan.gov.cn/',
+      kind: 'html',
+    },
+    {
+      id: 'sichuan',
+      label: '四川省人民政府门户',
+      source: '四川省人民政府',
+      url: 'https://www.sc.gov.cn/',
+      kind: 'html',
+    },
+    {
+      id: 'jiangsu',
+      label: '江苏省人民政府门户',
+      source: '江苏省人民政府',
+      url: 'https://www.jiangsu.gov.cn/',
+      kind: 'html',
+    },
+    { id: 'bing-shenzhen', label: '深圳市人民政府（Bing）', source: '深圳市人民政府', site: 'sz.gov.cn', kind: 'bing' },
+    { id: 'bing-zhejiang', label: '浙江省人民政府（Bing）', source: '浙江省人民政府', site: 'zj.gov.cn', kind: 'bing' },
+    { id: 'bing-anhui', label: '安徽省人民政府（Bing）', source: '安徽省人民政府', site: 'ah.gov.cn', kind: 'bing' },
+  ]
+}
+
+async function runGovSource(source) {
+  try {
+    const result =
+      source.kind === 'library'
+        ? await fetchGovLibrary()
+        : source.kind === 'bing'
+          ? await fetchBingGov(source)
+          : await fetchHtmlSource(source)
+    console.log(`[gov] ok ${source.label}: raw ${result.raw}, kept ${result.items.length}`)
+    return { id: source.id, ok: true, items: result.items }
+  } catch (error) {
+    console.warn(`[gov] fail ${source.label}: ${error.message}`)
+    return { id: source.id, ok: false, items: [] }
+  }
+}
+
 export function combineNews({ official = [], auto = [], previous = [], rssOk = false, officialOk = false }) {
   const officialItems = (officialOk ? official : previous).filter(usableOfficial)
   const freshAuto = rssOk ? selectAutoItems(auto.filter(usableAuto)) : []
@@ -663,22 +1066,35 @@ export async function main() {
   const failedFeeds = feedList.length - batches.filter((batch) => batch.length > 0).length
   console.log(`[news] rss items ${fetched.length}, failed feeds ${failedFeeds}/${feedList.length}`)
 
-  let official = []
+  let issueOfficial = []
   let officialOk = false
   try {
-    official = await fetchOfficialIssues(REPO)
+    issueOfficial = await fetchOfficialIssues(REPO)
     officialOk = true
-    console.log(`[news] official ${official.length}`)
+    console.log(`[news] issue official ${issueOfficial.length}`)
   } catch (error) {
     console.warn(`[news] official issues failed: ${error.message}`)
   }
 
+  const govSourceList = govSources()
+  const govResults = await mapPool(govSourceList, 4, runGovSource)
+  const govItems = mergeGovResults(
+    govResults,
+    previous.filter((item) => String(item?.id || '').startsWith('gov-')),
+  )
+  const govOk = govResults.filter((result) => result.ok).length
+  console.log(`[gov] sources ok ${govOk}/${govSourceList.length}, kept ${govItems.length}`)
+
+  const keptIssueOfficial = officialOk
+    ? issueOfficial
+    : previous.filter((item) => item?.official === true && !String(item.id || '').startsWith('gov-'))
+
   const items = combineNews({
-    official,
+    official: [...keptIssueOfficial, ...govItems],
     auto: fetched,
-    previous,
+    previous: previous.filter((item) => !String(item?.id || '').startsWith('gov-')),
     rssOk: fetched.length > 0,
-    officialOk,
+    officialOk: true,
   }).map(({ matched: _matched, ...item }) => item)
   const payload = {
     updatedAt: new Date().toISOString(),

@@ -1,6 +1,399 @@
 {
-  "updatedAt": "2026-11-11T06:38:15.998Z",
+  "updatedAt": "2026-11-11T09:37:40.897Z",
   "items": [
+    {
+      "id": "gov-68a545872d86",
+      "title": "以国家职业标准牵引低空人才培养低空经济交通运输人才工作机制建设交流活动深圳举办",
+      "summary": "交通运输部公开发布。",
+      "category": "policy",
+      "date": "2026-11-03",
+      "publishedAt": "2026-11-02T16:00:00.000Z",
+      "link": "https://www.mot.gov.cn/xinwen/jiaotongyaowen/202611/t20261103_4227134.html",
+      "source": "交通运输部",
+      "official": true,
+      "govSource": "mot-news"
+    },
+    {
+      "id": "gov-63d2f139b1bb",
+      "title": "青岛港前湾港区试点无人机AI巡检",
+      "summary": "交通运输部公开发布。",
+      "category": "policy",
+      "date": "2026-11-02",
+      "publishedAt": "2026-11-01T16:00:00.000Z",
+      "link": "https://www.mot.gov.cn/xinwen/jiaotongyaowen/202611/t20261102_4227081.html",
+      "source": "交通运输部",
+      "official": true,
+      "govSource": "mot-news"
+    },
+    {
+      "id": "gov-6091ff0e7dfe",
+      "title": "上海市人民政府关于加强第九届中国国际进口博览会期间无人机等航空器安全管理的通告",
+      "summary": "上海市人民政府公开发布。",
+      "category": "policy",
+      "date": "2026-10-31",
+      "publishedAt": "2026-10-30T16:00:00.000Z",
+      "link": "https://www.shanghai.gov.cn/nw12344/20261031/0187529b2e0440b7a99ed9e05cae5ac4.html",
+      "source": "上海市人民政府",
+      "official": true,
+      "govSource": "shanghai"
+    },
+    {
+      "id": "gov-6e59c04be97d",
+      "title": "关于征求《低空民用航空飞行服务专业人员管理办法(征求意见稿)》和《低空民用航空飞行服务专业人员培训管理办法(征求意见稿)》意见的通知",
+      "summary": "中国民用航空局公开发布。",
+      "category": "policy",
+      "date": "2026-10-26",
+      "publishedAt": "2026-10-25T16:00:00.000Z",
+      "link": "http://www.caac.gov.cn/HDJL/YJZJ/202610/t20261026_231937.html",
+      "source": "中国民用航空局",
+      "official": true,
+      "govSource": "caac-yjzj"
+    },
+    {
+      "id": "gov-e6f51f95944c",
+      "title": "关于征求《低空民用航空统计指标分类（征求意见稿）》等四项民航行业标准意见的函",
+      "summary": "中国民用航空局公开发布。",
+      "category": "policy",
+      "date": "2026-10-23",
+      "publishedAt": "2026-10-22T16:00:00.000Z",
+      "link": "http://www.caac.gov.cn/HDJL/YJZJ/202610/t20261023_231930.html",
+      "source": "中国民用航空局",
+      "official": true,
+      "govSource": "caac-yjzj"
+    },
+    {
+      "id": "gov-413978ce2d27",
+      "title": "关于征求《中小型无人驾驶航空器起降场地技术要求（征求意见稿）》意见的函",
+      "summary": "中国民用航空局公开发布。",
+      "category": "policy",
+      "date": "2026-10-14",
+      "publishedAt": "2026-10-13T16:00:00.000Z",
+      "link": "http://www.caac.gov.cn/HDJL/YJZJ/202610/t20261015_231850.html",
+      "source": "中国民用航空局",
+      "official": true,
+      "govSource": "caac-yjzj"
+    },
+    {
+      "id": "gov-71569868f613",
+      "title": "长江铜陵段船舶无人机配送落地",
+      "summary": "交通运输部公开发布。",
+      "category": "policy",
+      "date": "2026-09-21",
+      "publishedAt": "2026-09-20T16:00:00.000Z",
+      "link": "https://www.mot.gov.cn/xinwen/jiaotongyaowen/202609/t20260921_4224632.html",
+      "source": "交通运输部",
+      "official": true,
+      "govSource": "mot-news"
+    },
+    {
+      "id": "gov-9a3239cc89ce",
+      "title": "北京市公安局关于印发《北京市无人驾驶航空器特殊保障规定（试行）》的通知",
+      "summary": "北京市人民政府公开发布。",
+      "category": "policy",
+      "date": "2026-09-15",
+      "publishedAt": "2026-09-14T16:00:00.000Z",
+      "link": "https://www.beijing.gov.cn/zhengce/zhengcefagui/202609/t20260917_4868420.html",
+      "source": "北京市人民政府",
+      "official": true,
+      "govSource": "beijing"
+    },
+    {
+      "id": "gov-089893eb9ad5",
+      "title": "中华人民共和国交通运输部令（2026年第14号） 通用航空经营管理规定",
+      "summary": "中国政府网公开发布。",
+      "category": "policy",
+      "date": "2026-09-10",
+      "publishedAt": "2026-09-09T16:00:00.000Z",
+      "link": "https://www.gov.cn/gongbao/2026/issue_12966/202609/content_7080506.html",
+      "source": "中国政府网",
+      "official": true,
+      "govSource": "gov-library"
+    },
+    {
+      "id": "gov-044b3bd4661b",
+      "title": "中华人民共和国交通运输部令（2026年第13号） 通用航空运营许可程序规定",
+      "summary": "中国政府网公开发布。",
+      "category": "policy",
+      "date": "2026-08-30",
+      "publishedAt": "2026-08-29T16:00:00.000Z",
+      "link": "https://www.gov.cn/gongbao/2026/issue_12946/202608/content_7079359.html",
+      "source": "中国政府网",
+      "official": true,
+      "govSource": "gov-library"
+    },
+    {
+      "id": "gov-ff459437503b",
+      "title": "升级旅游公路完善低空布局海南建设山海联动全域旅游实践地",
+      "summary": "交通运输部公开发布。",
+      "category": "policy",
+      "date": "2026-08-24",
+      "publishedAt": "2026-08-23T16:00:00.000Z",
+      "link": "https://www.mot.gov.cn/xinwen/jiaotongyaowen/202608/t20260824_4223057.html",
+      "source": "交通运输部",
+      "official": true,
+      "govSource": "mot-news"
+    },
+    {
+      "id": "gov-0e6132dfd417",
+      "title": "长江航道局推动无人机巡检规模化应用 “空中尖兵”尽览航道",
+      "summary": "交通运输部公开发布。",
+      "category": "policy",
+      "date": "2026-08-19",
+      "publishedAt": "2026-08-18T16:00:00.000Z",
+      "link": "https://www.mot.gov.cn/xinwen/jiaotongyaowen/202608/t20260819_4222678.html",
+      "source": "交通运输部",
+      "official": true,
+      "govSource": "mot-news"
+    },
+    {
+      "id": "gov-25d96e5a8023",
+      "title": "关于《通用航空经营管理规定》的政策解读",
+      "summary": "交通运输部公开发布。",
+      "category": "policy",
+      "date": "2026-07-17",
+      "publishedAt": "2026-07-16T16:00:00.000Z",
+      "link": "https://www.mot.gov.cn/gongkai/zcjd/202607/t20260717_4209849.html",
+      "source": "交通运输部",
+      "official": true,
+      "govSource": "mot-zcjd"
+    },
+    {
+      "id": "gov-63461e8e5d84",
+      "title": "关于《通用航空运营许可程序规定》的政策解读",
+      "summary": "交通运输部公开发布。",
+      "category": "policy",
+      "date": "2026-07-17",
+      "publishedAt": "2026-07-16T16:00:00.000Z",
+      "link": "https://www.mot.gov.cn/gongkai/zcjd/202607/t20260717_4209848.html",
+      "source": "交通运输部",
+      "official": true,
+      "govSource": "mot-zcjd"
+    },
+    {
+      "id": "gov-33c7bc513aa7",
+      "title": "国家发展改革委低空经济发展司2026年研究课题征集公告",
+      "summary": "国家发展改革委公开发布。",
+      "category": "policy",
+      "date": "2026-05-09",
+      "publishedAt": "2026-05-08T16:00:00.000Z",
+      "link": "https://www.ndrc.gov.cn/fzggw/jgsj/dks/zygz/202605/t20260509_1405133.html",
+      "source": "国家发展改革委",
+      "official": true,
+      "govSource": "ndrc-dks"
+    },
+    {
+      "id": "gov-6e07403dac45",
+      "title": "北京市公安局关于印发《北京市无人驾驶航空器特殊保障规定（试行）》等3份行政规范性文件的通知",
+      "summary": "北京市人民政府公开发布。",
+      "category": "policy",
+      "date": "2026-03-28",
+      "publishedAt": "2026-03-27T16:00:00.000Z",
+      "link": "https://www.beijing.gov.cn/zhengce/zhengcefagui/202606/t20260622_4709336.html",
+      "source": "北京市人民政府",
+      "official": true,
+      "govSource": "beijing"
+    },
+    {
+      "id": "gov-fff73e9e5ffb",
+      "title": "市场监管总局等部门关于印发《低空经济标准体系建设指南（2025年版）》的通知",
+      "summary": "市场监管总局等公开发布。",
+      "category": "policy",
+      "date": "2026-02-02",
+      "publishedAt": "2026-02-01T16:00:00.000Z",
+      "link": "https://www.gov.cn/zhengce/zhengceku/202602/content_7056835.htm",
+      "source": "市场监管总局等",
+      "official": true,
+      "govSource": "gov-library"
+    },
+    {
+      "id": "gov-f85796974079",
+      "title": "国家发展改革委关于印发《低空经济及其核心产业统计分类（试行）》的通知",
+      "summary": "国家发展改革委公开发布。",
+      "category": "policy",
+      "date": "2025-12-26",
+      "publishedAt": "2025-12-25T16:00:00.000Z",
+      "link": "https://www.gov.cn/zhengce/zhengceku/202512/content_7052866.htm",
+      "source": "国家发展改革委",
+      "official": true,
+      "govSource": "gov-library"
+    },
+    {
+      "id": "gov-da76705be895",
+      "title": "【图解】《民用无人驾驶航空器运行安全管理规则》（CCAR-92部）解读",
+      "summary": "交通运输部公开发布。",
+      "category": "policy",
+      "date": "2025-12-26",
+      "publishedAt": "2025-12-25T16:00:00.000Z",
+      "link": "https://www.mot.gov.cn/gongkai/zcjd/202512/t20251226_4191403.html",
+      "source": "交通运输部",
+      "official": true,
+      "govSource": "mot-zcjd"
+    },
+    {
+      "id": "gov-4986ce4c3e17",
+      "title": "《交通运输部关于废止〈非经营性通用航空登记管理规定〉的决定》解读",
+      "summary": "交通运输部公开发布。",
+      "category": "policy",
+      "date": "2025-12-26",
+      "publishedAt": "2025-12-25T16:00:00.000Z",
+      "link": "https://www.mot.gov.cn/gongkai/zcjd/202512/t20251226_4191321.html",
+      "source": "交通运输部",
+      "official": true,
+      "govSource": "mot-zcjd"
+    },
+    {
+      "id": "gov-1a67495fb439",
+      "title": "《通用航空安全保卫规则》解读",
+      "summary": "交通运输部公开发布。",
+      "category": "policy",
+      "date": "2025-12-26",
+      "publishedAt": "2025-12-25T16:00:00.000Z",
+      "link": "https://www.mot.gov.cn/gongkai/zcjd/202512/t20251226_4191322.html",
+      "source": "交通运输部",
+      "official": true,
+      "govSource": "mot-zcjd"
+    },
+    {
+      "id": "gov-62554e5bc1ea",
+      "title": "《一般运行和飞行规则》等4件涉及通用航空管理的规章解读",
+      "summary": "交通运输部公开发布。",
+      "category": "policy",
+      "date": "2025-12-26",
+      "publishedAt": "2025-12-25T16:00:00.000Z",
+      "link": "https://www.mot.gov.cn/gongkai/zcjd/202512/t20251226_4191382.html",
+      "source": "交通运输部",
+      "official": true,
+      "govSource": "mot-zcjd"
+    },
+    {
+      "id": "gov-46b788ecec5a",
+      "title": "北京市人力资源和社会保障局关于增设低空技术职称评审专业的通告",
+      "summary": "北京市人民政府公开发布。",
+      "category": "tech",
+      "date": "2025-12-01",
+      "publishedAt": "2025-11-30T16:00:00.000Z",
+      "link": "https://www.beijing.gov.cn/zhengce/zhengcefagui/202605/t20260520_4659174.html",
+      "source": "北京市人民政府",
+      "official": true,
+      "govSource": "beijing"
+    },
+    {
+      "id": "gov-2e73c04ce442",
+      "title": "国家发展改革委低空司举办推进低空经济高质量发展专题培训",
+      "summary": "国家发展改革委公开发布。",
+      "category": "policy",
+      "date": "2025-08-12",
+      "publishedAt": "2025-08-11T16:00:00.000Z",
+      "link": "https://www.ndrc.gov.cn/fzggw/jgsj/dks/zygz/202508/t20250812_1399767.html",
+      "source": "国家发展改革委",
+      "official": true,
+      "govSource": "ndrc-dks"
+    },
+    {
+      "id": "gov-29f6628ce8f6",
+      "title": "北京市人民政府关于公布无人驾驶航空器管制空域范围的通告",
+      "summary": "北京市人民政府公开发布。",
+      "category": "policy",
+      "date": "2025-08-04",
+      "publishedAt": "2025-08-03T16:00:00.000Z",
+      "link": "https://www.beijing.gov.cn/zhengce/zhengcefagui/202508/t20250804_4165802.html",
+      "source": "北京市人民政府",
+      "official": true,
+      "govSource": "beijing"
+    },
+    {
+      "id": "gov-72f2c96f2ae1",
+      "title": "国家发展改革委召开推动低空经济安全健康发展专题会议",
+      "summary": "国家发展改革委公开发布。",
+      "category": "policy",
+      "date": "2025-07-18",
+      "publishedAt": "2025-07-17T16:00:00.000Z",
+      "link": "https://www.ndrc.gov.cn/fzggw/jgsj/dks/zygz/202507/t20250718_1399292.html",
+      "source": "国家发展改革委",
+      "official": true,
+      "govSource": "ndrc-dks"
+    },
+    {
+      "id": "gov-825a37504bd7",
+      "title": "国家发展改革委主任郑栅洁主持召开推动低空经济发展工作会议",
+      "summary": "国家发展改革委公开发布。",
+      "category": "policy",
+      "date": "2025-04-17",
+      "publishedAt": "2025-04-16T16:00:00.000Z",
+      "link": "https://www.ndrc.gov.cn/fzggw/jgsj/dks/zygz/202504/t20250417_1397239.html",
+      "source": "国家发展改革委",
+      "official": true,
+      "govSource": "ndrc-dks"
+    },
+    {
+      "id": "gov-9a394c799f4a",
+      "title": "低空经济发展司组织研究推动低空经济统计工作",
+      "summary": "国家发展改革委公开发布。",
+      "category": "policy",
+      "date": "2025-02-19",
+      "publishedAt": "2025-02-18T16:00:00.000Z",
+      "link": "https://www.ndrc.gov.cn/fzggw/jgsj/dks/zygz/202502/t20250219_1396227.html",
+      "source": "国家发展改革委",
+      "official": true,
+      "govSource": "ndrc-dks"
+    },
+    {
+      "id": "gov-f5b0df27cb51",
+      "title": "低空经济发展司传达部署加强安全监管工作要求",
+      "summary": "国家发展改革委公开发布。",
+      "category": "policy",
+      "date": "2025-01-23",
+      "publishedAt": "2025-01-22T16:00:00.000Z",
+      "link": "https://www.ndrc.gov.cn/fzggw/jgsj/dks/zygz/202501/t20250123_1395865.html",
+      "source": "国家发展改革委",
+      "official": true,
+      "govSource": "ndrc-dks"
+    },
+    {
+      "id": "gov-73397ac7d692",
+      "title": "低空经济发展司召开促进低空经济安全规范发展座谈会",
+      "summary": "国家发展改革委公开发布。",
+      "category": "policy",
+      "date": "2025-01-09",
+      "publishedAt": "2025-01-08T16:00:00.000Z",
+      "link": "https://www.ndrc.gov.cn/fzggw/jgsj/dks/zygz/202501/t20250109_1395602.html",
+      "source": "国家发展改革委",
+      "official": true,
+      "govSource": "ndrc-dks"
+    },
+    {
+      "id": "rss-805e91816789",
+      "title": "中国首款商用级中小型纯太阳能无人机首飞成功，续航达30小时",
+      "summary": "",
+      "category": "policy",
+      "date": "2026-11-11",
+      "publishedAt": "2026-11-11T08:05:00.000Z",
+      "link": "https://news.qq.com/rain/a/20261111A0A96N00",
+      "source": "腾讯网",
+      "official": false
+    },
+    {
+      "id": "rss-449f65800c55",
+      "title": "低空经济、无人机与eVTOL行业收并购研究报告",
+      "summary": "",
+      "category": "tech",
+      "date": "2026-11-11",
+      "publishedAt": "2026-11-11T07:38:00.000Z",
+      "link": "https://news.google.com/rss/articles/CBMijwFBVV95cUxPLXRkLWRKMFdTZWZud2I3MzViNjlFRC0zNXhHRVFOR3d0ZGN4VWdxX0tLUWNrR2tjZWs3UnE3QkE1V0hlNDhIRE5nQjZlVUVuSnJIci1jaE9tNzA3LV9wNlVWa3RtLUZyVVFwVFpPU1VBd3dYQ0lYTmxRbGpRQjJISmJ0WUVWZXVZZXFEWG9wRQ?oc=5",
+      "source": "21财经",
+      "official": false
+    },
+    {
+      "id": "rss-b554b4fa454d",
+      "title": "Whitesky Group为迎接eVTOL时代准备了100名飞行员，加强国家航空人力资源",
+      "summary": "",
+      "category": "tech",
+      "date": "2026-11-11",
+      "publishedAt": "2026-11-11T05:58:00.000Z",
+      "link": "https://news.google.com/rss/articles/CBMiR0FVX3lxTFA2dnBHTEk0UjBPa05JQ0JQSW5ISVRzWXFBSUs0T2loV0I5U1d0cVA2bGVqUnJURUJseGdEV0tGdEpQQ3JEOVdn0gFCQVVfeXFMTlVyRm9VWWNnck5ncV9zLUZMWGp6MTJqNlVRZHk1WUVQUWMwTzBMSGpWWjhiRWhKb2pJLUhvOHhkY05n?oc=5",
+      "source": "VOI.ID",
+      "official": false
+    },
     {
       "id": "rss-b869a131b3f2",
       "title": "盛路通信(002446.SZ)：公司在无人机反制领域主要布局无人机反制天线产品_公司新闻_财经",
@@ -46,14 +439,25 @@
       "official": false
     },
     {
-      "id": "rss-4bbe77cc5c3d",
+      "id": "rss-98221b35602c",
+      "title": "尼库绍尔·丹解释了为何难以为无人机联合生产项目选定设备",
+      "summary": "",
+      "category": "release",
+      "date": "2026-11-11",
+      "publishedAt": "2026-11-11T03:21:00.000Z",
+      "link": "https://news.google.com/rss/articles/CBMipAFBVV95cUxNTnBfdjBfRm5wM1YzclhncENOUVJtbm9BYUNoZURvNktseGpHb2JGMDk1bFMxWEc0NUh1RXdkc2pSaGl0aWdkMmstYkFSSjdfMUhVOXRaRDlpNVRWTVd2MWlGYUdidzRCNl9hclNyQ1hvbXVhU01nVnZuZDZ3TnIwa3l3T1dLRkpna3JuTW15eWRtYW9pRUNpUjE5RUJEcndoXzFpNg?oc=5",
+      "source": "Mezha.net",
+      "official": false
+    },
+    {
+      "id": "rss-811e73fdec1e",
       "title": "张云飞谈广东无人经济从陆地低空延伸至深海",
       "summary": "",
       "category": "policy",
       "date": "2026-11-11",
       "publishedAt": "2026-11-11T03:19:05.000Z",
-      "link": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxORmlyWS1rQlBHNWNHYkNaRUJpaEdyTlViSDdQd2xhdFlEdHVBbkpFSEQ0TC1rU2pSSENOQ2ZVYW54a0hWaXh1QllKN3FicDVQMDJJQVk5VWpJdnFDNEM0MU9pSXQwR0M0THJNSmxwSXVuc1B0d1JtNlBsa0doRFJ2V3NJT0xzX3ZCQ1o4dmlqS1ozYXRDb0JZLU92QWpZR1FvRzg5WWpaY241ekxQMy1MMnF6UmNvOGJVMnV0eDdQRGpyVGhQZVgzbWJYbzE0TEg1SHVhdA?oc=5",
-      "source": "新浪网",
+      "link": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxOTHJaQ3p5dUw0OXlaaXo1UXFrU2c3eGlzdFctR2NBYkpfbnRuV211Njh0TVdTSXFzYnE3blhoYWlfWDBhWU9mZy1oenV5eUJBNGNLTWZMT09BTVFlRE51WkxQT1NCTVJnSVZBMHFleXB4aGZhdTd2UGVIOFhSekFXbkhfMVM5YklmNk9YSXJlUUUyOHQzYVF0NXlkX1hGNzJwbWJUSzI1SVZSTm5STzBmOUtWZVdtVmZwVzR5ZTJxdXVtcmlOWkNpdzkyX01TNVg5R2dxdjdB?oc=5",
+      "source": "新浪财经_金融信息服务商",
       "official": false
     },
     {
@@ -62,9 +466,20 @@
       "summary": "",
       "category": "tech",
       "date": "2026-11-11",
-      "publishedAt": "2026-11-11T03:12:53.000Z",
+      "publishedAt": "2026-11-11T03:17:34.000Z",
       "link": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE1XVDdPVm5nTzNXYzJwekJLZWdIbWxqZ0dVSnNSZTN4YUNCeHdoUmNXY3RZRU16clBHSkRqWHd0R3h1dEFvZ3lKRlo0dGUwVVE3enljZXhEakc?oc=5",
       "source": "西南民族大学",
+      "official": false
+    },
+    {
+      "id": "rss-fff3535c9ccd",
+      "title": "eVTOL交易与运力服务商「零界航空」完成千万元天使轮融资",
+      "summary": "",
+      "category": "tech",
+      "date": "2026-11-11",
+      "publishedAt": "2026-11-11T02:57:00.000Z",
+      "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1CV2xWUTh0SzV6U0w4OWhsQ3dmSHNKeFFLbEFvRjkxdWhiSG1fU21WSS1PcmlzbUNsQmFWT2RfdmtDX3NxM3F6dW44ODFLeGkxUDBhRlZR?oc=5",
+      "source": "投资界",
       "official": false
     },
     {
@@ -79,25 +494,47 @@
       "official": false
     },
     {
-      "id": "rss-f97da2f78b45",
-      "title": "Ring发布室内巡逻无人机Drone Cam：明年1月上市，249.99美元",
-      "summary": "",
-      "category": "release",
-      "date": "2026-11-11",
-      "publishedAt": "2026-11-11T02:32:22.000Z",
-      "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNenU2UE5NYTZfM1I2Z1lITmRtY1FWLVFjZGZCcFFUSk1mTmg0dUxETEJwVlVMVzRXTmllQXR0Q3Z4bGFyaEtpajhaX0VqUlZxRXhYb1d1TUc4alRrODdSbkYzemkxSlVkeWF0Y0FHV2hIbEs4LTQtY1FOMHZtY1EzOW5WYTk5cWZj?oc=5",
-      "source": "Sohu",
-      "official": false
-    },
-    {
-      "id": "rss-92f49f3be68a",
+      "id": "rss-5851b29508a6",
       "title": "中国飞行汽车首登欧洲最大科技峰会 赵德力：未来十年全球将迎来飞行汽车高速发展时期",
       "summary": "",
       "category": "tech",
       "date": "2026-11-10",
       "publishedAt": "2026-11-10T23:37:00.000Z",
-      "link": "https://news.qq.com/rain/a/20261110A08M5900",
-      "source": "腾讯网",
+      "link": "https://www.sohu.com/a/1099535641_100106801",
+      "source": "搜狐",
+      "official": false
+    },
+    {
+      "id": "rss-b580c233eb31",
+      "title": "Ring发布室内巡逻无人机Drone Cam：2027年1月27日美国上市，售价249.99美元",
+      "summary": "",
+      "category": "release",
+      "date": "2026-11-10",
+      "publishedAt": "2026-11-10T23:26:35.000Z",
+      "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE9USFFGYVRNWVhDRC04R0VrS2pINU5YTUpfTHo0TWl0c0twcFFCV29JTHZwQzY1ZlZjS3VYODFZNEJTcVg3bEgwT3RlTFNDbVpqZUE?oc=5",
+      "source": "凤凰网",
+      "official": false
+    },
+    {
+      "id": "rss-5381c12d09bd",
+      "title": "亚马逊旗下Ring正式进军AI机器人赛道 推迟六年的安防无人机终于亮相",
+      "summary": "",
+      "category": "release",
+      "date": "2026-11-10",
+      "publishedAt": "2026-11-10T21:08:46.000Z",
+      "link": "https://news.google.com/rss/articles/CBMiSEFVX3lxTE5yWlM5R1ZRNUNNNWtRdlJJd2FLdkp3ZnBZaFFRZEwwTjNZbGhfT1lZWmNfV3JXQXp5Qmt4eE1Ud1hsWXJCRENwSA?oc=5",
+      "source": "财联社",
+      "official": false
+    },
+    {
+      "id": "rss-5eee4cee6feb",
+      "title": "技能比武强本领 应急实战练尖兵 省无人机装调检修工职业技能竞赛在泉举办",
+      "summary": "",
+      "category": "contest",
+      "date": "2026-11-10",
+      "publishedAt": "2026-11-10T16:00:00.000Z",
+      "link": "https://news.google.com/rss/articles/CBMiTEFVX3lxTE93Q2o5cGJZTDZoTUtkaWRJTTNIUXZQbXBLbm1hbmgxMUlkWGtjVDE2QXFjSXRlc3hDUWJYcWppUlhfVjFlcldORFhwZzM?oc=5",
+      "source": "凤凰网",
       "official": false
     },
     {
@@ -142,17 +579,6 @@
       "publishedAt": "2026-11-10T12:20:00.000Z",
       "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxOVDVtYlVzRHdxVUltaml2TldYeU5PNXI5OFRpNkQxd3JpQXJRNlNMQ0c5bVF4ZWRmRjIyWVZRbzN3VG9RbXlLQ1g1dUt4SUVEOGJKdWNtRzBPZS1ISHJ1T3pka2RoMnJqc3ExWjhIQXpHbmFfMXJqLUxFSmIwQXlvVXZxMEl6ZXY1eFE0Zg?oc=5",
       "source": "Sohu",
-      "official": false
-    },
-    {
-      "id": "rss-7770cb151e13",
-      "title": "地铁口、真草皮、独栋教室：记者探访长洲岛黄埔飞校，揭秘一所无人机飞校的\"全要素\"样本",
-      "summary": "",
-      "category": "policy",
-      "date": "2026-11-10",
-      "publishedAt": "2026-11-10T11:29:44.000Z",
-      "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxNeVI3eTVoQXFLUy12aFFKZ0l3MFlnN3ZQS1RUNG9vQXJMak1yWVZySlZ4aXlpRzFhRl9TaXRmMDFydGFIOHFUNTcxREJvbnM4aE5ZcE14aXRrYlBEd1ZnbXFoTkhCLU1ndVg3NDlLYlgtRGktYVpuSEpZcnJVMXlpdFo2ZE1tZ25MVnc?oc=5",
-      "source": "广州日报新花城",
       "official": false
     },
     {
@@ -208,17 +634,6 @@
       "publishedAt": "2026-11-10T08:50:57.000Z",
       "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNTlFoVUoxc1g4T2gtMWFjTzd5UWNkNFVCTkdCTm94am1wUTR1WXJQRDFKaDdGcmxBNEhjM05TMXc2OFZ2aDlFM2lkcWRISHNQd2JEblVLRjlxVUFQN3A0WlZmY1RsOWpDUmhzUkRiYktKamtUaGhOMkRndC1zUW1mbmhLeWxfMnZh?oc=5",
       "source": "搜狐网",
-      "official": false
-    },
-    {
-      "id": "rss-22b3241ead35",
-      "title": "红旗“天辇1号”落子净月 央地携手打造东北低空经济示范标杆",
-      "summary": "",
-      "category": "policy",
-      "date": "2026-11-10",
-      "publishedAt": "2026-11-10T08:01:00.000Z",
-      "link": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9WaHFOMzBGdGtNMTd5NnpjVHNUYl9aN051XzdaMXRyRnJxbFdzSUNHeXdjVkEyUnZMV3dPOENHaHM3S2ZDNXZBTDJNaFF0dzFmVjRIdmc1ZUxNdVlPSlBQTW5BblpJZGZQZ3ZjY3lib20?oc=5",
-      "source": "手机新浪网",
       "official": false
     },
     {
@@ -299,17 +714,6 @@
       "official": false
     },
     {
-      "id": "rss-05cbf89e48d5",
-      "title": "小鹏汇天赵德力发声，A868飞行汽车年内量产",
-      "summary": "",
-      "category": "tech",
-      "date": "2026-11-10",
-      "publishedAt": "2026-11-10T05:01:09.000Z",
-      "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1kbjdzZjB1clVKcExWZ2hSMEFkU0NhOTRadjhyc0xfcHNiTld5bEdfeUFrdENBUVJLd2hzY0o5M0VHZ0tuOHcyQm5kRWY4ekdTQk5FbjZmTEdYSEk?oc=5",
-      "source": "汽车之家",
-      "official": false
-    },
-    {
       "id": "rss-6b15cd28cef9",
       "title": "2026年中国无人机竞速联赛城市精英赛（中部赛区·济宁站）圆满收官",
       "summary": "",
@@ -318,28 +722,6 @@
       "publishedAt": "2026-11-10T04:36:00.000Z",
       "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBfdlZYemZBblNSY1dkNndScTRKa2w3dFFraThwWURMYVVnS3BMTFQzcElRd09GcV9GS0FJSTl1b2NxX0RERUwzYjk4dmZJMGtsOW1xbzBVUkhNVENmREFSZEZMMk1ndm5RakVz?oc=5",
       "source": "新华报业网",
-      "official": false
-    },
-    {
-      "id": "rss-9ba63201d4e8",
-      "title": "小鹏汇天赵德力Web Summit 2026：未来十年飞行汽车产业将进入高速发展期",
-      "summary": "",
-      "category": "tech",
-      "date": "2026-11-10",
-      "publishedAt": "2026-11-10T04:26:32.000Z",
-      "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE9KXzdjR2xUaURRb1Q3Um9VS2I5WDZDU1BvcmtOU2RyM19FMjRfa2VENVEzdTR0Nlg2TksyMFhpM0Z4eXc0WEZaT0tYc1ljTDJPV2c?oc=5",
-      "source": "凤凰网",
-      "official": false
-    },
-    {
-      "id": "rss-0c130ee2242b",
-      "title": "小鹏汇天携全球首款分体式飞行汽车亮相Web Summit主舞台，宣告低空出行“中国方案”走向世界",
-      "summary": "",
-      "category": "tech",
-      "date": "2026-11-10",
-      "publishedAt": "2026-11-10T03:41:00.000Z",
-      "link": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE42ODQ0VW9EVFRENU1lWkM5NW13Tk5lb05IdUQzNlc0cnhnZE5pQ0h1c0ZPSm80MURVS3lQdnJxYnBRMkR1RjVjaWVIalRNTWhHb2VSSG9oM1F5aGROSXc?oc=5",
-      "source": "SmartHey",
       "official": false
     },
     {
@@ -376,6 +758,17 @@
       "official": false
     },
     {
+      "id": "rss-f1b3c2349ae7",
+      "title": "大湾区飞行汽车挑战赛开赛 高校学子竞逐低空出行未来",
+      "summary": "。11月7日，第三届“逸仙勇士杯”大湾区大学生飞行汽车挑战赛在中山大学深圳校区举行。来自中山大学、暨南大学、澳门科技大学、新加坡南洋理工大学等11所高校的47支队伍参赛，围绕飞行器设计、智能控制及场景应用展开比拼。 赛事由中山大学主办，广东…",
+      "category": "contest",
+      "date": "2026-11-09",
+      "publishedAt": "2026-11-09T08:29:00.000Z",
+      "link": "https://news.china.com/socialgd/10000169/20261109/49854545.html",
+      "source": "中华网新闻频道",
+      "official": false
+    },
+    {
       "id": "rss-9ab979013dde",
       "title": "2026年粤港澳大湾区无人机技能大赛落下帷幕 | 三地技能精英同台竞技",
       "summary": "11月8日，2026年粤港澳大湾区无人机应用技术职业技能大赛总决赛在珠海落下帷幕。大赛吸引来自全省21个地级以上市以及香港、澳门、横琴的24支代表队，在珠海、横琴的4个赛区同台比拼，集中展现粤港澳三地无人机技能人才过硬的专业素养与技能风采。…",
@@ -384,17 +777,6 @@
       "publishedAt": "2026-11-09T04:17:00.000Z",
       "link": "https://www.sohu.com/a/1099077925_121123743",
       "source": "搜狐",
-      "official": false
-    },
-    {
-      "id": "rss-290ff05c224d",
-      "title": "全媒观察丨借“机”起飞——济宁低空经济（无人机产业）发展观察",
-      "summary": "“嗡——”无人机极速穿梭在济宁市体育中心上空，引擎嗡鸣划破初冬的宁静。11月6日至9日，2026年中国无人机竞速联赛城市精英赛中部赛区（济宁站）暨山东省首届无人机竞速赛在这里上演速度与激情，点燃青春梦想。这场在济宁举办的“空中F1”竞速赛，…",
-      "category": "contest",
-      "date": "2026-11-09",
-      "publishedAt": "2026-11-09T03:17:00.000Z",
-      "link": "https://news.qq.com/rain/a/20261109A05PWL00",
-      "source": "腾讯网",
       "official": false
     },
     {
@@ -475,25 +857,14 @@
       "official": false
     },
     {
-      "id": "rss-b294ab8d688b",
-      "title": "长空竞逐·喜创佳绩——市南学子首次在全国青少年无人机创新教育 ...",
-      "summary": "近日，2026年全国青少年无人机创新教育竞赛活动总决赛在青岛燃情开赛。赛事为国家体育总局航空无线电模型运动管理中心科技体育A类赛事，由国家体育总局航空无线电模型运动管理中心、中国航空运动协会主办，旨在普及无人机技术，培育青少年创新思维、动手…",
-      "category": "contest",
-      "date": "2026-11-04",
-      "publishedAt": "2026-11-04T09:06:00.000Z",
-      "link": "https://www.sohu.com/a/1097253972_121124678",
-      "source": "搜狐",
-      "official": false
-    },
-    {
-      "id": "rss-666c2c302fc6",
-      "title": "山东省首届无人机竞速赛将于11月6日在济宁启幕",
+      "id": "rss-6bbbc809ee9d",
+      "title": "无人机竞速世界杯澳门站下月举行",
       "summary": "",
       "category": "contest",
-      "date": "2026-11-04",
-      "publishedAt": "2026-11-04T03:59:35.000Z",
-      "link": "https://sd.ifeng.com/c/8xlrzcdO4HT",
-      "source": "凤凰网山东频道",
+      "date": "2026-11-05",
+      "publishedAt": "2026-11-05T11:22:00.000Z",
+      "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxQM0phc2FGVTMweGJsOWdVOHZtY04yZnhHa1ZyNHdhcWItcEY2VThCaHVPMXpzS1dQcG1VY2U3cy1ZSWpUYzZRd0hKUnJsR3VmWEhCUzRYdWJzNTNfNjNqeEI0UXdsMVBrU2ZjZlQzc2dJSjBILTVHOV8tVEZTM0xvcnNjenEwbFJOcWNXWlRVX2dISTdjakV2M0Fic1JxV3c?oc=5",
+      "source": "TDM",
       "official": false
     },
     {
@@ -626,17 +997,6 @@
       "publishedAt": "2026-05-18T07:00:00.000Z",
       "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE56enI1Nk9aZmNKcXpQRC1ZSU5ZQml4MTE5SWVoeGxPM2hwSnpWRTUtNnUtNkt6VHBIS1NKTGdEYVJaT0xYODI1MWx5N19jaFNnSHp5WGtRV1RuSFFVUG5wTE12S01oRmU4VHA2ZnNB?oc=5",
       "source": "中华网",
-      "official": false
-    },
-    {
-      "id": "rss-4d2237515e98",
-      "title": "大疆放大招！4款新品连发 Pocket 4、LITO无人机全来了",
-      "summary": "",
-      "category": "release",
-      "date": "2026-04-14",
-      "publishedAt": "2026-04-14T07:00:00.000Z",
-      "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTE4tWV9UdzlGUERyWVFxMFNyLVZPVnFoWEdkYWp4T2pmVk1JNk1lZi1hdWpWVUphdEl2bDM0cXltYWFPSFYtb1VPdGtoUm55QmN4MkVoT1U0Tmc2UzlqSi1yTklfOG9YNUtjc3l3ckEwbW50TzNwRUFZc0lnTnlnb0k?oc=5",
-      "source": "新浪财经",
       "official": false
     },
     {

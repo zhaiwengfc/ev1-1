@@ -13,8 +13,11 @@ export default function News() {
   )
 
   const list = useMemo(() => {
-    if (category === 'all') return feed.items
-    return feed.items.filter((item) => item.category === category)
+    const isGov = (item) => String(item.id || '').startsWith('gov-')
+    if (category === 'official') return feed.items.filter((item) => item.official)
+    const wall = feed.items.filter((item) => !isGov(item))
+    if (category === 'all') return wall
+    return wall.filter((item) => item.category === category)
   }, [category, feed.items])
 
   const select = (id) => {

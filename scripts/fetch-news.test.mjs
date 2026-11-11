@@ -4,8 +4,14 @@ import {
   classify,
   combineNews,
   decodeXml,
+  govLinkRank,
+  hasGovKeyword,
+  mergeGovResults,
   parseRssItems,
   selectAutoItems,
+  extractDatedLinks,
+  normalizeGovSource,
+  selectGovItems,
   toOfficialItem,
 } from './fetch-news.mjs'
 
@@ -172,6 +178,116 @@ javascript:alert(1)`
     }),
     null,
   )
+})
+
+test('matches whole low-altitude words and ignores split-word noise', () => {
+  assert.equal(hasGovKeyword('通航建筑物施工方案'), false)
+  assert.equal(hasGovKeyword('国民经济和社会发展'), false)
+  assert.equal(hasGovKeyword('低空经济标准体系建设指南'), true)
+  assert.equal(hasGovKeyword('通用航空经营管理规定'), true)
+  assert.equal(hasGovKeyword('通用 航空 经营管理规定'), true)
+  assert.equal(hasGovKeyword('低空 经济 标准体系建设指南'), true)
+  assert.equal(hasGovKeyword('eVTOL 试点'), true)
+})
+
+test('keeps the agency URL ahead of a gov.cn reprint and drops Google wrappers', () => {
+  const when = { date: '2026-02-02', publishedAt: '2026-02-02T00:00:00.000Z' }
+  const agency = {
+    id: 'gov-agency',
+    title: '低空经济标准体系建设指南',
+    link: 'https://www.ndrc.gov.cn/xxgk/zcfb/202602/t20260202_1.html',
+    source: '国家发展改革委',
+    govSource: 'ndrc-dks',
+    official: true,
+    category: 'policy',
+    date: when.date,
+    publishedAt: when.publishedAt,
+  }
+  const reprint = {
+    ...agency,
+    id: 'gov-reprint',
+    link: 'https://www.gov.cn/zhengce/zhengceku/202602/content_7056835.htm',
+    source: '中国政府网',
+    govSource: 'gov-library',
+  }
+  const google = {
+    ...agency,
+    id: 'gov-google',
+    link: 'https://news.google.com/rss/articles/abc',
+    source: '中国政府网',
+  }
+  assert.equal(govLinkRank(google.link), 0)
+  assert.ok(govLinkRank(reprint.link) < govLinkRank(agency.link))
+  const selected = selectGovItems([reprint, google, agency], 30)
+  assert.equal(selected.length, 1)
+  assert.equal(selected[0].link, agency.link)
+  assert.equal(selected[0].source, '国家发展改革委')
+})
+
+test('uses each list item’s own date and falls back to the URL stamp', () => {
+  const html = `
+    <ul class="u-list">
+      <li><a href="./202605/t20260509_1405133.html" title="国家发展改革委低空经济发展司2026年研究课题征集公告">国家发展改革委低空经济发展司2026年研究课题征集公告</a><span>2026/05/09</span></li>
+      <li><a href="./202508/t20250812_1399767.html" title="国家发展改革委低空司举办推进低空经济高质量发展专题培训">国家发展改革委低空司举办推进低空经济高质量发展专题培训</a><span>2025/08/12</span></li>
+      <li><a href="./202507/t20250718_1399292.html">国家发展改革委召开推动低空经济安全健康发展专题会议</a></li>
+    </ul>`
+  const found = extractDatedLinks(html, 'https://www.ndrc.gov.cn/fzggw/jgsj/dks/zygz/')
+  assert.deepEqual(
+    found.map((item) => [item.link.split('/').pop(), item.when.date]),
+    [
+      ['t20260509_1405133.html', '2026-05-09'],
+      ['t20250812_1399767.html', '2025-08-12'],
+      ['t20250718_1399292.html', '2025-07-18'],
+    ],
+  )
+})
+
+test('writes 中国民用航空局 for both short source names', () => {
+  assert.equal(normalizeGovSource('民航局'), '中国民用航空局')
+  assert.equal(normalizeGovSource('中国民航局'), '中国民用航空局')
+  assert.equal(normalizeGovSource('中国民用航空局'), '中国民用航空局')
+  assert.equal(normalizeGovSource('民航局航空器适航审定司'), '中国民用航空局航空器适航审定司')
+  assert.equal(
+    normalizeGovSource('工业和信息化部 科技部 财政部 中国民航局'),
+    '工业和信息化部 科技部 财政部 中国民用航空局',
+  )
+})
+
+test('keeps the previous official items when that source fails', () => {
+  const previous = [
+    {
+      id: 'gov-old',
+      title: '北京市无人驾驶航空器特殊保障规定',
+      link: 'https://www.beijing.gov.cn/zhengce/202609/t20260917_1.html',
+      source: '北京市人民政府',
+      govSource: 'beijing',
+      official: true,
+      category: 'policy',
+      date: '2026-09-17',
+      publishedAt: '2026-09-17T00:00:00.000Z',
+    },
+  ]
+  const kept = mergeGovResults([{ id: 'beijing', ok: false, items: [] }], previous)
+  assert.equal(kept.length, 1)
+  assert.equal(kept[0].id, 'gov-old')
+  const replaced = mergeGovResults(
+    [
+      {
+        id: 'beijing',
+        ok: true,
+        items: [
+          {
+            ...previous[0],
+            id: 'gov-new',
+            title: '北京市促进低空经济产业高质量发展行动方案',
+            publishedAt: '2026-10-01T00:00:00.000Z',
+          },
+        ],
+      },
+    ],
+    previous,
+  )
+  assert.deepEqual(replaced.map((item) => item.id), ['gov-new'])
 })
 
 test('keeps the previous auto list when this fetch finds nothing', () => {

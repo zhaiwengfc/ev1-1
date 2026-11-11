@@ -1,7 +1,10 @@
-import { intros, officialNews, labArticles, labReviews } from './writtenContent.js'
+import { intros, officialNews as writtenOfficial, labArticles, labReviews } from './writtenContent.js'
+import { officialArticles } from './officialArticles.js'
 import { products, productCategories, priceFilters } from './catalog.js'
 
-export { intros, officialNews, labArticles, labReviews, products, productCategories, priceFilters }
+export const officialNews = [...officialArticles, ...writtenOfficial]
+
+export { intros, labArticles, labReviews, products, productCategories, priceFilters }
 
 export const SITE = {
   name: 'EV1平台',
@@ -13,6 +16,7 @@ export const SITE = {
 
 export const newsCategories = [
   { id: 'all', name: '全部' },
+  { id: 'official', name: '官方发布' },
   { id: 'policy', name: '政府政策' },
   { id: 'tech', name: '科技创新与供应链' },
   { id: 'contest', name: '比赛信息' },
