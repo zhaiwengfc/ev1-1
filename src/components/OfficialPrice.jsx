@@ -2,10 +2,10 @@ import { useState } from 'react'
 import DroneArt from './DroneArt.jsx'
 import { formatSamplePrice } from '../data/content.js'
 import { formatBeijing } from '../data/shopLive.js'
+import { publicAssetUrl } from '../data/publicUrl.js'
 
 function localSrc(image) {
-  if (!image || /^https?:/i.test(image)) return ''
-  return `${import.meta.env.BASE_URL}${image.replace(/^\//, '')}`
+  return publicAssetUrl(image)
 }
 
 export function ProductVisual({ product, stage = false, children }) {
