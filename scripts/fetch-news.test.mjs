@@ -9,6 +9,8 @@ import {
   mergeGovResults,
   parseRssItems,
   selectAutoItems,
+  extractDatedLinks,
+  normalizeGovSource,
   selectGovItems,
   toOfficialItem,
 } from './fetch-news.mjs'
@@ -220,6 +222,35 @@ test('keeps the agency URL ahead of a gov.cn reprint and drops Google wrappers',
   assert.equal(selected.length, 1)
   assert.equal(selected[0].link, agency.link)
   assert.equal(selected[0].source, '国家发展改革委')
+})
+
+test('uses each list item’s own date and falls back to the URL stamp', () => {
+  const html = `
+    <ul class="u-list">
+      <li><a href="./202605/t20260509_1405133.html" title="国家发展改革委低空经济发展司2026年研究课题征集公告">国家发展改革委低空经济发展司2026年研究课题征集公告</a><span>2026/05/09</span></li>
+      <li><a href="./202508/t20250812_1399767.html" title="国家发展改革委低空司举办推进低空经济高质量发展专题培训">国家发展改革委低空司举办推进低空经济高质量发展专题培训</a><span>2025/08/12</span></li>
+      <li><a href="./202507/t20250718_1399292.html">国家发展改革委召开推动低空经济安全健康发展专题会议</a></li>
+    </ul>`
+  const found = extractDatedLinks(html, 'https://www.ndrc.gov.cn/fzggw/jgsj/dks/zygz/')
+  assert.deepEqual(
+    found.map((item) => [item.link.split('/').pop(), item.when.date]),
+    [
+      ['t20260509_1405133.html', '2026-05-09'],
+      ['t20250812_1399767.html', '2025-08-12'],
+      ['t20250718_1399292.html', '2025-07-18'],
+    ],
+  )
+})
+
+test('writes 中国民用航空局 for both short source names', () => {
+  assert.equal(normalizeGovSource('民航局'), '中国民用航空局')
+  assert.equal(normalizeGovSource('中国民航局'), '中国民用航空局')
+  assert.equal(normalizeGovSource('中国民用航空局'), '中国民用航空局')
+  assert.equal(normalizeGovSource('民航局航空器适航审定司'), '中国民用航空局航空器适航审定司')
+  assert.equal(
+    normalizeGovSource('工业和信息化部 科技部 财政部 中国民航局'),
+    '工业和信息化部 科技部 财政部 中国民用航空局',
+  )
 })
 
 test('keeps the previous official items when that source fails', () => {

@@ -670,7 +670,23 @@ function parseGovDate(value) {
   const date = `${match[1]}-${match[2].padStart(2, '0')}-${match[3].padStart(2, '0')}`
   const published = new Date(`${date}T00:00:00+08:00`)
   if (Number.isNaN(published.getTime())) return null
+  const check = published.toLocaleDateString('en-CA', { timeZone: 'Asia/Shanghai' })
+  if (check !== date) return null
   return { date, publishedAt: published.toISOString() }
+}
+
+export function normalizeGovSource(source) {
+  return String(source || '')
+    .replaceAll('中国民航局', '中国民用航空局')
+    .replaceAll('民航局', '中国民用航空局')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+function dateFromGovUrl(link) {
+  const match = String(link || '').match(/t(20\d{2})(\d{2})(\d{2})/i)
+  if (!match) return null
+  return parseGovDate(`${match[1]}-${match[2]}-${match[3]}`)
 }
 
 export function makeGovItem({ title, link, summary = '', source, sourceId, when, titleHit = true }) {
@@ -680,6 +696,8 @@ export function makeGovItem({ title, link, summary = '', source, sourceId, when,
     .replace(/([\u4e00-\u9fff])\s+(?=[\u4e00-\u9fff《》（）()])/gu, '$1')
     .replace(/\s+/g, ' ')
     .trim()
+  const namedSource = normalizeGovSource(source)
+  const namedSummary = summary ? normalizeGovSource(summary) : ''
   const direct = directLink(link)
   if (!cleanTitle || govLinkRank(direct) < 2 || !when) return null
   if (/首页|网站首页/.test(cleanTitle)) return null
@@ -687,12 +705,12 @@ export function makeGovItem({ title, link, summary = '', source, sourceId, when,
   return {
     id: govId(cleanTitle, direct),
     title: cleanTitle,
-    summary: titleHit ? summary || `${source}公开发布。` : '文件中提及。',
+    summary: titleHit ? namedSummary || `${namedSource}公开发布。` : '文件中提及。',
     category: scored.score > 0 ? scored.category : 'policy',
     date: when.date,
     publishedAt: when.publishedAt,
     link: direct,
-    source,
+    source: namedSource,
     official: true,
     govSource: sourceId,
   }
@@ -711,12 +729,16 @@ export function selectGovItems(items, limit = MAX_GOV) {
       return keys.some((key) => keptKeys.includes(key))
     })
     if (!existing) {
-      chosen.push({ ...item })
+      chosen.push({
+        ...item,
+        source: normalizeGovSource(item.source),
+        summary: item.summary ? normalizeGovSource(item.summary) : item.summary,
+      })
       continue
     }
     if (govLinkRank(item.link) > govLinkRank(existing.link)) {
       existing.link = item.link
-      existing.source = item.source
+      existing.source = normalizeGovSource(item.source)
       existing.govSource = item.govSource
       existing.id = govId(existing.title, item.link)
     }
@@ -750,15 +772,21 @@ function resolveHref(pageUrl, href) {
   }
 }
 
-function extractDatedLinks(html, pageUrl) {
+function dateForListLink(html, match, href) {
+  const end = match.index + match[0].length
+  const nextAnchor = html.slice(end).search(/<a\b/i)
+  const after = html.slice(end, nextAnchor === -1 ? Math.min(html.length, end + 160) : end + nextAnchor)
+  return parseGovDate(match[2]) || parseGovDate(after) || dateFromGovUrl(href)
+}
+
+export function extractDatedLinks(html, pageUrl) {
   const found = []
   const pattern = /<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi
   let match = pattern.exec(html)
   while (match) {
     const title = stripTags(match[2]).replace(/\s+/g, ' ').trim()
-    const around = html.slice(Math.max(0, match.index - 120), Math.min(html.length, match.index + match[0].length + 120))
-    const when = parseGovDate(around) || parseGovDate(title)
     const link = resolveHref(pageUrl, match[1])
+    const when = dateForListLink(html, match, match[1])
     if (title.length >= 8 && title.length <= 140 && when && link && !/javascript:|^#/.test(match[1])) {
       found.push({ title, link, when })
     }
