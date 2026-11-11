@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react'
-import SampleBadge from '../components/SampleBadge.jsx'
 import NewsCard from '../components/NewsCard.jsx'
 import { intros, newsCategories } from '../data/content.js'
 import { PUBLISH_URL, formatUpdated, useNewsFeed } from '../data/newsFeed.js'
@@ -39,10 +38,6 @@ export default function News() {
       <header className="page-hero">
         <div className="news-toolbar">
           <div>
-            <p className="hero-kicker">
-              {ready && feed.sample ? <SampleBadge /> : null}
-              低空行业信息交流
-            </p>
             <h1 className="graffiti-title">行业资讯</h1>
           </div>
           <a className="btn-primary publish-btn" href={PUBLISH_URL} target="_blank" rel="noreferrer">

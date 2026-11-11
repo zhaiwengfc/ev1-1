@@ -1,17 +1,13 @@
 import { Link } from 'react-router-dom'
-import SampleBadge from '../components/SampleBadge.jsx'
 import NewsCard from '../components/NewsCard.jsx'
 import Wordmark from '../components/Wordmark.jsx'
 import DroneArt from '../components/DroneArt.jsx'
-import Stars from '../components/Stars.jsx'
 import {
   SITE,
   intros,
   highlights,
   getProduct,
-  getLabItem,
   formatSamplePrice,
-  productCategoryLabel,
 } from '../data/content.js'
 import { PUBLISH_URL, formatUpdated, useNewsFeed } from '../data/newsFeed.js'
 
@@ -23,11 +19,9 @@ export default function Home() {
   return (
     <div className="home-page">
       <section className="hero">
-        <p className="hero-kicker">{SITE.heroKicker}</p>
         <div className="hero-mark-wrap">
           <Wordmark size="hero" />
         </div>
-        <p className="hero-tag">{SITE.tagline}</p>
         <p className="hero-lead">{SITE.heroLead}</p>
         <div className="hero-actions">
           <Link to="/news" className="btn-primary">
@@ -48,9 +42,9 @@ export default function Home() {
         </Link>
         <Link to="/shop" className="module-card tilt-right">
           <span className="module-no">02</span>
-          <h2>无人机商城 + 研究室</h2>
+          <h2>无人机商城</h2>
           <p>{intros.shopLab}</p>
-          <span className="module-go">进入商城 / 研究室 →</span>
+          <span className="module-go">打开商城 →</span>
         </Link>
       </section>
 
@@ -79,7 +73,7 @@ export default function Home() {
 
       <section className="section-block">
         <div className="section-head">
-          <h2 className="graffiti-title sm">商城与研究室</h2>
+          <h2 className="graffiti-title sm">在售机型</h2>
         </div>
         <div className="highlight-grid">
           {samples.map((item) => (
@@ -91,34 +85,31 @@ export default function Home() {
   )
 }
 
+function ProductTags({ product }) {
+  const tags = [product.brandTag || product.brand, product.formTag, product.useTag].filter(Boolean)
+  return tags.map((tag) => (
+    <span key={tag} className="tag-sticker">
+      {tag}
+    </span>
+  ))
+}
+
 function HighlightCard({ item }) {
   if (item.kind === 'product') {
     const product = getProduct(item.id)
     return (
       <Link to={`/shop/${product.id}`} className="sticker-card product-mini">
         <div className="card-meta">
-          <span className="tag-sticker">{productCategoryLabel(product.category)}</span>
-          <SampleBadge>示例商品</SampleBadge>
+          <ProductTags product={product} />
         </div>
         <DroneArt variant={product.variant} accent={product.accent} />
         <h3>{product.name}</h3>
         <p className="sample-price">
           {formatSamplePrice(product.price)}
-          <span> 示例价格</span>
+          <span> {product.priceLabel}</span>
         </p>
       </Link>
     )
   }
-  const review = getLabItem(item.id)
-  return (
-    <Link to={`/lab/${review.id}`} className="sticker-card">
-      <div className="card-meta">
-        <span className="tag-sticker">产品评测</span>
-        {review.unverifiedNote ? <span className="pending-badge">待核实</span> : null}
-      </div>
-      <h3>{review.title}</h3>
-      <Stars value={review.rating} />
-      <p>{review.summary}</p>
-    </Link>
-  )
+  return null
 }
