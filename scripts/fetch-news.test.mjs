@@ -10,7 +10,7 @@ import {
   parseRssItems,
   selectAutoItems,
   extractDatedLinks,
-  govCategory,
+  makeGovItem,
   normalizeGovSource,
   selectGovItems,
   toOfficialItem,
@@ -254,15 +254,18 @@ test('writes 中国民用航空局 for both short source names', () => {
   )
 })
 
-test('sorts government notices into tech, contest, or release only when the title is clearly about that', () => {
-  assert.equal(govCategory('通用航空经营管理规定'), 'policy')
-  assert.equal(govCategory('北京市人力资源和社会保障局关于增设低空技术职称评审专业的通告'), 'policy')
-  assert.equal(govCategory('市场监管总局等部门关于印发《低空经济标准体系建设指南（2025年版）》的通知'), 'tech')
-  assert.equal(govCategory('关于征求《低空民用航空统计指标分类（征求意见稿）》等四项民航行业标准意见的函'), 'tech')
-  assert.equal(govCategory('关于征求《中小型无人驾驶航空器起降场地技术要求（征求意见稿）》意见的函'), 'tech')
-  assert.equal(govCategory('工业和信息化部关于无人机供应链协同的通知'), 'tech')
-  assert.equal(govCategory('全国无人机竞速赛开赛通知'), 'contest')
-  assert.equal(govCategory('某型无人机新品发布会通知'), 'release')
+test('keeps every fetched government item in policy', () => {
+  const when = { date: '2026-02-02', publishedAt: '2026-02-02T00:00:00.000Z' }
+  const item = makeGovItem({
+    title: '关于征求民航行业标准意见的函：无人机供应链与新品发布会',
+    link: 'https://www.caac.gov.cn/HDJL/YJZJ/202602/t20260202_1.html',
+    source: '中国民用航空局',
+    sourceId: 'caac-yjzj',
+    when,
+  })
+  assert.equal(item.category, 'policy')
+  const kept = selectGovItems([{ ...item, category: 'tech' }], 30)
+  assert.equal(kept[0].category, 'policy')
 })
 
 test('keeps the previous official items when that source fails', () => {

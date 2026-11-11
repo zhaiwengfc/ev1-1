@@ -283,43 +283,6 @@ export function classify(title, summary, defaultCategory = 'tech') {
   return category || defaultCategory || 'tech'
 }
 
-const GOV_CATEGORY_WORDS = [
-  ['contest', ['比赛', '大赛', '竞赛', '赛事', '锦标赛', '竞速', '挑战赛', '邀请赛', '联赛', '技能大赛']],
-  ['release', ['新品发布', '新品上市', '新品', '首发', '开售', '发布会']],
-  [
-    'tech',
-    [
-      '供应链',
-      '产业链',
-      '制造业',
-      '智能制造',
-      '装备制造',
-      '装备创新',
-      '技术标准',
-      '行业标准',
-      '国家标准',
-      '标准体系',
-      '标准建设',
-      '技术要求',
-      '关键技术',
-      '科技创新',
-      '电动垂直起降',
-      'evtol',
-      '飞行汽车',
-      '芯片',
-      '飞控',
-    ],
-  ],
-]
-
-export function govCategory(title, summary = '') {
-  const text = `${title || ''} ${summary || ''}`.toLowerCase()
-  for (const [category, words] of GOV_CATEGORY_WORDS) {
-    if (words.some((word) => text.includes(word.toLowerCase()))) return category
-  }
-  return 'policy'
-}
-
 function clip(text, max) {
   const clean = String(text || '').replace(/\s+/g, ' ').trim()
   if (clean.length <= max) return clean
@@ -743,7 +706,7 @@ export function makeGovItem({ title, link, summary = '', source, sourceId, when,
     id: govId(cleanTitle, direct),
     title: cleanTitle,
     summary: summaryText,
-    category: govCategory(cleanTitle, summaryText),
+    category: 'policy',
     date: when.date,
     publishedAt: when.publishedAt,
     link: direct,
@@ -771,7 +734,7 @@ export function selectGovItems(items, limit = MAX_GOV) {
         ...item,
         source: normalizeGovSource(item.source),
         summary,
-        category: govCategory(item.title, summary),
+        category: 'policy',
         official: true,
       })
       continue
