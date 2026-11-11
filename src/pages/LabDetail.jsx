@@ -11,8 +11,8 @@ export default function LabDetail() {
     return (
       <div className="detail-page">
         <p>未找到这篇文章。</p>
-        <Link to="/lab" className="btn-ghost">
-          返回研究室
+        <Link to="/shop" className="btn-ghost">
+          返回商城
         </Link>
       </div>
     )
@@ -23,8 +23,8 @@ export default function LabDetail() {
 
   return (
     <article className="detail-page">
-      <Link to="/lab" className="back-link">
-        ← 返回研究室
+      <Link to="/shop#reading" className="back-link">
+        ← 返回商城科普
       </Link>
       <div className="card-meta">
         <span className="tag-sticker">{isReview ? '产品评测' : '技术研究'}</span>
@@ -61,12 +61,12 @@ export default function LabDetail() {
         ))}
       </div>
       <Sources sources={item.sources} />
-      {product && (
+      {product ? (
         <p className="related-inline">
-          对照商城示例商品：
+          回到这款机型：
           <Link to={`/shop/${product.id}`}>{product.name}</Link>
         </p>
-      )}
+      ) : null}
     </article>
   )
 }

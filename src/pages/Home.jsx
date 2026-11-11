@@ -1,15 +1,12 @@
 import { Link } from 'react-router-dom'
-import SampleBadge from '../components/SampleBadge.jsx'
 import NewsCard from '../components/NewsCard.jsx'
 import Wordmark from '../components/Wordmark.jsx'
 import DroneArt from '../components/DroneArt.jsx'
-import Stars from '../components/Stars.jsx'
 import {
   SITE,
   intros,
   highlights,
   getProduct,
-  getLabItem,
   formatSamplePrice,
   productCategoryLabel,
 } from '../data/content.js'
@@ -98,27 +95,16 @@ function HighlightCard({ item }) {
       <Link to={`/shop/${product.id}`} className="sticker-card product-mini">
         <div className="card-meta">
           <span className="tag-sticker">{productCategoryLabel(product.category)}</span>
-          <SampleBadge>示例商品</SampleBadge>
+          {product.priceNote ? <span className="pending-badge">待核实</span> : null}
         </div>
         <DroneArt variant={product.variant} accent={product.accent} />
         <h3>{product.name}</h3>
         <p className="sample-price">
           {formatSamplePrice(product.price)}
-          <span> 示例价格</span>
+          <span> {product.priceLabel}</span>
         </p>
       </Link>
     )
   }
-  const review = getLabItem(item.id)
-  return (
-    <Link to={`/lab/${review.id}`} className="sticker-card">
-      <div className="card-meta">
-        <span className="tag-sticker">产品评测</span>
-        {review.unverifiedNote ? <span className="pending-badge">待核实</span> : null}
-      </div>
-      <h3>{review.title}</h3>
-      <Stars value={review.rating} />
-      <p>{review.summary}</p>
-    </Link>
-  )
+  return null
 }

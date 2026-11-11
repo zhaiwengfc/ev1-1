@@ -14,7 +14,7 @@ export default function Footer() {
         <div className="footer-links">
           <Link to="/news">行业资讯</Link>
           <Link to="/shop">无人机商城</Link>
-          <Link to="/lab">研究室</Link>
+          <Link to="/shop#reading">科普阅读</Link>
         </div>
         <p className="footer-disclaimer">{SITE.disclaimer}</p>
       </div>
