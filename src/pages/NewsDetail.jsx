@@ -1,15 +1,25 @@
 import { Link, useParams } from 'react-router-dom'
 import SampleBadge from '../components/SampleBadge.jsx'
-import { getNews, categoryLabel, news } from '../data/content.js'
+import { categoryLabel } from '../data/content.js'
+import { formatItemDate, safeHttpUrl, useNewsFeed } from '../data/newsFeed.js'
 
 export default function NewsDetail() {
   const { id } = useParams()
-  const item = getNews(id)
+  const feed = useNewsFeed()
+  const item = feed.items.find((entry) => entry.id === id)
+
+  if (feed.status === 'loading') {
+    return (
+      <div className="detail-page">
+        <p>正在读取资讯…</p>
+      </div>
+    )
+  }
 
   if (!item) {
     return (
       <div className="detail-page">
-        <p>未找到该示例资讯。</p>
+        <p>未找到这条资讯。</p>
         <Link to="/news" className="btn-ghost">
           返回资讯列表
         </Link>
@@ -17,7 +27,12 @@ export default function NewsDetail() {
     )
   }
 
-  const related = news.filter((n) => n.category === item.category && n.id !== item.id).slice(0, 3)
+  const related = feed.items
+    .filter((entry) => entry.category === item.category && entry.id !== item.id)
+    .slice(0, 3)
+  const link = safeHttpUrl(item.link)
+  const image = safeHttpUrl(item.image)
+  const showSummary = item.sample || !item.body?.length
 
   return (
     <article className="detail-page">
@@ -26,28 +41,48 @@ export default function NewsDetail() {
       </Link>
       <div className="card-meta">
         <span className="tag-sticker">{categoryLabel(item.category)}</span>
-        <SampleBadge />
-        <span className="card-date">{item.date}</span>
+        {item.official ? <span className="official-badge">官方发布</span> : null}
+        {item.sample ? <SampleBadge /> : null}
+        <span className="card-date">{formatItemDate(item)}</span>
       </div>
       <h1 className="detail-title">{item.title}</h1>
-      <p className="detail-summary">{item.summary}</p>
-      <div className="detail-body">
-        {item.body.map((para) => (
-          <p key={para}>{para}</p>
-        ))}
-      </div>
-      {related.length > 0 && (
+      {!item.sample && item.source ? <p className="detail-source">来源：{item.source}</p> : null}
+      {image ? (
+        <img
+          className="detail-cover"
+          src={image}
+          alt=""
+          referrerPolicy="no-referrer"
+          onError={(event) => event.currentTarget.remove()}
+        />
+      ) : null}
+      {showSummary && item.summary ? <p className="detail-summary">{item.summary}</p> : null}
+      {item.body?.length > 0 ? (
+        <div className="detail-body">
+          {item.body.map((para, index) => (
+            <p key={`${index}-${para.slice(0, 24)}`}>{para}</p>
+          ))}
+        </div>
+      ) : null}
+      {link ? (
+        <p className="detail-actions">
+          <a className="btn-primary" href={link} target="_blank" rel="noreferrer">
+            阅读原文
+          </a>
+        </p>
+      ) : null}
+      {related.length > 0 ? (
         <section className="related">
-          <h2>同栏目其他示例</h2>
+          <h2>{item.sample ? '同栏目其他示例' : '同栏目其他资讯'}</h2>
           <ul>
-            {related.map((n) => (
-              <li key={n.id}>
-                <Link to={`/news/${n.id}`}>{n.title}</Link>
+            {related.map((entry) => (
+              <li key={entry.id}>
+                <Link to={`/news/${entry.id}`}>{entry.title}</Link>
               </li>
             ))}
           </ul>
         </section>
-      )}
+      ) : null}
     </article>
   )
 }

@@ -1,0 +1,56 @@
+name: 发布资讯
+description: 写一条官方资讯。提交后会出现在网站最上面，不用改代码。
+labels: ['资讯']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        填完点「创建」即可。网站会在几分钟内更新，你的内容排在自动资讯上面，并标为「官方发布」。
+
+        想修改：重新编辑这条 Issue 再保存。想从网站撤下：把这条 Issue 关闭。
+
+        只有仓库所有者或协作者发布的内容会显示。
+  - type: input
+    id: title
+    attributes:
+      label: 标题
+      description: 网站上显示的标题。页面最上方的 Issue 标题可以写成同样的文字。
+      placeholder: 例如：本市低空飞行活动报名须知
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: 分类
+      description: 选择一个栏目。
+      options:
+        - 政府政策
+        - 科技创新与供应链
+        - 比赛信息
+        - 无人机新品发布
+    validations:
+      required: true
+  - type: textarea
+    id: body
+    attributes:
+      label: 摘要/正文
+      description: 写给读者看的文字。换行会保留。不需要写代码或 Markdown。
+      placeholder: 在这里写资讯内容
+    validations:
+      required: true
+  - type: input
+    id: link
+    attributes:
+      label: 原文链接
+      description: 可选。如果有原文，粘贴以 http:// 或 https:// 开头的网址。
+      placeholder: https://
+    validations:
+      required: false
+  - type: input
+    id: image
+    attributes:
+      label: 图片链接
+      description: 可选。粘贴一张可以公开打开的图片网址，以 http:// 或 https:// 开头。
+      placeholder: https://
+    validations:
+      required: false

@@ -1,32 +1,34 @@
 import { Link } from 'react-router-dom'
 import SampleBadge from '../components/SampleBadge.jsx'
+import NewsCard from '../components/NewsCard.jsx'
 import Wordmark from '../components/Wordmark.jsx'
 import DroneArt from '../components/DroneArt.jsx'
 import Stars from '../components/Stars.jsx'
 import {
   SITE,
   highlights,
-  getNews,
   getProduct,
   getLabItem,
-  categoryLabel,
   formatSamplePrice,
   productCategoryLabel,
 } from '../data/content.js'
+import { PUBLISH_URL, formatUpdated, useNewsFeed } from '../data/newsFeed.js'
 
 export default function Home() {
+  const feed = useNewsFeed()
+  const preview = feed.items.slice(0, 4)
+  const samples = highlights.filter((item) => item.kind !== 'news')
+
   return (
     <div className="home-page">
       <section className="hero">
-        <p className="hero-kicker">
-          <SampleBadge /> 低空经济信息与消费级无人机原型站
-        </p>
+        <p className="hero-kicker">低空经济信息与消费级无人机</p>
         <div className="hero-mark-wrap">
           <Wordmark size="hero" />
         </div>
         <p className="hero-tag">{SITE.tagline}</p>
         <p className="hero-lead">
-          这里汇集低空行业资讯交流，以及面向消费级无人机的线上商城与研究室。当前版本用于界面与信息架构演示，列表中的政策、赛事、产品与价格均为示例内容。
+          这里汇集低空行业资讯，以及面向消费级无人机的线上商城与研究室。资讯会自动更新公开报道，站长也可以自己发布。商城商品、价格与研究室评测仍是示例内容。
         </p>
         <div className="hero-actions">
           <Link to="/news" className="btn-primary">
@@ -58,12 +60,35 @@ export default function Home() {
       </section>
 
       <section className="section-block">
+        <div className="section-head spread">
+          <h2 className="graffiti-title">最新资讯</h2>
+          <a className="btn-primary publish-btn" href={PUBLISH_URL} target="_blank" rel="noreferrer">
+            发布资讯
+          </a>
+        </div>
+        <p className="news-updated">
+          {feed.status !== 'ready'
+            ? '正在读取资讯…'
+            : feed.sample
+              ? '当前显示的是示例资讯。'
+              : formatUpdated(feed.updatedAt)}
+        </p>
+        {feed.status === 'ready' && preview.length > 0 ? (
+          <div className="highlight-grid">
+            {preview.map((item) => (
+              <NewsCard key={item.id} item={item} titleAs="h3" />
+            ))}
+          </div>
+        ) : null}
+      </section>
+
+      <section className="section-block">
         <div className="section-head">
-          <h2 className="graffiti-title">最新速览</h2>
+          <h2 className="graffiti-title sm">商城与研究室</h2>
           <SampleBadge>示例内容精选</SampleBadge>
         </div>
         <div className="highlight-grid">
-          {highlights.map((item) => (
+          {samples.map((item) => (
             <HighlightCard key={`${item.kind}-${item.id}`} item={item} />
           ))}
         </div>
@@ -73,20 +98,6 @@ export default function Home() {
 }
 
 function HighlightCard({ item }) {
-  if (item.kind === 'news') {
-    const news = getNews(item.id)
-    return (
-      <Link to={`/news/${news.id}`} className="sticker-card">
-        <div className="card-meta">
-          <span className="tag-sticker">{categoryLabel(news.category)}</span>
-          <SampleBadge />
-        </div>
-        <h3>{news.title}</h3>
-        <p>{news.summary}</p>
-        <span className="card-date">{news.date}</span>
-      </Link>
-    )
-  }
   if (item.kind === 'product') {
     const product = getProduct(item.id)
     return (
