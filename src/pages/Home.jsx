@@ -1,12 +1,11 @@
 import { Link } from 'react-router-dom'
 import NewsCard from '../components/NewsCard.jsx'
 import Wordmark from '../components/Wordmark.jsx'
-import DroneArt from '../components/DroneArt.jsx'
+import OfficialPrice, { ProductVisual } from '../components/OfficialPrice.jsx'
 import {
   intros,
   highlights,
 } from '../data/content.js'
-import OfficialPrice from '../components/OfficialPrice.jsx'
 import { useShopCatalog } from '../data/shopLive.js'
 import { PUBLISH_URL, formatUpdated, useNewsFeed } from '../data/newsFeed.js'
 
@@ -94,7 +93,7 @@ function HighlightCard({ item, shop }) {
         <div className="card-meta">
           <ProductTags product={product} />
         </div>
-        <DroneArt variant={product.variant} accent={product.accent} />
+        <ProductVisual product={product} />
         <h3>{product.name}</h3>
         <OfficialPrice product={product} />
       </Link>

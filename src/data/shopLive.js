@@ -33,6 +33,21 @@ export function stockLabel(availability) {
   return ''
 }
 
+function localProductImage(value) {
+  const text = String(value || '').trim()
+  if (!text || /^https?:/i.test(text)) return ''
+  return text.replace(/^\//, '')
+}
+
+export function isPriceUncertain(product) {
+  if (product.pricePending) return false
+  if (product.pendingCopy || product.sample || product.unverifiedNote) return true
+  if (!product.officialFetched) return true
+  if (product.currency && product.currency !== 'CNY') return true
+  if (product.price == null || product.price === '') return true
+  if (product.priceStale) return true
+  return false
+}
 function catalogCheckedAt(product) {
   const match = String(product?.priceNote || '').match(/(\d{4}-\d{2}-\d{2})/)
   return match ? `${match[1]}T12:00:00+08:00` : ''
@@ -44,24 +59,38 @@ export function applyLiveProduct(product, live, now = Date.now(), { pending = fa
     [...(product.sources || [])].reverse().find((item) => item.url)?.url ||
     ''
   if (pending) {
-    return { ...product, storeUrl, pricePending: true, priceStale: false, listPrice: null, bundles: [] }
-  }
-  if (!live || live.officialPrice == null) {
-    const checkedAt = catalogCheckedAt(product)
     return {
       ...product,
       storeUrl,
+      pricePending: true,
+      priceStale: false,
+      priceUncertain: false,
+      officialFetched: false,
+      listPrice: null,
+      bundles: [],
+    }
+  }
+  const image = localProductImage(live?.image)
+  if (!live || live.officialPrice == null) {
+    const checkedAt = catalogCheckedAt(product)
+    const next = {
+      ...product,
+      image,
+      imageCredit: image ? '品牌官网' : '',
+      storeUrl,
       checkedAt,
-      priceStale: isPriceStale(checkedAt, now),
+      priceStale: true,
+      officialFetched: false,
       pricePending: false,
       listPrice: null,
       bundles: [],
       stockLabel: '',
     }
+    return { ...next, priceUncertain: isPriceUncertain(next) }
   }
   const checkedAt = live.checkedAt || catalogCheckedAt(product)
   const specs = Array.isArray(live.specs) && live.specs.length >= 3 ? live.specs : product.specs
-  return {
+  const next = {
     ...product,
     price: live.officialPrice,
     listPrice: live.listPrice > live.officialPrice ? live.listPrice : null,
@@ -70,17 +99,23 @@ export function applyLiveProduct(product, live, now = Date.now(), { pending = fa
     stockLabel: stockLabel(live.availability),
     storeUrl,
     checkedAt,
+    currency: live.currency || product.currency || 'CNY',
+    officialFetched: true,
     priceStale: isPriceStale(checkedAt, now),
     pricePending: false,
+    image,
+    imageCredit: image ? '品牌官网' : '',
     specs,
     specSource: specs !== product.specs ? live.specSource || '官网规格页' : '',
   }
+  return { ...next, priceUncertain: isPriceUncertain(next) }
 }
 
 export function launchProduct(item, now = Date.now()) {
   const checkedAt = item.checkedAt || item.firstSeenAt || ''
   const price = item.officialPrice ?? null
-  return {
+  const image = localProductImage(item.image)
+  const next = {
     id: item.id,
     name: item.name,
     brand: item.brand || '',
@@ -92,14 +127,16 @@ export function launchProduct(item, now = Date.now()) {
     price,
     listPrice: item.listPrice > price ? item.listPrice : null,
     priceLabel: item.priceLabel || '',
-    currency: 'CNY',
+    currency: item.currency || 'CNY',
     bundles: Array.isArray(item.bundles) ? item.bundles : [],
     stockLabel: stockLabel(item.availability),
     storeUrl: item.sourceUrl || '',
     checkedAt,
+    officialFetched: price != null,
     priceStale: price == null || isPriceStale(checkedAt, now),
     pricePending: false,
-    image: item.image || '',
+    image,
+    imageCredit: image ? '品牌官网' : '',
     officialBlurb: item.officialBlurb || '',
     specs: Array.isArray(item.specs) ? item.specs : [],
     specSource: item.specSource || '',
@@ -110,6 +147,7 @@ export function launchProduct(item, now = Date.now()) {
     accent: '#FFE500',
     variant: 'quad',
   }
+  return { ...next, priceUncertain: isPriceUncertain(next) }
 }
 
 export function mergeShop(catalog, live, now = Date.now(), { pending = false } = {}) {

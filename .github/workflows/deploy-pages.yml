@@ -64,11 +64,11 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: node scripts/fetch-news.mjs
 
-      - name: Fetch official shop prices
-        run: node scripts/fetch-shop.mjs
-
       - name: Install dependencies
         run: npm ci
+
+      - name: Fetch official shop prices
+        run: node scripts/fetch-shop.mjs
 
       - name: Build
         run: npm run build

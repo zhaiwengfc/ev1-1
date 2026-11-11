@@ -64,6 +64,22 @@ export function assertPublicPage(value) {
   }
 }
 
+export function officialImageUrl(html, primary = '') {
+  const candidates = [primary]
+  const tags = String(html || '').match(/<meta\b[^>]*>/gi) || []
+  for (const tag of tags) {
+    if (!/property=["']og:image["']/i.test(tag)) continue
+    const content = tag.match(/content=["']([^"']+)["']/i)
+    if (content) candidates.push(content[1])
+  }
+  for (const candidate of candidates) {
+    const text = String(candidate || '').trim()
+    if (text.startsWith('//')) return `https:${text}`
+    if (/^https?:\/\//i.test(text)) return text
+  }
+  return ''
+}
+
 function decodeBasic(value) {
   return String(value || '')
     .replace(/<br\s*\/?>/gi, '\n')
@@ -244,7 +260,7 @@ export function parseDjiProduct(html, { slug, expect }) {
   const officialPrice = base?.price || ldPrice
   if (!officialPrice) throw new Error('no CNY price')
   if (!nameMatches(html, ld?.name || base?.name, expect)) throw new Error('product name did not match')
-  const image = typeof ld?.image === 'string' ? ld.image : Array.isArray(ld?.image) ? ld.image[0] : ''
+  const rawImage = typeof ld?.image === 'string' ? ld.image : Array.isArray(ld?.image) ? ld.image[0] : ''
   return {
     name: String(ld?.name || base?.name || '').trim(),
     officialPrice,
@@ -254,7 +270,7 @@ export function parseDjiProduct(html, { slug, expect }) {
     availability: base?.status || availabilityOf(offer?.availability),
     bundles,
     officialBlurb: String(ld?.description || '').trim(),
-    image: String(image || '').startsWith('http') ? image : '',
+    image: officialImageUrl(html, rawImage),
   }
 }
 
@@ -307,7 +323,7 @@ export function parseAntigravityBuy(html, { primaryName = '标准套装', expect
     availability: primary.status || 'in_stock',
     bundles,
     officialBlurb: '',
-    image: image.startsWith('http') ? image : '',
+    image: officialImageUrl(html, image),
   }
 }
 
@@ -451,6 +467,44 @@ async function loadPrevious() {
   return local
 }
 
+const IMAGE_DIR = path.join(ROOT, 'public', 'images', 'products')
+const imageStats = {}
+
+function imageBrand(brand) {
+  if (/影翎|antigravity/i.test(brand || '')) return '影翎'
+  if (/dji|大疆/i.test(brand || '')) return 'DJI'
+  return brand || '其他'
+}
+
+async function saveOfficialImage(id, remoteUrl, brand) {
+  const key = imageBrand(brand)
+  if (!imageStats[key]) imageStats[key] = { found: 0, missing: 0 }
+  if (!remoteUrl) {
+    imageStats[key].missing += 1
+    return ''
+  }
+  try {
+    assertPublicPage(remoteUrl)
+    const response = await fetch(remoteUrl, {
+      headers: { 'User-Agent': UA, Accept: 'image/*,*/*', Cookie: CN_COOKIE },
+      signal: AbortSignal.timeout(20000),
+    })
+    if (!response.ok) throw new Error(`HTTP ${response.status}`)
+    const bytes = Buffer.from(await response.arrayBuffer())
+    const sharp = (await import('sharp')).default
+    fs.mkdirSync(IMAGE_DIR, { recursive: true })
+    const file = path.join(IMAGE_DIR, `${id}.webp`)
+    await sharp(bytes).rotate().resize({ width: 800, withoutEnlargement: true }).webp({ quality: 72 }).toFile(file)
+    imageStats[key].found += 1
+    console.log(`[shop] image ${key} ${id} ${fs.statSync(file).size} bytes`)
+    return `images/products/${id}.webp`
+  } catch (error) {
+    imageStats[key].missing += 1
+    console.warn(`[shop] image ${id} failed: ${error.message}`)
+    return ''
+  }
+}
+
 function withMeta(parsed, source, checkedAt, specs) {
   return {
     ...parsed,
@@ -486,6 +540,7 @@ export async function main() {
         specsHtml && specsHtml.toLowerCase().includes(source.expect.toLowerCase())
           ? parseSpecList(specsHtml)
           : []
+      parsed.image = await saveOfficialImage(source.id, parsed.image, source.brand)
       products[source.id] = withMeta(
         parsed,
         { ...source, specSource: source.kind === 'dji' ? '大疆官网规格页' : '影翎官网参数页' },
@@ -527,6 +582,7 @@ export async function main() {
       try {
         const html = await fetchText(storeUrl, { requireCn: true })
         const parsed = parseDjiProduct(html, { slug, expect: slug.replace(/^dji-/, '').replace(/-/g, ' ') })
+        parsed.image = await saveOfficialImage(slug, parsed.image, 'DJI')
         if (!parsed.name) throw new Error('missing official name')
         fresh.push({
           id: slug,
@@ -559,6 +615,7 @@ export async function main() {
       try {
         const html = await fetchText(storeUrl, { requireCn: true })
         const parsed = parseAntigravityBuy(html, { expect: slug })
+        parsed.image = await saveOfficialImage(slug, parsed.image, '影翎')
         fresh.push({
           id: slug,
           name: parsed.name,
@@ -594,6 +651,9 @@ export async function main() {
   fs.writeFileSync(OUT_FILE, `${JSON.stringify(payload, null, 2)}\n`)
   console.log(`[shop] wrote ${Object.keys(products).length} products, ${newLaunches.length} new, ${failures.length} failures`)
   console.log(notes.join('\n'))
+  for (const [brand, stat] of Object.entries(imageStats)) {
+    console.log(`[shop] images ${brand} found ${stat.found}, missing ${stat.missing}`)
+  }
 }
 
 const isDirectRun = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href

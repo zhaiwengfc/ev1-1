@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-11-11T19:00:47+08:00",
+  "checkedAt": "2026-11-11T19:05:02+08:00",
   "products": {
     "dji-mini-5-pro": {
       "name": "DJI Mini 5 Pro",
@@ -39,7 +39,7 @@
         }
       ],
       "officialBlurb": "一英寸大底全能迷你航拍机 DJI Mini 5 Pro 搭载 5000 万像素影像系统、225° 旋转云台及夜景级全向主动避障，助你轻松捕捉每一帧灵感画面。",
-      "image": "https://se-cdn.djiits.com/tpc/uploads/spu/cover/89bd715bc6795bc6f966bf4d18130e36@ultra.png?format=webp",
+      "image": "images/products/dji-mini-5-pro.webp",
       "sourceUrl": "https://store.dji.com/cn/product/dji-mini-5-pro",
       "specsUrl": "https://www.dji.com/cn/mini-5-pro/specs",
       "specSource": "大疆官网规格页",
@@ -65,7 +65,7 @@
           "O4+"
         ]
       ],
-      "checkedAt": "2026-11-11T19:00:47+08:00",
+      "checkedAt": "2026-11-11T19:05:02+08:00",
       "ok": true,
       "error": ""
     },
@@ -100,7 +100,7 @@
         }
       ],
       "officialBlurb": "",
-      "image": "https://se-cdn.djiits.com/tpc/uploads/spu/cover/0658c4092379bcb19997a3d759ee385a@ultra.png",
+      "image": "images/products/dji-air-3s.webp",
       "sourceUrl": "https://store.dji.com/cn/product/dji-air-3s",
       "specsUrl": "https://www.dji.com/cn/air-3s/specs",
       "specSource": "大疆官网规格页",
@@ -126,7 +126,7 @@
           "O4"
         ]
       ],
-      "checkedAt": "2026-11-11T19:00:47+08:00",
+      "checkedAt": "2026-11-11T19:05:02+08:00",
       "ok": true,
       "error": ""
     },
@@ -168,7 +168,7 @@
         }
       ],
       "officialBlurb": "DJI Neo 2 是 DJI 迄今最小的全向避障无人机，支持手势操控、智能自拍和智能跟随等多样玩法，零基础也能快速上手。它就像一位会飞的跟拍摄影师，随时记录你的精彩瞬间。",
-      "image": "https://se-cdn.djiits.com/tpc/uploads/spu/cover/5ae0fa0ac5fa5f60b8173a69479fa922@ultra.png?format=webp",
+      "image": "images/products/dji-neo-2.webp",
       "sourceUrl": "https://store.dji.com/cn/product/dji-neo-2",
       "specsUrl": "https://www.dji.com/cn/neo-2/specs",
       "specSource": "大疆官网规格页",
@@ -194,7 +194,7 @@
           "标配 Wi-Fi 图传"
         ]
       ],
-      "checkedAt": "2026-11-11T19:00:47+08:00",
+      "checkedAt": "2026-11-11T19:05:02+08:00",
       "ok": true,
       "error": ""
     },
@@ -236,12 +236,12 @@
         }
       ],
       "officialBlurb": "",
-      "image": "https://static.antigravity.tech/assets/e9bb79b8a0756aa70214a9b115597669/%E6%A0%87%E5%87%86%E5%A5%97%E9%A4%901204.png",
+      "image": "images/products/antigravity-a1.webp",
       "sourceUrl": "https://www.antigravity.tech/cn/drone/antigravity-a1/buy",
       "specsUrl": "https://www.antigravity.tech/cn/drone/antigravity-a1/specs",
       "specSource": "",
       "specs": [],
-      "checkedAt": "2026-11-11T19:00:47+08:00",
+      "checkedAt": "2026-11-11T19:05:02+08:00",
       "ok": true,
       "error": ""
     }
@@ -301,12 +301,12 @@
         }
       ],
       "officialBlurb": "新一代三摄旗舰影像航拍机 DJI Mavic 4 Pro 配备一亿像素哈苏主摄、大底双长焦相机、360° 旋转万象云台及夜景级全向主动避障，将 DJI 航拍无人机的影像与飞行性能推向新高度。",
-      "image": "https://se-cdn.djiits.com/tpc/uploads/spu/cover/8fc1361defb24de285e873dd9f508c46@ultra.png?format=webp",
+      "image": "images/products/dji-mavic-4-pro.webp",
       "sourceUrl": "https://store.dji.com/cn/product/dji-mavic-4-pro",
       "specsUrl": "https://www.dji.com/cn/mavic-4-pro/specs",
       "status": "pending_copy",
       "firstSeenAt": "2026-11-11T18:59:34+08:00",
-      "checkedAt": "2026-11-11T19:00:47+08:00",
+      "checkedAt": "2026-11-11T19:05:02+08:00",
       "ok": true
     },
     {
@@ -349,12 +349,12 @@
         }
       ],
       "officialBlurb": "一英寸[1] 8K 旗舰画质[2]，开辟全景新境界。O4+ 全高清图传，时刻从容畅飞[3]。桨保与避障兼备[4]，拍摄超安心。一次飞行，无限运镜创意。自在好上手，运动跟拍更震撼[2]。Avata 360，带你领略全景创作新维度。",
-      "image": "https://se-cdn.djiits.com/tpc/uploads/spu/cover/fcf71fa0db49ef01390bebd5f4ea70f6@ultra.png?format=webp",
+      "image": "images/products/dji-avata-360.webp",
       "sourceUrl": "https://store.dji.com/cn/product/dji-avata-360",
       "specsUrl": "https://www.dji.com/cn/avata-360/specs",
       "status": "pending_copy",
       "firstSeenAt": "2026-11-11T18:59:34+08:00",
-      "checkedAt": "2026-11-11T19:00:47+08:00",
+      "checkedAt": "2026-11-11T19:05:02+08:00",
       "ok": true
     },
     {
@@ -397,12 +397,12 @@
         }
       ],
       "officialBlurb": "1/1.3 英寸传感器新手入门高配航拍机 DJI Lito X1，全向避障，飞行更安全，智能跟随和多种运镜模式，助你轻松创作大片。",
-      "image": "https://se-cdn.djiits.com/tpc/uploads/spu/cover/3082315a517d76992e0f52636b4c236e@ultra.png?format=webp",
+      "image": "images/products/dji-lito-x1.webp",
       "sourceUrl": "https://store.dji.com/cn/product/dji-lito-x1",
       "specsUrl": "https://www.dji.com/cn/lito-x1/specs",
       "status": "pending_copy",
       "firstSeenAt": "2026-11-11T18:59:34+08:00",
-      "checkedAt": "2026-11-11T19:00:47+08:00",
+      "checkedAt": "2026-11-11T19:05:02+08:00",
       "ok": true
     },
     {
@@ -445,12 +445,12 @@
         }
       ],
       "officialBlurb": "开创 DJI 消费级航拍机三摄系统，4/3 CMOS 哈苏主摄与双焦段长焦相机均能录制 4K/60fps 视频，拍摄视角灵活，创作效率与自由度一跃而起。",
-      "image": "https://se-cdn.djiits.com/tpc/uploads/spu/cover/9b1bb4e6929cb9c5d0ea22bf33eedffd@ultra.png",
+      "image": "images/products/dji-mavic-3-pro.webp",
       "sourceUrl": "https://store.dji.com/cn/product/dji-mavic-3-pro",
       "specsUrl": "https://www.dji.com/cn/mavic-3-pro/specs",
       "status": "pending_copy",
       "firstSeenAt": "2026-11-11T18:59:34+08:00",
-      "checkedAt": "2026-11-11T19:00:47+08:00",
+      "checkedAt": "2026-11-11T19:05:02+08:00",
       "ok": true
     },
     {
@@ -493,12 +493,12 @@
         }
       ],
       "officialBlurb": "超轻小机身仅 135 克，具备全包式保护罩；无需遥控器，即可实现掌上起降，操作零门槛。",
-      "image": "https://se-cdn.djiits.com/tpc/uploads/spu/cover/09f59fd6bcc743daa5b8eb82cb6e55e6@ultra.png",
+      "image": "images/products/dji-neo.webp",
       "sourceUrl": "https://store.dji.com/cn/product/dji-neo",
       "specsUrl": "https://www.dji.com/cn/neo/specs",
       "status": "pending_copy",
       "firstSeenAt": "2026-11-11T18:59:34+08:00",
-      "checkedAt": "2026-11-11T19:00:47+08:00",
+      "checkedAt": "2026-11-11T19:05:02+08:00",
       "ok": true
     },
     {
@@ -534,12 +534,12 @@
         }
       ],
       "officialBlurb": "DJI 首款自带可折叠全包围桨叶保护罩的迷你航拍无人机，掌上起降，智能跟拍，上手简单安全，出国也能轻松飞。支持 2.7K 竖拍及 4K/60fps HDR 视频录制，拍人拍景都好看，直出就是惊艳 vlog。",
-      "image": "https://se-cdn.djiits.com/tpc/uploads/spu/cover/201b8be78dcb262f6d1001e62826ff93@ultra.png?format=webp",
+      "image": "images/products/dji-flip.webp",
       "sourceUrl": "https://store.dji.com/cn/product/dji-flip",
       "specsUrl": "https://www.dji.com/cn/flip/specs",
       "status": "pending_copy",
       "firstSeenAt": "2026-11-11T18:59:34+08:00",
-      "checkedAt": "2026-11-11T19:00:47+08:00",
+      "checkedAt": "2026-11-11T19:05:02+08:00",
       "ok": true
     },
     {
@@ -575,12 +575,12 @@
         }
       ],
       "officialBlurb": "",
-      "image": "https://se-cdn.djiits.com/tpc/uploads/spu/cover/4ea419b081f38056785ae8665d473190@ultra.png",
+      "image": "images/products/dji-mini-4-pro.webp",
       "sourceUrl": "https://store.dji.com/cn/product/dji-mini-4-pro",
       "specsUrl": "https://www.dji.com/cn/mini-4-pro/specs",
       "status": "pending_copy",
       "firstSeenAt": "2026-11-11T18:59:34+08:00",
-      "checkedAt": "2026-11-11T19:00:47+08:00",
+      "checkedAt": "2026-11-11T19:05:02+08:00",
       "ok": true
     },
     {
@@ -616,12 +616,12 @@
         }
       ],
       "officialBlurb": "选购 DJI Avata 2，第一视角飞行体验无人机，配备一体化桨叶保护罩，可配合 DJI 穿越摇杆 3 实现体感操控。现已上架大疆商城。",
-      "image": "https://se-cdn.djiits.com/tpc/uploads/spu/cover/7820c86b51011167f9a8221353e20518@ultra.png",
+      "image": "images/products/dji-avata-2.webp",
       "sourceUrl": "https://store.dji.com/cn/product/dji-avata-2",
       "specsUrl": "https://www.dji.com/cn/avata-2/specs",
       "status": "pending_copy",
       "firstSeenAt": "2026-11-11T18:59:34+08:00",
-      "checkedAt": "2026-11-11T19:00:47+08:00",
+      "checkedAt": "2026-11-11T19:05:02+08:00",
       "ok": true
     }
   ],

@@ -7,6 +7,7 @@ import {
   isCnUrl,
   isConsumerDroneSlug,
   keepPrevious,
+  officialImageUrl,
   parseAntigravityBuy,
   parseDjiProduct,
   parseSpecList,
@@ -36,6 +37,12 @@ test('reads the DJI China price, stock, and aircraft bundles', () => {
   assert.equal(parsed.availability, 'in_stock')
   assert.deepEqual(parsed.bundles.map((item) => item.price), [4788, 5988])
   assert.equal(parsed.image, 'https://example.com/mini.png')
+})
+
+test('prefers a JSON-LD image and falls back to og:image', () => {
+  const html = `<meta property="og:image" content="https://example.com/og.png"><script type="application/ld+json">{"@type":"Product","name":"DJI Mini 5 Pro","image":"https://example.com/ld.png"}</script>`
+  assert.equal(officialImageUrl(html, 'https://example.com/ld.png'), 'https://example.com/ld.png')
+  assert.equal(officialImageUrl('<meta property="og:image" content="//cdn.example/a.png">', ''), 'https://cdn.example/a.png')
 })
 
 test('reads the Antigravity promo price and the struck list price', () => {

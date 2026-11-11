@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import DroneArt from '../components/DroneArt.jsx'
-import OfficialPrice from '../components/OfficialPrice.jsx'
+import OfficialPrice, { ProductVisual } from '../components/OfficialPrice.jsx'
 import { productCategories, priceFilters, labArticles } from '../data/content.js'
 import { useShopCatalog } from '../data/shopLive.js'
 
@@ -124,14 +123,9 @@ export default function Shop() {
 function ProductCard({ product }) {
   return (
     <Link to={`/shop/${product.id}`} className="product-card">
-      <div className={`product-art${product.image ? ' has-photo' : ''}`}>
-        {product.image ? (
-          <img className="product-photo" src={product.image} alt="" />
-        ) : (
-          <DroneArt variant={product.variant} accent={product.accent} />
-        )}
+      <ProductVisual product={product}>
         <span className="tag-sticker on-art">{product.tag}</span>
-      </div>
+      </ProductVisual>
       <div className="product-body">
         <div className="card-meta">
           <ProductTags product={product} />

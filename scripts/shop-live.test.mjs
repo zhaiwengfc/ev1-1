@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { applyLiveProduct, isPriceStale, mergeShop } from '../src/data/shopLive.js'
+import { applyLiveProduct, isPriceStale, isPriceUncertain, mergeShop } from '../src/data/shopLive.js'
 
 const catalog = [
   {
@@ -36,6 +36,7 @@ test('overlays the official price and leaves the hand-written copy alone', () =>
           ],
           specSource: '大疆官网规格页',
           sourceUrl: 'https://store.dji.com/cn/product/dji-mini-5-pro',
+          image: 'images/products/dji-mini-5-pro.webp',
           checkedAt: '2026-11-11T18:00:00+08:00',
           ok: true,
         },
@@ -62,6 +63,25 @@ test('overlays the official price and leaves the hand-written copy alone', () =>
   assert.equal(product.specs[0][0], '起飞重量')
   assert.equal(product.specSource, '大疆官网规格页')
   assert.equal(product.priceStale, false)
+  assert.equal(product.priceUncertain, false)
+  assert.equal(product.image, 'images/products/dji-mini-5-pro.webp')
+  const launch = mergeShop(catalog, {
+    newLaunches: [
+      {
+        id: 'dji-avata-360',
+        name: 'DJI Avata 360',
+        officialPrice: 2788,
+        currency: 'CNY',
+        sourceUrl: 'https://store.dji.com/cn/product/dji-avata-360',
+        image: 'images/products/dji-avata-360.webp',
+        checkedAt: '2026-11-11T18:00:00+08:00',
+        status: 'pending_copy',
+      },
+    ],
+  }, now).find((item) => item.id === 'dji-avata-360')
+  assert.equal(launch.pendingCopy, true)
+  assert.equal(isPriceUncertain(launch), true)
+  assert.equal(launch.image, 'images/products/dji-avata-360.webp')
 })
 
 test('marks a kept price 价格待更新 after 48 hours', () => {
@@ -75,5 +95,9 @@ test('marks a kept price 价格待更新 after 48 hours', () => {
   )
   assert.equal(product.price, 4788)
   assert.equal(product.priceStale, true)
+  assert.equal(isPriceUncertain(product), true)
   assert.deepEqual(product.intro, ['手写介绍'])
+  const missing = applyLiveProduct(catalog[0], null, now)
+  assert.equal(missing.officialFetched, false)
+  assert.equal(isPriceUncertain(missing), true)
 })

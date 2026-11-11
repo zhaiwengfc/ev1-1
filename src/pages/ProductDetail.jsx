@@ -2,8 +2,7 @@ import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import Stars from '../components/Stars.jsx'
 import Sources from '../components/Sources.jsx'
-import DroneArt from '../components/DroneArt.jsx'
-import OfficialPrice, { BundlePrices } from '../components/OfficialPrice.jsx'
+import OfficialPrice, { BundlePrices, ProductVisual } from '../components/OfficialPrice.jsx'
 import { getLabItem, labArticles } from '../data/content.js'
 import { useShopCatalog } from '../data/shopLive.js'
 
@@ -55,13 +54,7 @@ export default function ProductDetail() {
         ← 返回无人机商城
       </Link>
       <div className="product-detail-grid">
-        <div className="product-stage">
-          {product.image ? (
-            <img className="product-photo" src={product.image} alt="" />
-          ) : (
-            <DroneArt variant={product.variant} accent={product.accent} />
-          )}
-        </div>
+        <ProductVisual product={product} stage />
         <div className="product-intro-card">
           <div className="card-meta">
             {tags.map((tag) => (
@@ -74,8 +67,8 @@ export default function ProductDetail() {
           </div>
           <h1 className="detail-title">{product.name}</h1>
           <OfficialPrice product={product} size="xl" />
-          <BundlePrices bundles={product.bundles} />
-          {!product.pendingCopy && product.priceNote ? <p className="detail-summary">{product.priceNote}</p> : null}
+          <BundlePrices product={product} />
+          {!product.priceUncertain && product.priceNote ? <p className="detail-summary">{product.priceNote}</p> : null}
           <p className="tiny-note">本站只做资料整理，没有购买或比价下单。下单请以官方商城结算页为准。</p>
           <Sources sources={product.sources} />
         </div>
