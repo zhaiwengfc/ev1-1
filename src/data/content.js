@@ -13,6 +13,7 @@ export const SITE = {
 
 export const newsCategories = [
   { id: 'all', name: '全部' },
+  { id: 'official', name: '官方发布' },
   { id: 'policy', name: '政府政策' },
   { id: 'tech', name: '科技创新与供应链' },
   { id: 'contest', name: '比赛信息' },

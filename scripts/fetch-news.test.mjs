@@ -4,8 +4,12 @@ import {
   classify,
   combineNews,
   decodeXml,
+  govLinkRank,
+  hasGovKeyword,
+  mergeGovResults,
   parseRssItems,
   selectAutoItems,
+  selectGovItems,
   toOfficialItem,
 } from './fetch-news.mjs'
 
@@ -172,6 +176,87 @@ javascript:alert(1)`
     }),
     null,
   )
+})
+
+test('matches whole low-altitude words and ignores split-word noise', () => {
+  assert.equal(hasGovKeyword('通航建筑物施工方案'), false)
+  assert.equal(hasGovKeyword('国民经济和社会发展'), false)
+  assert.equal(hasGovKeyword('低空经济标准体系建设指南'), true)
+  assert.equal(hasGovKeyword('通用航空经营管理规定'), true)
+  assert.equal(hasGovKeyword('通用 航空 经营管理规定'), true)
+  assert.equal(hasGovKeyword('低空 经济 标准体系建设指南'), true)
+  assert.equal(hasGovKeyword('eVTOL 试点'), true)
+})
+
+test('keeps the agency URL ahead of a gov.cn reprint and drops Google wrappers', () => {
+  const when = { date: '2026-02-02', publishedAt: '2026-02-02T00:00:00.000Z' }
+  const agency = {
+    id: 'gov-agency',
+    title: '低空经济标准体系建设指南',
+    link: 'https://www.ndrc.gov.cn/xxgk/zcfb/202602/t20260202_1.html',
+    source: '国家发展改革委',
+    govSource: 'ndrc-dks',
+    official: true,
+    category: 'policy',
+    date: when.date,
+    publishedAt: when.publishedAt,
+  }
+  const reprint = {
+    ...agency,
+    id: 'gov-reprint',
+    link: 'https://www.gov.cn/zhengce/zhengceku/202602/content_7056835.htm',
+    source: '中国政府网',
+    govSource: 'gov-library',
+  }
+  const google = {
+    ...agency,
+    id: 'gov-google',
+    link: 'https://news.google.com/rss/articles/abc',
+    source: '中国政府网',
+  }
+  assert.equal(govLinkRank(google.link), 0)
+  assert.ok(govLinkRank(reprint.link) < govLinkRank(agency.link))
+  const selected = selectGovItems([reprint, google, agency], 30)
+  assert.equal(selected.length, 1)
+  assert.equal(selected[0].link, agency.link)
+  assert.equal(selected[0].source, '国家发展改革委')
+})
+
+test('keeps the previous official items when that source fails', () => {
+  const previous = [
+    {
+      id: 'gov-old',
+      title: '北京市无人驾驶航空器特殊保障规定',
+      link: 'https://www.beijing.gov.cn/zhengce/202609/t20260917_1.html',
+      source: '北京市人民政府',
+      govSource: 'beijing',
+      official: true,
+      category: 'policy',
+      date: '2026-09-17',
+      publishedAt: '2026-09-17T00:00:00.000Z',
+    },
+  ]
+  const kept = mergeGovResults([{ id: 'beijing', ok: false, items: [] }], previous)
+  assert.equal(kept.length, 1)
+  assert.equal(kept[0].id, 'gov-old')
+  const replaced = mergeGovResults(
+    [
+      {
+        id: 'beijing',
+        ok: true,
+        items: [
+          {
+            ...previous[0],
+            id: 'gov-new',
+            title: '北京市促进低空经济产业高质量发展行动方案',
+            publishedAt: '2026-10-01T00:00:00.000Z',
+          },
+        ],
+      },
+    ],
+    previous,
+  )
+  assert.deepEqual(replaced.map((item) => item.id), ['gov-new'])
 })
 
 test('keeps the previous auto list when this fetch finds nothing', () => {

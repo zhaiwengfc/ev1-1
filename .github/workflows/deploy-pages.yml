@@ -58,7 +58,7 @@ jobs:
       - name: Check news script
         run: node --test scripts/fetch-news.test.mjs
 
-      - name: Fetch news
+      - name: Fetch news and official releases
         env:
           GITHUB_TOKEN: ${{ github.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
