@@ -59,10 +59,10 @@ export const news = [
 ]
 
 export const highlights = [
-  { kind: 'product', id: 'p-mini5pro' },
-  { kind: 'product', id: 'p-air3s' },
-  { kind: 'product', id: 'p-neo2' },
-  { kind: 'product', id: 'p-a1' },
+  { kind: 'product', id: 'dji-mini-5-pro' },
+  { kind: 'product', id: 'dji-air-3s' },
+  { kind: 'product', id: 'dji-neo-2' },
+  { kind: 'product', id: 'antigravity-a1' },
 ]
 
 export function getNews(id) {

@@ -8,7 +8,6 @@ import {
   highlights,
   getProduct,
   formatSamplePrice,
-  productCategoryLabel,
 } from '../data/content.js'
 import { PUBLISH_URL, formatUpdated, useNewsFeed } from '../data/newsFeed.js'
 
@@ -45,9 +44,9 @@ export default function Home() {
         </Link>
         <Link to="/shop" className="module-card tilt-right">
           <span className="module-no">02</span>
-          <h2>无人机商城 + 研究室</h2>
+          <h2>无人机商城</h2>
           <p>{intros.shopLab}</p>
-          <span className="module-go">进入商城 / 研究室 →</span>
+          <span className="module-go">打开商城 →</span>
         </Link>
       </section>
 
@@ -76,7 +75,7 @@ export default function Home() {
 
       <section className="section-block">
         <div className="section-head">
-          <h2 className="graffiti-title sm">商城与研究室</h2>
+          <h2 className="graffiti-title sm">在售机型</h2>
         </div>
         <div className="highlight-grid">
           {samples.map((item) => (
@@ -94,8 +93,7 @@ function HighlightCard({ item }) {
     return (
       <Link to={`/shop/${product.id}`} className="sticker-card product-mini">
         <div className="card-meta">
-          <span className="tag-sticker">{productCategoryLabel(product.category)}</span>
-          {product.priceNote ? <span className="pending-badge">待核实</span> : null}
+          <span className="tag-sticker">{product.tag}</span>
         </div>
         <DroneArt variant={product.variant} accent={product.accent} />
         <h3>{product.name}</h3>

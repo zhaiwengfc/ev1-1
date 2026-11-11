@@ -32,7 +32,7 @@ export default function Shop() {
         <h1 className="graffiti-title">无人机商城</h1>
         <p className="page-lead">{intros.shop}</p>
         <p className="page-lead">
-          现在上架的是四款已经写了资料评测的机型。标价来自评测里的首发价或活动价，带「待核实」的以官方页面为准。这里不能下单。
+          目前这四款的标价核对于 2026-11-11 的官方商城。影翎 A1 标的是活动价，活动结束价格会变。这里不能下单。
         </p>
       </header>
 
@@ -82,8 +82,7 @@ export default function Shop() {
               </div>
               <div className="product-body">
                 <div className="card-meta">
-                  <span className="muted">{productCategoryLabel(product.category)}</span>
-                  {product.priceNote ? <span className="pending-badge">待核实</span> : null}
+                  <span className="muted">{product.categoryLabel || productCategoryLabel(product.category)}</span>
                 </div>
                 <h2>{product.name}</h2>
                 <p>{product.blurb}</p>

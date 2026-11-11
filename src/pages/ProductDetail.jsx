@@ -29,8 +29,8 @@ export default function ProductDetail() {
   const reading = (product.scienceIds || [])
     .map((scienceId) => labArticles.find((item) => item.id === scienceId))
     .filter(Boolean)
-  const intro = product.intro?.trim() || review?.summary || ''
-  const highlights = product.highlights?.length ? product.highlights : review?.pros || []
+  const intro = Array.isArray(product.intro) ? product.intro : product.intro ? [product.intro] : []
+  const highlights = product.highlights || []
 
   return (
     <article className="product-detail">
@@ -44,39 +44,35 @@ export default function ProductDetail() {
         <div>
           <div className="card-meta">
             <span className="tag-sticker">{productCategoryLabel(product.category)}</span>
-            <span className="tag-sticker">{product.tag}</span>
-            {product.priceNote ? <span className="pending-badge">待核实</span> : null}
+            <span className="tag-sticker">{product.categoryLabel || product.tag}</span>
           </div>
           <h1 className="detail-title">{product.name}</h1>
           <p className="sample-price xl">
             {formatSamplePrice(product.price)}
             <span> {product.priceLabel}</span>
           </p>
-          {product.priceNote ? <p className="pending-note">{product.priceNote}</p> : null}
+          {product.priceNote ? <p className="detail-summary">{product.priceNote}</p> : null}
           <p className="tiny-note">本站只做资料整理，没有购买或比价下单。</p>
         </div>
       </div>
 
       <section className="spec-board">
         <h2>产品介绍</h2>
-        {!product.intro?.trim() ? (
-          <p className="tiny-note">
-            单独的产品介绍还没写好。下面先用研究室资料评测里的摘要，文案到了会换上。
-          </p>
-        ) : null}
-        {intro ? <p className="detail-summary">{intro}</p> : null}
+        {intro.map((para) => (
+          <p key={para.slice(0, 24)}>{para}</p>
+        ))}
       </section>
 
       <section className="spec-board">
-        <h2>技术看点</h2>
-        {!product.highlights?.length ? (
-          <p className="tiny-note">技术看点暂时来自资料评测的优点，独立说明写好后会替换。</p>
-        ) : null}
+        <h2>技术亮点与解读</h2>
         <ul className="highlight-list">
           {highlights.map((line) => (
             <li key={line}>{line}</li>
           ))}
         </ul>
+        {(product.techBody || []).map((para) => (
+          <p key={para.slice(0, 24)}>{para}</p>
+        ))}
         <dl>
           {product.specs.map(([label, value]) => (
             <div key={label} className="spec-row">
@@ -85,6 +81,7 @@ export default function ProductDetail() {
             </div>
           ))}
         </dl>
+        <Sources sources={product.sources} />
       </section>
 
       {review ? (
