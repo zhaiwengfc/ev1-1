@@ -1,13 +1,9 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import DroneArt from '../components/DroneArt.jsx'
-import {
-  products,
-  productCategories,
-  priceFilters,
-  labArticles,
-  formatSamplePrice,
-} from '../data/content.js'
+import OfficialPrice from '../components/OfficialPrice.jsx'
+import { productCategories, priceFilters, labArticles } from '../data/content.js'
+import { useShopCatalog } from '../data/shopLive.js'
 
 function ProductTags({ product }) {
   const tags = [product.brandTag || product.brand, product.formTag, product.useTag].filter(Boolean)
@@ -21,16 +17,22 @@ function ProductTags({ product }) {
 export default function Shop() {
   const [cat, setCat] = useState('all')
   const [price, setPrice] = useState('all')
+  const shop = useShopCatalog()
 
   const list = useMemo(() => {
     const range = priceFilters.find((item) => item.id === price)
-    return products.filter((item) => {
+    return shop.products.filter((item) => {
       const okCat = cat === 'all' || item.category === cat
       const okPrice =
-        !range || range.id === 'all' || (item.price >= range.min && item.price < range.max)
+        !range ||
+        range.id === 'all' ||
+        (item.price != null && item.price >= range.min && item.price < range.max)
       return okCat && okPrice
     })
-  }, [cat, price])
+  }, [cat, price, shop.products])
+
+  const known = list.filter((item) => !item.pendingCopy)
+  const fresh = list.filter((item) => item.pendingCopy)
 
   return (
     <div className="shop-page">
@@ -75,26 +77,27 @@ export default function Shop() {
       {list.length === 0 ? (
         <p className="empty-hint">这个筛选条件下没有机型，试试其他类型或价位。</p>
       ) : (
-        <div className="product-grid">
-          {list.map((product) => (
-            <Link key={product.id} to={`/shop/${product.id}`} className="product-card">
-              <div className="product-art">
-                <DroneArt variant={product.variant} accent={product.accent} />
-                <span className="tag-sticker on-art">{product.tag}</span>
+        <>
+          {known.length > 0 ? (
+            <div className="product-grid">
+              {known.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+          ) : null}
+          {fresh.length > 0 ? (
+            <section className="section-block">
+              <div className="section-head">
+                <h2 className="graffiti-title sm">新品</h2>
               </div>
-              <div className="product-body">
-                <div className="card-meta">
-                  <ProductTags product={product} />
-                </div>
-                <h2>{product.name}</h2>
-                <p className="sample-price lg">
-                  {formatSamplePrice(product.price)}
-                  <span> {product.priceLabel}</span>
-                </p>
+              <div className="product-grid">
+                {fresh.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
               </div>
-            </Link>
-          ))}
-        </div>
+            </section>
+          ) : null}
+        </>
       )}
 
       <section className="section-block" id="reading">
@@ -115,5 +118,28 @@ export default function Shop() {
         </div>
       </section>
     </div>
+  )
+}
+
+function ProductCard({ product }) {
+  return (
+    <Link to={`/shop/${product.id}`} className="product-card">
+      <div className={`product-art${product.image ? ' has-photo' : ''}`}>
+        {product.image ? (
+          <img className="product-photo" src={product.image} alt="" />
+        ) : (
+          <DroneArt variant={product.variant} accent={product.accent} />
+        )}
+        <span className="tag-sticker on-art">{product.tag}</span>
+      </div>
+      <div className="product-body">
+        <div className="card-meta">
+          <ProductTags product={product} />
+          {product.pendingCopy ? <span className="copy-badge">待补充介绍</span> : null}
+        </div>
+        <h2>{product.name}</h2>
+        <OfficialPrice product={product} size="lg" />
+      </div>
+    </Link>
   )
 }

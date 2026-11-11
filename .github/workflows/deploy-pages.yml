@@ -55,14 +55,17 @@ jobs:
             --description "站长发布的资讯。关闭这条 Issue 后，网站会撤下对应内容。" \
             --force
 
-      - name: Check news script
-        run: node --test scripts/fetch-news.test.mjs
+      - name: Check news and shop scripts
+        run: node --test scripts/fetch-news.test.mjs scripts/fetch-shop.test.mjs scripts/shop-live.test.mjs
 
       - name: Fetch news and official releases
         env:
           GITHUB_TOKEN: ${{ github.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: node scripts/fetch-news.mjs
+
+      - name: Fetch official shop prices
+        run: node scripts/fetch-shop.mjs
 
       - name: Install dependencies
         run: npm ci

@@ -1,10 +1,11 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
-import { getProduct } from '../data/content.js'
+import { useShopCatalog } from '../data/shopLive.js'
 
 const CartContext = createContext(null)
 const STORAGE_KEY = 'ev1-sample-cart'
 
 export function CartProvider({ children }) {
+  const shop = useShopCatalog()
   const [items, setItems] = useState(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY)
@@ -52,8 +53,8 @@ export function CartProvider({ children }) {
 
     const detailed = items
       .map((item) => {
-        const product = getProduct(item.productId)
-        if (!product) return null
+        const product = shop.getProduct(item.productId)
+        if (!product || product.price == null) return null
         return { ...item, product, lineTotal: product.price * item.quantity }
       })
       .filter(Boolean)
@@ -72,7 +73,7 @@ export function CartProvider({ children }) {
       removeItem,
       clear,
     }
-  }, [items, open])
+  }, [items, open, shop.products])
 
   return <CartContext.Provider value={api}>{children}</CartContext.Provider>
 }

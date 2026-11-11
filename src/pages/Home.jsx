@@ -5,13 +5,14 @@ import DroneArt from '../components/DroneArt.jsx'
 import {
   intros,
   highlights,
-  getProduct,
-  formatSamplePrice,
 } from '../data/content.js'
+import OfficialPrice from '../components/OfficialPrice.jsx'
+import { useShopCatalog } from '../data/shopLive.js'
 import { PUBLISH_URL, formatUpdated, useNewsFeed } from '../data/newsFeed.js'
 
 export default function Home() {
   const feed = useNewsFeed()
+  const shop = useShopCatalog()
   const preview = feed.items.slice(0, 4)
   const samples = highlights.filter((item) => item.kind !== 'news')
 
@@ -67,7 +68,7 @@ export default function Home() {
         </div>
         <div className="highlight-grid">
           {samples.map((item) => (
-            <HighlightCard key={`${item.kind}-${item.id}`} item={item} />
+            <HighlightCard key={`${item.kind}-${item.id}`} item={item} shop={shop} />
           ))}
         </div>
       </section>
@@ -84,9 +85,10 @@ function ProductTags({ product }) {
   ))
 }
 
-function HighlightCard({ item }) {
+function HighlightCard({ item, shop }) {
   if (item.kind === 'product') {
-    const product = getProduct(item.id)
+    const product = shop.getProduct(item.id)
+    if (!product) return null
     return (
       <Link to={`/shop/${product.id}`} className="sticker-card product-mini">
         <div className="card-meta">
@@ -94,10 +96,7 @@ function HighlightCard({ item }) {
         </div>
         <DroneArt variant={product.variant} accent={product.accent} />
         <h3>{product.name}</h3>
-        <p className="sample-price">
-          {formatSamplePrice(product.price)}
-          <span> {product.priceLabel}</span>
-        </p>
+        <OfficialPrice product={product} />
       </Link>
     )
   }
