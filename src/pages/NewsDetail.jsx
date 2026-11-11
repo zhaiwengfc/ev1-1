@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router-dom'
 import SampleBadge from '../components/SampleBadge.jsx'
+import Sources from '../components/Sources.jsx'
 import { categoryLabel } from '../data/content.js'
 import { formatItemDate, safeHttpUrl, useNewsFeed } from '../data/newsFeed.js'
 
@@ -43,10 +44,14 @@ export default function NewsDetail() {
         <span className="tag-sticker">{categoryLabel(item.category)}</span>
         {item.official ? <span className="official-badge">官方发布</span> : null}
         {item.sample ? <SampleBadge /> : null}
+        {item.unverifiedNote ? <span className="pending-badge">待核实</span> : null}
         <span className="card-date">{formatItemDate(item)}</span>
       </div>
       <h1 className="detail-title">{item.title}</h1>
-      {!item.sample && item.source ? <p className="detail-source">来源：{item.source}</p> : null}
+      {item.unverifiedNote ? <p className="pending-note">{item.unverifiedNote}</p> : null}
+      {!item.sample && item.source && !item.sources?.length ? (
+        <p className="detail-source">来源：{item.source}</p>
+      ) : null}
       {image ? (
         <img
           className="detail-cover"
@@ -64,6 +69,7 @@ export default function NewsDetail() {
           ))}
         </div>
       ) : null}
+      <Sources sources={item.sources} />
       {link ? (
         <p className="detail-actions">
           <a className="btn-primary" href={link} target="_blank" rel="noreferrer">

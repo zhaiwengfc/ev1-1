@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import SampleBadge from '../components/SampleBadge.jsx'
 import DroneArt from '../components/DroneArt.jsx'
 import {
+  intros,
   products,
   productCategories,
   priceFilters,
@@ -31,6 +32,7 @@ export default function Shop() {
           <SampleBadge>示例商品</SampleBadge> 消费级无人机线上售卖演示
         </p>
         <h1 className="graffiti-title">无人机商城</h1>
+        <p className="page-lead">{intros.shop}</p>
         <p className="page-lead">
           以下机型、规格与售价全部为示例内容，仅用于展示筛选、商品卡片、详情与购物车。不代表任何真实品牌或可购买商品。研究室评测入口在页面底部。
         </p>

@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import SampleBadge from '../components/SampleBadge.jsx'
 import NewsCard from '../components/NewsCard.jsx'
-import { newsCategories } from '../data/content.js'
+import { intros, newsCategories } from '../data/content.js'
 import { PUBLISH_URL, formatUpdated, useNewsFeed } from '../data/newsFeed.js'
 import { useSearchParams } from 'react-router-dom'
 
@@ -25,10 +25,14 @@ export default function News() {
   }
 
   const ready = feed.status === 'ready'
-  const lead =
-    ready && feed.sample
-      ? '自动资讯还没有准备好，下面先显示示例稿。这些稿件都标着「示例内容」，不是真实新闻。'
-      : '政府政策、科技创新与供应链、比赛信息、无人机新品发布。公开报道会自动更新；带「官方发布」的排在最上面。'
+  const leads = {
+    all: intros.news,
+    policy: intros.policy,
+    tech: intros.tech,
+    contest: intros.contest,
+    release: intros.release,
+  }
+  const lead = leads[category] || intros.news
 
   return (
     <div className="news-page">

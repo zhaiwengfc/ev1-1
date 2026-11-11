@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { news as exampleNews } from './content.js'
+import { news as sampleNews, officialNews } from './content.js'
 
 export const PUBLISH_URL =
   'https://github.com/zhaiwengfc/ev1-1/issues/new?template=' +
@@ -63,13 +63,31 @@ export function formatItemDate(item) {
   return item?.date || ''
 }
 
-function exampleItems() {
-  return exampleNews.map((item) => ({
+function contestExamples() {
+  return sampleNews
+    .filter((item) => item.category === 'contest')
+    .map((item) => ({
+      ...item,
+      sample: true,
+      official: false,
+      source: '示例内容',
+    }))
+}
+
+function pinnedOfficial() {
+  return officialNews.map((item) => ({
     ...item,
-    sample: true,
-    official: false,
-    source: '示例内容',
+    official: true,
+    sample: false,
+    source: 'EV1平台',
   }))
+}
+
+function mergeNews(remoteItems) {
+  const pinned = pinnedOfficial()
+  const pinnedIds = new Set(pinned.map((item) => item.id))
+  const remote = remoteItems.filter((item) => item && !pinnedIds.has(item.id))
+  return sortNews([...pinned, ...remote, ...contestExamples()])
 }
 
 function usableItem(item) {
@@ -88,11 +106,17 @@ async function fetchFeed() {
     const response = await fetch(`${import.meta.env.BASE_URL}data/news.json`, { cache: 'no-cache' })
     if (!response.ok) throw new Error(`status ${response.status}`)
     const data = await response.json()
-    const items = Array.isArray(data?.items) ? data.items.filter(usableItem) : []
-    if (items.length === 0) return { items: sortNews(exampleItems()), updatedAt: null, sample: true }
-    return { items: sortNews(items), updatedAt: data.updatedAt || null, sample: false }
+    const remote = Array.isArray(data?.items) ? data.items.filter(usableItem) : []
+    const items = mergeNews(remote)
+    const sample = items.length > 0 && items.every((item) => item.sample)
+    return { items, updatedAt: remote.length > 0 ? data.updatedAt || null : null, sample }
   } catch {
-    return { items: sortNews(exampleItems()), updatedAt: null, sample: true }
+    const items = mergeNews([])
+    return {
+      items,
+      updatedAt: null,
+      sample: items.length > 0 && items.every((item) => item.sample),
+    }
   }
 }
 

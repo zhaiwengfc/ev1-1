@@ -6,6 +6,7 @@ import DroneArt from '../components/DroneArt.jsx'
 import Stars from '../components/Stars.jsx'
 import {
   SITE,
+  intros,
   highlights,
   getProduct,
   getLabItem,
@@ -22,14 +23,12 @@ export default function Home() {
   return (
     <div className="home-page">
       <section className="hero">
-        <p className="hero-kicker">低空经济信息与消费级无人机</p>
+        <p className="hero-kicker">{SITE.heroKicker}</p>
         <div className="hero-mark-wrap">
           <Wordmark size="hero" />
         </div>
         <p className="hero-tag">{SITE.tagline}</p>
-        <p className="hero-lead">
-          这里汇集低空行业资讯，以及面向消费级无人机的线上商城与研究室。资讯会自动更新公开报道，站长也可以自己发布。商城商品、价格与研究室评测仍是示例内容。
-        </p>
+        <p className="hero-lead">{SITE.heroLead}</p>
         <div className="hero-actions">
           <Link to="/news" className="btn-primary">
             进入行业资讯
@@ -44,17 +43,13 @@ export default function Home() {
         <Link to="/news" className="module-card tilt-left">
           <span className="module-no">01</span>
           <h2>低空行业资讯</h2>
-          <p>
-            政府政策、科技创新与供应链、比赛信息、无人机新品发布。支持分类浏览与详情阅读。
-          </p>
+          <p>{intros.news}</p>
           <span className="module-go">打开资讯墙 →</span>
         </Link>
         <Link to="/shop" className="module-card tilt-right">
           <span className="module-no">02</span>
           <h2>无人机商城 + 研究室</h2>
-          <p>
-            消费级示例商品可筛选、加购；研究室提供技术文章与带评分、优缺点的示意评测。
-          </p>
+          <p>{intros.shopLab}</p>
           <span className="module-go">进入商城 / 研究室 →</span>
         </Link>
       </section>
@@ -85,7 +80,6 @@ export default function Home() {
       <section className="section-block">
         <div className="section-head">
           <h2 className="graffiti-title sm">商城与研究室</h2>
-          <SampleBadge>示例内容精选</SampleBadge>
         </div>
         <div className="highlight-grid">
           {samples.map((item) => (
@@ -120,7 +114,7 @@ function HighlightCard({ item }) {
     <Link to={`/lab/${review.id}`} className="sticker-card">
       <div className="card-meta">
         <span className="tag-sticker">产品评测</span>
-        <SampleBadge>示例评测</SampleBadge>
+        {review.unverifiedNote ? <span className="pending-badge">待核实</span> : null}
       </div>
       <h3>{review.title}</h3>
       <Stars value={review.rating} />

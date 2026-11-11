@@ -1,6 +1,6 @@
 import { Link, useParams } from 'react-router-dom'
-import SampleBadge from '../components/SampleBadge.jsx'
 import Stars from '../components/Stars.jsx'
+import Sources from '../components/Sources.jsx'
 import { getLabItem, getProduct } from '../data/content.js'
 
 export default function LabDetail() {
@@ -10,7 +10,7 @@ export default function LabDetail() {
   if (!item) {
     return (
       <div className="detail-page">
-        <p>未找到该示例文章。</p>
+        <p>未找到这篇文章。</p>
         <Link to="/lab" className="btn-ghost">
           返回研究室
         </Link>
@@ -28,11 +28,12 @@ export default function LabDetail() {
       </Link>
       <div className="card-meta">
         <span className="tag-sticker">{isReview ? '产品评测' : '技术研究'}</span>
-        <SampleBadge>{isReview ? '示例评测' : '示例文稿'}</SampleBadge>
+        {item.unverifiedNote ? <span className="pending-badge">待核实</span> : null}
         <span className="card-date">{item.date}</span>
       </div>
       <h1 className="detail-title">{item.title}</h1>
       {isReview && <Stars value={item.rating} />}
+      {item.unverifiedNote ? <p className="pending-note">{item.unverifiedNote}</p> : null}
       <p className="detail-summary">{item.summary}</p>
       {isReview && (
         <div className="pros-cons">
@@ -55,10 +56,11 @@ export default function LabDetail() {
         </div>
       )}
       <div className="detail-body">
-        {item.body.map((para) => (
-          <p key={para}>{para}</p>
+        {item.body.map((para, index) => (
+          <p key={`${index}-${para.slice(0, 24)}`}>{para}</p>
         ))}
       </div>
+      <Sources sources={item.sources} />
       {product && (
         <p className="related-inline">
           对照商城示例商品：

@@ -22,6 +22,7 @@ export default function NewsCard({ item, titleAs = 'h2' }) {
         <span className="tag-sticker">{categoryLabel(item.category)}</span>
         {item.official ? <span className="official-badge">官方发布</span> : null}
         {item.sample ? <SampleBadge /> : null}
+        {item.unverifiedNote ? <span className="pending-badge">待核实</span> : null}
         {!item.sample && !item.official && item.source ? (
           <span className="news-source">{item.source}</span>
         ) : null}

@@ -679,7 +679,7 @@ export async function main() {
     previous,
     rssOk: fetched.length > 0,
     officialOk,
-  }).map(({ matched, ...item }) => item)
+  }).map(({ matched: _matched, ...item }) => item)
   const payload = {
     updatedAt: new Date().toISOString(),
     items,
