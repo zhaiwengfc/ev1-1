@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { news as sampleNews, officialNews } from './content.js'
+import { publicAssetUrl } from './publicUrl.js'
 
 export const PUBLISH_URL =
   'https://github.com/zhaiwengfc/ev1-1/issues/new?template=' +
@@ -121,7 +122,7 @@ export function loadNewsFeed() {
 
 async function fetchFeed() {
   try {
-    const response = await fetch(`${import.meta.env.BASE_URL}data/news.json`, { cache: 'no-cache' })
+    const response = await fetch(publicAssetUrl('data/news.json'), { cache: 'no-cache' })
     if (!response.ok) throw new Error(`status ${response.status}`)
     const data = await response.json()
     const remote = Array.isArray(data?.items) ? data.items.filter(usableItem) : []

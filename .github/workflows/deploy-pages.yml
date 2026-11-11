@@ -65,7 +65,7 @@ jobs:
         run: npm ci
 
       - name: Check news and shop scripts
-        run: node --test scripts/fetch-news.test.mjs scripts/fetch-shop.test.mjs scripts/shop-live.test.mjs
+        run: node --test scripts/fetch-news.test.mjs scripts/fetch-shop.test.mjs scripts/shop-live.test.mjs scripts/public-url.test.mjs
 
       - name: Fetch official shop prices
         run: node scripts/fetch-shop.mjs

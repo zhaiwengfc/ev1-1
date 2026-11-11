@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { products as catalogProducts } from './catalog.js'
 import { productIntroById } from './productIntros.js'
+import { publicAssetUrl } from './publicUrl.js'
 
 export const PRICE_STALE_MS = 48 * 60 * 60 * 1000
 
@@ -244,7 +245,7 @@ let pendingLoad = null
 
 export function loadShopLive() {
   if (!pendingLoad) {
-    pendingLoad = fetch(`${import.meta.env.BASE_URL}data/shop-live.json`, { cache: 'no-cache' })
+    pendingLoad = fetch(publicAssetUrl('data/shop-live.json'), { cache: 'no-cache' })
       .then((response) => {
         if (!response.ok) throw new Error(`status ${response.status}`)
         return response.json()
