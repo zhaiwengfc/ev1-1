@@ -2,7 +2,7 @@ import { Link, useParams } from 'react-router-dom'
 import SampleBadge from '../components/SampleBadge.jsx'
 import Sources from '../components/Sources.jsx'
 import { categoryLabel } from '../data/content.js'
-import { formatItemDate, safeHttpUrl, useNewsFeed } from '../data/newsFeed.js'
+import { formatItemDate, officialStatus, safeHttpUrl, useNewsFeed } from '../data/newsFeed.js'
 
 export default function NewsDetail() {
   const { id } = useParams()
@@ -45,11 +45,13 @@ export default function NewsDetail() {
         {item.official ? <span className="official-badge">官方发布</span> : null}
         {item.sample ? <SampleBadge /> : null}
         {item.unverifiedNote ? <span className="pending-badge">待核实</span> : null}
+        {officialStatus(item) ? <span className="status-badge">{officialStatus(item)}</span> : null}
         <span className="card-date">{formatItemDate(item)}</span>
       </div>
       <h1 className="detail-title">{item.title}</h1>
       {item.unverifiedNote ? <p className="pending-note">{item.unverifiedNote}</p> : null}
-      {!item.sample && item.source && !item.sources?.length ? (
+      {officialStatus(item) ? <p className="status-note">{officialStatus(item)}</p> : null}
+      {!item.sample && item.source && item.source !== 'EV1平台' ? (
         <p className="detail-source">来源：{item.source}</p>
       ) : null}
       {image ? (

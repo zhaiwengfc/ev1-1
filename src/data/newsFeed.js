@@ -79,8 +79,16 @@ function pinnedOfficial() {
     ...item,
     official: true,
     sample: false,
-    source: 'EV1平台',
+    source: item.source || 'EV1平台',
   }))
+}
+
+export function officialStatus(item, now = new Date()) {
+  if (!item?.statusAfter || !item?.statusLabel) return ''
+  const year = now.getFullYear()
+  const month = String(now.getMonth() + 1).padStart(2, '0')
+  const day = String(now.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}` > item.statusAfter ? item.statusLabel : ''
 }
 
 function mergeNews(remoteItems) {

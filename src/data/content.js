@@ -1,7 +1,10 @@
-import { intros, officialNews, labArticles, labReviews } from './writtenContent.js'
+import { intros, officialNews as writtenOfficial, labArticles, labReviews } from './writtenContent.js'
+import { officialArticles } from './officialArticles.js'
 import { products, productCategories, priceFilters } from './catalog.js'
 
-export { intros, officialNews, labArticles, labReviews, products, productCategories, priceFilters }
+export const officialNews = [...officialArticles, ...writtenOfficial]
+
+export { intros, labArticles, labReviews, products, productCategories, priceFilters }
 
 export const SITE = {
   name: 'EV1平台',
