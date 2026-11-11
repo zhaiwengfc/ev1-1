@@ -701,12 +701,12 @@ export function makeGovItem({ title, link, summary = '', source, sourceId, when,
   const direct = directLink(link)
   if (!cleanTitle || govLinkRank(direct) < 2 || !when) return null
   if (/首页|网站首页/.test(cleanTitle)) return null
-  const scored = categoryScore(cleanTitle, summary)
+  const summaryText = titleHit ? namedSummary || `${namedSource}公开发布。` : '文件中提及。'
   return {
     id: govId(cleanTitle, direct),
     title: cleanTitle,
-    summary: titleHit ? namedSummary || `${namedSource}公开发布。` : '文件中提及。',
-    category: scored.score > 0 ? scored.category : 'policy',
+    summary: summaryText,
+    category: 'policy',
     date: when.date,
     publishedAt: when.publishedAt,
     link: direct,
@@ -729,10 +729,13 @@ export function selectGovItems(items, limit = MAX_GOV) {
       return keys.some((key) => keptKeys.includes(key))
     })
     if (!existing) {
+      const summary = item.summary ? normalizeGovSource(item.summary) : item.summary
       chosen.push({
         ...item,
         source: normalizeGovSource(item.source),
-        summary: item.summary ? normalizeGovSource(item.summary) : item.summary,
+        summary,
+        category: 'policy',
+        official: true,
       })
       continue
     }

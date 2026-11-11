@@ -10,6 +10,7 @@ import {
   parseRssItems,
   selectAutoItems,
   extractDatedLinks,
+  makeGovItem,
   normalizeGovSource,
   selectGovItems,
   toOfficialItem,
@@ -251,6 +252,20 @@ test('writes 中国民用航空局 for both short source names', () => {
     normalizeGovSource('工业和信息化部 科技部 财政部 中国民航局'),
     '工业和信息化部 科技部 财政部 中国民用航空局',
   )
+})
+
+test('keeps every fetched government item in policy', () => {
+  const when = { date: '2026-02-02', publishedAt: '2026-02-02T00:00:00.000Z' }
+  const item = makeGovItem({
+    title: '关于征求民航行业标准意见的函：无人机供应链与新品发布会',
+    link: 'https://www.caac.gov.cn/HDJL/YJZJ/202602/t20260202_1.html',
+    source: '中国民用航空局',
+    sourceId: 'caac-yjzj',
+    when,
+  })
+  assert.equal(item.category, 'policy')
+  const kept = selectGovItems([{ ...item, category: 'tech' }], 30)
+  assert.equal(kept[0].category, 'policy')
 })
 
 test('keeps the previous official items when that source fails', () => {

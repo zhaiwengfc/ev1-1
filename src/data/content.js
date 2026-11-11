@@ -16,11 +16,10 @@ export const SITE = {
 
 export const newsCategories = [
   { id: 'all', name: '全部' },
-  { id: 'official', name: '官方发布' },
-  { id: 'policy', name: '政府政策' },
-  { id: 'tech', name: '科技创新与供应链' },
-  { id: 'contest', name: '比赛信息' },
-  { id: 'release', name: '无人机新品发布' },
+  { id: 'policy', name: '政策' },
+  { id: 'tech', name: '科创与供应链' },
+  { id: 'contest', name: '比赛' },
+  { id: 'release', name: '新品发布' },
 ]
 
 export const news = [
