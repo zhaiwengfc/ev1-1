@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import NewsCard from '../components/NewsCard.jsx'
-import { intros, newsCategories } from '../data/content.js'
+import { newsCategories } from '../data/content.js'
 import { PUBLISH_URL, formatUpdated, useNewsFeed } from '../data/newsFeed.js'
 import { useSearchParams } from 'react-router-dom'
 
@@ -24,14 +24,6 @@ export default function News() {
   }
 
   const ready = feed.status === 'ready'
-  const leads = {
-    all: intros.news,
-    policy: intros.policy,
-    tech: intros.tech,
-    contest: intros.contest,
-    release: intros.release,
-  }
-  const lead = leads[category] || intros.news
 
   return (
     <div className="news-page">
@@ -44,7 +36,6 @@ export default function News() {
             发布资讯
           </a>
         </div>
-        <p className="page-lead">{lead}</p>
         <p className="news-updated">
           {!ready
             ? '正在读取资讯…'

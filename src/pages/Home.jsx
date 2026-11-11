@@ -3,7 +3,6 @@ import NewsCard from '../components/NewsCard.jsx'
 import Wordmark from '../components/Wordmark.jsx'
 import DroneArt from '../components/DroneArt.jsx'
 import {
-  SITE,
   intros,
   highlights,
   getProduct,
@@ -21,15 +20,6 @@ export default function Home() {
       <section className="hero">
         <div className="hero-mark-wrap">
           <Wordmark size="hero" />
-        </div>
-        <p className="hero-lead">{SITE.heroLead}</p>
-        <div className="hero-actions">
-          <Link to="/news" className="btn-primary">
-            进入行业资讯
-          </Link>
-          <Link to="/shop" className="btn-ghost">
-            逛无人机商城
-          </Link>
         </div>
       </section>
 

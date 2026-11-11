@@ -2,7 +2,6 @@ import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import DroneArt from '../components/DroneArt.jsx'
 import {
-  intros,
   products,
   productCategories,
   priceFilters,
@@ -37,10 +36,6 @@ export default function Shop() {
     <div className="shop-page">
       <header className="page-hero">
         <h1 className="graffiti-title">无人机商城</h1>
-        <p className="page-lead">{intros.shop}</p>
-        <p className="page-lead">
-          目前这四款的标价核对于 2026-11-11 的官方商城。影翎 A1 标的是活动价，活动结束价格会变。这里不能下单。
-        </p>
       </header>
 
       <div className="filter-board">
@@ -106,7 +101,6 @@ export default function Shop() {
         <div className="section-head">
           <h2 className="graffiti-title sm">科普阅读</h2>
         </div>
-        <p className="section-intro">{intros.research}</p>
         <div className="news-grid">
           {labArticles.map((item) => (
             <Link key={item.id} to={`/shop/read/${item.id}`} className="sticker-card">
