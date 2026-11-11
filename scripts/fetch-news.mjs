@@ -283,6 +283,43 @@ export function classify(title, summary, defaultCategory = 'tech') {
   return category || defaultCategory || 'tech'
 }
 
+const GOV_CATEGORY_WORDS = [
+  ['contest', ['比赛', '大赛', '竞赛', '赛事', '锦标赛', '竞速', '挑战赛', '邀请赛', '联赛', '技能大赛']],
+  ['release', ['新品发布', '新品上市', '新品', '首发', '开售', '发布会']],
+  [
+    'tech',
+    [
+      '供应链',
+      '产业链',
+      '制造业',
+      '智能制造',
+      '装备制造',
+      '装备创新',
+      '技术标准',
+      '行业标准',
+      '国家标准',
+      '标准体系',
+      '标准建设',
+      '技术要求',
+      '关键技术',
+      '科技创新',
+      '电动垂直起降',
+      'evtol',
+      '飞行汽车',
+      '芯片',
+      '飞控',
+    ],
+  ],
+]
+
+export function govCategory(title, summary = '') {
+  const text = `${title || ''} ${summary || ''}`.toLowerCase()
+  for (const [category, words] of GOV_CATEGORY_WORDS) {
+    if (words.some((word) => text.includes(word.toLowerCase()))) return category
+  }
+  return 'policy'
+}
+
 function clip(text, max) {
   const clean = String(text || '').replace(/\s+/g, ' ').trim()
   if (clean.length <= max) return clean
@@ -701,12 +738,12 @@ export function makeGovItem({ title, link, summary = '', source, sourceId, when,
   const direct = directLink(link)
   if (!cleanTitle || govLinkRank(direct) < 2 || !when) return null
   if (/首页|网站首页/.test(cleanTitle)) return null
-  const scored = categoryScore(cleanTitle, summary)
+  const summaryText = titleHit ? namedSummary || `${namedSource}公开发布。` : '文件中提及。'
   return {
     id: govId(cleanTitle, direct),
     title: cleanTitle,
-    summary: titleHit ? namedSummary || `${namedSource}公开发布。` : '文件中提及。',
-    category: scored.score > 0 ? scored.category : 'policy',
+    summary: summaryText,
+    category: govCategory(cleanTitle, summaryText),
     date: when.date,
     publishedAt: when.publishedAt,
     link: direct,
@@ -729,10 +766,13 @@ export function selectGovItems(items, limit = MAX_GOV) {
       return keys.some((key) => keptKeys.includes(key))
     })
     if (!existing) {
+      const summary = item.summary ? normalizeGovSource(item.summary) : item.summary
       chosen.push({
         ...item,
         source: normalizeGovSource(item.source),
-        summary: item.summary ? normalizeGovSource(item.summary) : item.summary,
+        summary,
+        category: govCategory(item.title, summary),
+        official: true,
       })
       continue
     }

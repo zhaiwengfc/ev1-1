@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import SampleBadge from './SampleBadge.jsx'
 import { categoryLabel } from '../data/content.js'
-import { formatItemDate, officialStatus, safeHttpUrl } from '../data/newsFeed.js'
+import { formatItemDate, officialStatus, safeHttpUrl, showOfficialBadge } from '../data/newsFeed.js'
 
 export default function NewsCard({ item, titleAs = 'h2' }) {
   const Title = titleAs
@@ -20,7 +20,7 @@ export default function NewsCard({ item, titleAs = 'h2' }) {
       ) : null}
       <div className="card-meta">
         <span className="tag-sticker">{categoryLabel(item.category)}</span>
-        {item.official ? <span className="official-badge">官方发布</span> : null}
+        {showOfficialBadge(item) ? <span className="official-badge">官方发布</span> : null}
         {item.sample ? <SampleBadge /> : null}
         {item.unverifiedNote ? <span className="pending-badge">待核实</span> : null}
         {officialStatus(item) ? <span className="status-badge">{officialStatus(item)}</span> : null}

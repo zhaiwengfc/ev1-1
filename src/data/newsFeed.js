@@ -26,9 +26,19 @@ function timeValue(item) {
   return 0
 }
 
+export function isFetchedGov(item) {
+  return Boolean(item?.govSource) || String(item?.id || '').startsWith('gov-')
+}
+
+export function showOfficialBadge(item) {
+  return Boolean(item?.official) && !isFetchedGov(item)
+}
+
 export function sortNews(items) {
   return [...items].sort((a, b) => {
-    if (Boolean(a.official) !== Boolean(b.official)) return a.official ? -1 : 1
+    const pinA = showOfficialBadge(a)
+    const pinB = showOfficialBadge(b)
+    if (pinA !== pinB) return pinA ? -1 : 1
     return timeValue(b) - timeValue(a)
   })
 }
