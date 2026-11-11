@@ -260,9 +260,9 @@
         {
           "id": "dji-mavic-4-pro-capture-combo",
           "name": "DJI Mavic 4 Pro 畅拍套装（DJI RC 2）",
-          "price": 14327,
+          "price": null,
           "listPrice": null,
-          "status": ""
+          "status": "out_of_stock"
         },
         {
           "id": "dji-mavic-4-pro",
@@ -274,9 +274,9 @@
         {
           "id": "dji-mavic-4-pro-fly-more-combo-dji-rc-2",
           "name": "DJI Mavic 4 Pro 畅飞套装（DJI RC 2）",
-          "price": 99999,
+          "price": null,
           "listPrice": null,
-          "status": ""
+          "status": "out_of_stock"
         },
         {
           "id": "dji-mavic-4-pro-fly-more-combo-dji-rc-2-enhanced-transmission",
@@ -288,9 +288,9 @@
         {
           "id": "dji-mavic-4-pro-512gb-creator-combo-dji-rc-pro-2",
           "name": "DJI Mavic 4 Pro 512GB 创作者套装（DJI RC Pro 2）",
-          "price": 99999,
+          "price": null,
           "listPrice": null,
-          "status": ""
+          "status": "out_of_stock"
         },
         {
           "id": "dji-mavic-4-pro-512gb-creator-combo-dji-rc-pro-2-enhanced-transmission",
@@ -407,27 +407,27 @@
     },
     {
       "id": "dji-mavic-3-pro",
-      "name": "DJI Mavic 3 Pro（带屏遥控器）",
+      "name": "DJI Mavic 3 Pro 畅飞套装（DJI RC Pro 遥控器）",
       "brand": "DJI",
-      "officialPrice": 12499,
+      "officialPrice": 19789,
       "listPrice": null,
       "currency": "CNY",
-      "priceLabel": "DJI Mavic 3 Pro（带屏遥控器）",
-      "availability": "out_of_stock",
+      "priceLabel": "DJI Mavic 3 Pro 畅飞套装（DJI RC Pro 遥控器）",
+      "availability": "in_stock",
       "bundles": [
         {
           "id": "dji-mavic-3-pro",
           "name": "DJI Mavic 3 Pro（带屏遥控器）",
-          "price": 12499,
+          "price": null,
           "listPrice": null,
-          "status": ""
+          "status": "out_of_stock"
         },
         {
           "id": "dji-mavic-3-pro-combo",
           "name": "DJI Mavic 3 Pro 畅飞套装（带屏遥控器）",
-          "price": 15919,
+          "price": null,
           "listPrice": null,
-          "status": ""
+          "status": "out_of_stock"
         },
         {
           "id": "dji-mavic-3-pro-combo-rc-pro",
@@ -466,9 +466,9 @@
         {
           "id": "dji-neo-motion-fly-more-combo",
           "name": "DJI Neo 体感畅飞套装",
-          "price": 3499,
+          "price": null,
           "listPrice": null,
-          "status": ""
+          "status": "out_of_stock"
         },
         {
           "id": "dji-neo",
@@ -546,32 +546,32 @@
       "id": "dji-mini-4-pro",
       "name": "DJI Mini 4 Pro（普通遥控器）",
       "brand": "DJI",
-      "officialPrice": 4070,
+      "officialPrice": null,
       "listPrice": null,
       "currency": "CNY",
       "priceLabel": "DJI Mini 4 Pro（普通遥控器）",
-      "availability": "",
+      "availability": "out_of_stock",
       "bundles": [
         {
           "id": "dji-mini-4-pro-combo-rc-2-sb",
           "name": "DJI Mini 4 Pro 畅飞套装（带屏遥控器）",
-          "price": 5940,
+          "price": null,
           "listPrice": null,
-          "status": ""
+          "status": "out_of_stock"
         },
         {
           "id": "dji-mini-4-pro-combo-plus-rc-2-sb",
           "name": "DJI Mini 4 Pro 长续航畅飞套装（带屏遥控器）",
-          "price": 6280,
+          "price": null,
           "listPrice": null,
-          "status": ""
+          "status": "out_of_stock"
         },
         {
           "id": "dji-mini-4-pro",
           "name": "DJI Mini 4 Pro（普通遥控器）",
-          "price": 4070,
+          "price": null,
           "listPrice": null,
-          "status": ""
+          "status": "out_of_stock"
         }
       ],
       "officialBlurb": "",
@@ -596,9 +596,9 @@
         {
           "id": "dji-avata-2-explorer-combo",
           "name": "DJI Avata 2 探索套装",
-          "price": 5288,
-          "listPrice": 6088,
-          "status": ""
+          "price": null,
+          "listPrice": null,
+          "status": "out_of_stock"
         },
         {
           "id": "dji-avata-2",

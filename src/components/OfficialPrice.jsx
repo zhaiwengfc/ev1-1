@@ -34,6 +34,19 @@ export default function OfficialPrice({ product, size = '' }) {
     )
   }
 
+  if (product.priceUnavailable || product.availability === 'out_of_stock') {
+    return (
+      <div className="official-price">
+        <p className="price-check">缺货/暂无报价</p>
+        {product.storeUrl ? (
+          <a className="btn-primary store-cta" href={product.storeUrl} target="_blank" rel="noreferrer">
+            以官网为准，去官网查看 →
+          </a>
+        ) : null}
+      </div>
+    )
+  }
+
   if (product.priceUncertain) {
     return (
       <div className="official-price">
@@ -78,8 +91,14 @@ export function BundlePrices({ product }) {
         <li key={bundle.id || bundle.name}>
           <span>{bundle.name}</span>
           <span>
-            {formatSamplePrice(bundle.price)}
-            {bundle.listPrice ? <s className="list-price">{formatSamplePrice(bundle.listPrice)}</s> : null}
+            {bundle.price == null || bundle.status === 'out_of_stock' || bundle.price >= 99999 ? (
+              '缺货/暂无报价'
+            ) : (
+              <>
+                {formatSamplePrice(bundle.price)}
+                {bundle.listPrice ? <s className="list-price">{formatSamplePrice(bundle.listPrice)}</s> : null}
+              </>
+            )}
           </span>
         </li>
       ))}

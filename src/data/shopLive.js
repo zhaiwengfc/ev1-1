@@ -39,6 +39,37 @@ function localProductImage(value) {
   return text.replace(/^\//, '')
 }
 
+export function offerUnavailable(price, status) {
+  const number = Number(price)
+  if (Number.isFinite(number) && number >= 99999) return true
+  if (status == null) return false
+  const text = String(status).trim()
+  if (!text || text === 'out_of_stock') return true
+  return /not_sale|unavailable|sold_out|out_of_stock|缺货|不支持销往/i.test(text)
+}
+
+export function sanitizeBundles(bundles) {
+  return (bundles || []).map((bundle) => {
+    if (offerUnavailable(bundle?.price, bundle?.status)) {
+      return { ...bundle, price: null, listPrice: null, status: 'out_of_stock' }
+    }
+    return bundle
+  })
+}
+
+export function chooseMainBundle(bundles, slug) {
+  const available = sanitizeBundles(bundles).filter((bundle) => bundle.price != null && bundle.status === 'in_stock')
+  return available.find((bundle) => bundle.id === slug) || available.slice().sort((a, b) => a.price - b.price)[0] || null
+}
+
+export function hasFilterPrice(product) {
+  return (
+    product?.price != null &&
+    product.price < 99999 &&
+    product.availability !== 'out_of_stock' &&
+    !product.priceUnavailable
+  )
+}
 export function isPriceUncertain(product) {
   if (product.pricePending) return false
   if (product.pendingCopy || product.sample || product.unverifiedNote) return true
@@ -71,20 +102,35 @@ export function applyLiveProduct(product, live, now = Date.now(), { pending = fa
     }
   }
   const image = localProductImage(live?.image)
-  if (!live || live.officialPrice == null) {
-    const checkedAt = catalogCheckedAt(product)
+  const bundles = sanitizeBundles(live?.bundles)
+  let main = chooseMainBundle(bundles, product.id)
+  if (!main && live && !offerUnavailable(live.officialPrice, live.availability == null ? 'in_stock' : live.availability)) {
+    main = {
+      id: product.id,
+      name: live.priceLabel || product.priceLabel,
+      price: Number(live.officialPrice),
+      listPrice: live.listPrice,
+      status: 'in_stock',
+    }
+  }
+  if (!live || !main) {
+    const checkedAt = live?.checkedAt || catalogCheckedAt(product)
     const next = {
       ...product,
       image,
       imageCredit: image ? '品牌官网' : '',
       storeUrl,
       checkedAt,
-      priceStale: true,
-      officialFetched: false,
+      price: null,
+      priceLabel: product.priceLabel,
+      availability: 'out_of_stock',
+      priceUnavailable: true,
+      priceStale: !live || isPriceStale(checkedAt, now),
+      officialFetched: Boolean(live),
       pricePending: false,
       listPrice: null,
-      bundles: [],
-      stockLabel: '',
+      bundles,
+      stockLabel: '缺货/暂无报价',
     }
     return { ...next, priceUncertain: isPriceUncertain(next) }
   }
@@ -92,11 +138,13 @@ export function applyLiveProduct(product, live, now = Date.now(), { pending = fa
   const specs = Array.isArray(live.specs) && live.specs.length >= 3 ? live.specs : product.specs
   const next = {
     ...product,
-    price: live.officialPrice,
-    listPrice: live.listPrice > live.officialPrice ? live.listPrice : null,
-    priceLabel: live.priceLabel || product.priceLabel,
-    bundles: Array.isArray(live.bundles) ? live.bundles : [],
-    stockLabel: stockLabel(live.availability),
+    price: main.price,
+    listPrice: main.listPrice > main.price ? main.listPrice : null,
+    priceLabel: main.name || live.priceLabel || product.priceLabel,
+    bundles,
+    stockLabel: stockLabel('in_stock'),
+    availability: 'in_stock',
+    priceUnavailable: false,
     storeUrl,
     checkedAt,
     currency: live.currency || product.currency || 'CNY',
@@ -113,7 +161,9 @@ export function applyLiveProduct(product, live, now = Date.now(), { pending = fa
 
 export function launchProduct(item, now = Date.now()) {
   const checkedAt = item.checkedAt || item.firstSeenAt || ''
-  const price = item.officialPrice ?? null
+  const bundles = sanitizeBundles(item.bundles)
+  const main = chooseMainBundle(bundles, item.id)
+  const price = main?.price ?? null
   const image = localProductImage(item.image)
   const next = {
     id: item.id,
@@ -125,15 +175,17 @@ export function launchProduct(item, now = Date.now()) {
     tag: '新品',
     pendingCopy: true,
     price,
-    listPrice: item.listPrice > price ? item.listPrice : null,
-    priceLabel: item.priceLabel || '',
+    listPrice: main?.listPrice > price ? main.listPrice : null,
+    priceLabel: main?.name || item.priceLabel || '',
     currency: item.currency || 'CNY',
-    bundles: Array.isArray(item.bundles) ? item.bundles : [],
-    stockLabel: stockLabel(item.availability),
+    bundles,
+    availability: price == null ? 'out_of_stock' : 'in_stock',
+    priceUnavailable: price == null,
+    stockLabel: price == null ? '缺货/暂无报价' : stockLabel('in_stock'),
     storeUrl: item.sourceUrl || '',
     checkedAt,
-    officialFetched: price != null,
-    priceStale: price == null || isPriceStale(checkedAt, now),
+    officialFetched: Boolean(item.ok !== false && (item.officialPrice != null || bundles.length)),
+    priceStale: isPriceStale(checkedAt, now),
     pricePending: false,
     image,
     imageCredit: image ? '品牌官网' : '',

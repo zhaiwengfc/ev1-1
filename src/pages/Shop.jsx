@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import OfficialPrice, { ProductVisual } from '../components/OfficialPrice.jsx'
 import { productCategories, priceFilters, labArticles } from '../data/content.js'
-import { useShopCatalog } from '../data/shopLive.js'
+import { useShopCatalog, hasFilterPrice } from '../data/shopLive.js'
 
 function ProductTags({ product }) {
   const tags = [product.brandTag || product.brand, product.formTag, product.useTag].filter(Boolean)
@@ -25,7 +25,7 @@ export default function Shop() {
       const okPrice =
         !range ||
         range.id === 'all' ||
-        (item.price != null && item.price >= range.min && item.price < range.max)
+        (item.price != null && hasFilterPrice(item) && item.price >= range.min && item.price < range.max)
       return okCat && okPrice
     })
   }, [cat, price, shop.products])

@@ -108,8 +108,17 @@ export function shanghaiNow(date = new Date()) {
 
 function money(value) {
   const number = Number(String(value ?? '').replace(/,/g, ''))
-  if (!Number.isFinite(number) || number < 100 || number > 200000) return null
+  if (!Number.isFinite(number) || number < 100 || number >= 99999) return null
   return Math.round(number)
+}
+
+export function offerUnavailable(price, status) {
+  const number = Number(price)
+  if (Number.isFinite(number) && number >= 99999) return true
+  if (status == null) return false
+  const text = String(status).trim()
+  if (!text || text === 'out_of_stock') return true
+  return /not_sale|unavailable|sold_out|out_of_stock|缺货|不支持销往/i.test(text)
 }
 
 function currencyOk(value) {
@@ -165,7 +174,7 @@ function nameMatches(html, name, expect) {
 
 function availabilityOf(value) {
   const text = String(value || '')
-  if (/OutOfStock|SoldOut|缺货/i.test(text)) return 'out_of_stock'
+  if (/OutOfStock|SoldOut|not_sale|unavailable|缺货|不支持销往/i.test(text)) return 'out_of_stock'
   if (/PreOrder|预售/i.test(text)) return 'preorder'
   if (/InStock|on_sale|有货|立即购买|normal/i.test(text)) return 'in_stock'
   return ''
@@ -209,15 +218,19 @@ function extractJsonAssignment(html, marker) {
 }
 
 function bundleFromVariant(variant) {
-  const price = money(variant?.price)
-  if (!price || !currencyOk(variant?.currencyName || variant?.currencySymbol || 'CNY')) return null
-  const original = money(variant?.originalPrice)
+  const status = availabilityOf(variant?.status?.code || variant?.status?.text || '')
+  const raw = Number(String(variant?.price ?? '').replace(/,/g, ''))
+  const unavailable = offerUnavailable(raw, status)
+  if (!unavailable && !currencyOk(variant?.currencyName || variant?.currencySymbol || 'CNY')) return null
+  const price = unavailable ? null : money(raw)
+  if (!unavailable && !price) return null
+  const original = unavailable ? null : money(variant?.originalPrice)
   return {
     id: String(variant.slug || variant.id || ''),
     name: String(variant.title || variant.variantTitle || variant.slug || '').trim(),
     price,
-    listPrice: original && original > price ? original : null,
-    status: availabilityOf(variant?.status?.code || variant?.status?.text || ''),
+    listPrice: original && price && original > price ? original : null,
+    status: unavailable ? 'out_of_stock' : status,
   }
 }
 
@@ -250,15 +263,17 @@ export function parseDjiProduct(html, { slug, expect }) {
   const state = extractJsonAssignment(html, 'window.__PRELOADED_STATE__ =')
   const variants = state?.products?.variants || []
   const bundles = djiBundles(variants, slug)
-  const base = bundles.find((item) => item.id === slug) || null
+  const available = bundles.filter((item) => item.price != null && item.status === 'in_stock')
+  const base = available.find((item) => item.id === slug) || available.slice().sort((a, b) => a.price - b.price)[0] || null
   const offer = offerOf(ld)
-  const ldPrice = money(offer?.price)
+  const ldStatus = availabilityOf(offer?.availability)
+  const ldPrice = offerUnavailable(offer?.price, ldStatus) ? null : money(offer?.price)
   const ldCurrency = offer?.priceCurrency
   if (ld && ldCurrency && !currencyOk(ldCurrency)) {
     throw new Error(`currency ${ldCurrency}`)
   }
-  const officialPrice = base?.price || ldPrice
-  if (!officialPrice) throw new Error('no CNY price')
+  const officialPrice = base?.price ?? (bundles.length ? null : ldPrice)
+  if (officialPrice == null && bundles.length === 0) throw new Error('no CNY price')
   if (!nameMatches(html, ld?.name || base?.name, expect)) throw new Error('product name did not match')
   const rawImage = typeof ld?.image === 'string' ? ld.image : Array.isArray(ld?.image) ? ld.image[0] : ''
   return {
@@ -267,7 +282,7 @@ export function parseDjiProduct(html, { slug, expect }) {
     listPrice: base?.listPrice || null,
     currency: 'CNY',
     priceLabel: base?.name || String(ld?.name || '').trim(),
-    availability: base?.status || availabilityOf(offer?.availability),
+    availability: base ? 'in_stock' : 'out_of_stock',
     bundles,
     officialBlurb: String(ld?.description || '').trim(),
     image: officialImageUrl(html, rawImage),
@@ -291,22 +306,26 @@ export function parseAntigravityBuy(html, { primaryName = '标准套装', expect
   for (const item of commodities || []) {
     const currency = item?.price?.currency || item?.price?.signal
     if (currency && !currencyOk(currency)) continue
-    const price = money(item?.price?.amount ?? item?.price)
-    if (!price) continue
+    const raw = Number(item?.price?.amount ?? item?.price)
+    const status = availabilityOf(item.saleState || item.availability || '')
+    const unavailable = offerUnavailable(raw, status || (item.saleState ? '' : 'in_stock'))
+    const price = unavailable ? null : money(raw)
+    if (!unavailable && !price) continue
     const name = String(item.name || '').trim()
     if (!name || !/套装/.test(name)) continue
-    const list = money(item?.originPrice?.amount ?? item?.originPrice)
+    const list = unavailable ? null : money(item?.originPrice?.amount ?? item?.originPrice)
     bundles.push({
       id: String(item.id || name),
       name,
       price,
-      listPrice: list && list > price ? list : null,
-      status: availabilityOf(item.saleState || item.availability || 'normal'),
+      listPrice: list && price && list > price ? list : null,
+      status: unavailable ? 'out_of_stock' : status || 'in_stock',
     })
   }
+  const available = bundles.filter((item) => item.price != null && item.status === 'in_stock')
   if (!bundles.length) throw new Error('no CNY bundles')
-  const primary = bundles.find((item) => item.name.includes(primaryName)) || bundles[0]
-  if (!nameMatches(html, `${primary.name} ${bundles.map((item) => item.name).join(' ')}`, expect)) {
+  const primary = available.find((item) => item.name.includes(primaryName)) || available[0] || null
+  if (!nameMatches(html, `${primary?.name || ''} ${bundles.map((item) => item.name).join(' ')}`, expect)) {
     throw new Error('product name did not match')
   }
   const image = String(
@@ -315,12 +334,12 @@ export function parseAntigravityBuy(html, { primaryName = '标准套装', expect
       || '',
   )
   return {
-    name: primary.name,
-    officialPrice: primary.price,
-    listPrice: primary.listPrice,
+    name: primary?.name || bundles[0]?.name || '',
+    officialPrice: primary?.price ?? null,
+    listPrice: primary?.listPrice || null,
     currency: 'CNY',
-    priceLabel: primary.name,
-    availability: primary.status || 'in_stock',
+    priceLabel: primary?.name || '',
+    availability: primary ? 'in_stock' : 'out_of_stock',
     bundles,
     officialBlurb: '',
     image: officialImageUrl(html, image),

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { applyLiveProduct, isPriceStale, isPriceUncertain, mergeShop } from '../src/data/shopLive.js'
+import { applyLiveProduct, chooseMainBundle, hasFilterPrice, isPriceStale, isPriceUncertain, mergeShop } from '../src/data/shopLive.js'
 
 const catalog = [
   {
@@ -100,4 +100,23 @@ test('marks a kept price 价格待更新 after 48 hours', () => {
   const missing = applyLiveProduct(catalog[0], null, now)
   assert.equal(missing.officialFetched, false)
   assert.equal(isPriceUncertain(missing), true)
+  const placeholder = chooseMainBundle(
+    [
+      { id: 'dji-mavic-4-pro', name: 'DJI Mavic 4 Pro（DJI RC 2）', price: 13888, status: 'in_stock' },
+      { id: 'dji-mavic-4-pro-fly-more-combo-dji-rc-2', name: '畅飞套装', price: 99999, status: '' },
+      { id: 'dji-mavic-4-pro-512gb-creator-combo-dji-rc-pro-2', name: '创作者套装', price: 99999, status: '' },
+    ],
+    'dji-mavic-4-pro',
+  )
+  assert.equal(placeholder.price, 13888)
+  const unsold = applyLiveProduct(catalog[0], {
+    officialPrice: 4070,
+    availability: '',
+    priceLabel: 'DJI Mini 4 Pro',
+    bundles: [{ id: 'dji-mini-5-pro', name: 'DJI Mini 4 Pro', price: 4070, status: '' }],
+    checkedAt: '2026-11-11T18:00:00+08:00',
+  }, now)
+  assert.equal(unsold.price, null)
+  assert.equal(unsold.priceUnavailable, true)
+  assert.equal(hasFilterPrice(unsold), false)
 })

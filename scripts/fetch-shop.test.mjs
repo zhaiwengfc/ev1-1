@@ -30,6 +30,22 @@ test('rejects a store URL that leaves the China site and any /api/ path', () => 
   assert.throws(() => assertPublicPage('https://store.dji.com/api/product'), /robots/)
 })
 
+test('drops DJI placeholder prices and unsold bundles from the main price', () => {
+  const html = `<!DOCTYPE html><html><head><title>DJI Mavic 4 Pro</title>
+<script type="application/ld+json">{"@type":"Product","name":"DJI Mavic 4 Pro","offers":{"price":"13888","priceCurrency":"CNY","availability":"https://schema.org/InStock"}}</script>
+</head><body><script>window.__PRELOADED_STATE__ = {"products":{"variants":[
+  {"slug":"dji-mavic-4-pro","title":"DJI Mavic 4 Pro（DJI RC 2）","price":13888,"originalPrice":13888,"currencyName":"RMB","status":{"code":"on_sale","text":"立即购买"}},
+  {"slug":"dji-mavic-4-pro-fly-more-combo-dji-rc-2","title":"DJI Mavic 4 Pro 畅飞套装（DJI RC 2）","price":99999,"originalPrice":99999,"currencyName":"RMB","status":{"code":"not_sale","text":"此商品暂时缺货或不支持销往中国大陆"}},
+  {"slug":"dji-mavic-4-pro-512gb-creator-combo-dji-rc-pro-2","title":"DJI Mavic 4 Pro 512GB 创作者套装（DJI RC Pro 2）","price":99999,"originalPrice":99999,"currencyName":"RMB","status":{"code":"","text":""}}
+]}};</script></body></html>`
+  const parsed = parseDjiProduct(html, { slug: 'dji-mavic-4-pro', expect: 'Mavic 4 Pro' })
+  assert.equal(parsed.officialPrice, 13888)
+  assert.equal(parsed.availability, 'in_stock')
+  const hidden = parsed.bundles.filter((item) => item.price == null)
+  assert.equal(hidden.length, 2)
+  assert.ok(hidden.every((item) => item.status === 'out_of_stock'))
+})
+
 test('reads the DJI China price, stock, and aircraft bundles', () => {
   const parsed = parseDjiProduct(djiHtml, { slug: 'dji-mini-5-pro', expect: 'Mini 5 Pro' })
   assert.equal(parsed.officialPrice, 4788)
