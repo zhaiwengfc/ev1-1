@@ -6,6 +6,12 @@ import OfficialPrice, { BundlePrices, ProductVisual } from '../components/Offici
 import { getLabItem, labArticles } from '../data/content.js'
 import { useShopCatalog } from '../data/shopLive.js'
 
+function specPairs(specs) {
+  return (specs || [])
+    .map((row) => (Array.isArray(row) ? row : [row?.label, row?.value]))
+    .filter((row) => row[0] && row[1])
+}
+
 function Fold({ title, tease, children }) {
   const [open, setOpen] = useState(false)
   return (
@@ -63,18 +69,49 @@ export default function ProductDetail() {
               </span>
             ))}
             {product.pendingCopy ? <span className="copy-badge">待补充介绍</span> : null}
-            {product.tag === '新品' ? <span className="tag-sticker">新品</span> : null}
+            {product.recentLaunch ? <span className="tag-sticker">新品</span> : null}
           </div>
           <h1 className="detail-title">{product.name}</h1>
+          {product.tagline ? <p className="product-tagline">{product.tagline}</p> : null}
           <OfficialPrice product={product} size="xl" />
           <BundlePrices product={product} />
           {!product.priceUncertain && product.priceNote ? <p className="detail-summary">{product.priceNote}</p> : null}
           <p className="tiny-note">本站只做资料整理，没有购买或比价下单。下单请以官方商城结算页为准。</p>
           <Sources sources={product.sources} />
+          {product.checkedDate ? <p className="price-check">查阅日期：{product.checkedDate}</p> : null}
+          {product.writtenIntro ? (
+            <p className="price-check">介绍依据大疆官网整理，引号内为官网原文</p>
+          ) : null}
         </div>
       </div>
 
-      {intro.length > 0 ? (
+      {product.writtenIntro ? (
+        <section className="fold-card">
+          <h2>技术亮点</h2>
+          <ul className="highlight-list">
+            {highlights.map((line) => (
+              <li key={line}>{line}</li>
+            ))}
+          </ul>
+          <h2>规格</h2>
+          <dl>
+            {specPairs(product.specs).map(([label, value]) => (
+              <div key={label} className="spec-row">
+                <dt>{label}</dt>
+                <dd>{value}</dd>
+              </div>
+            ))}
+          </dl>
+          {product.suitableFor ? (
+            <>
+              <h2>适合谁</h2>
+              <p>{product.suitableFor}</p>
+            </>
+          ) : null}
+        </section>
+      ) : null}
+
+      {!product.writtenIntro && intro.length > 0 ? (
         <Fold title="产品介绍" tease={intro[0] || ''}>
           {intro.map((para, index) => (
             <p key={`${index}-${para.slice(0, 16)}`}>{para}</p>
@@ -90,7 +127,7 @@ export default function ProductDetail() {
         </section>
       ) : null}
 
-      {highlights.length > 0 || (product.specs || []).length > 0 ? (
+      {!product.writtenIntro && (highlights.length > 0 || (product.specs || []).length > 0) ? (
         <Fold title="技术亮点与解读" tease={highlights.slice(0, 2).join('；') || '官方规格'}>
           {highlights.length > 0 ? (
             <ul className="highlight-list">

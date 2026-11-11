@@ -75,8 +75,8 @@ export default function OfficialPrice({ product, size = '' }) {
       <p className="price-check">{`官方价格${checked ? ` · 最后核对 ${checked}` : ''}`}</p>
       {product.stockLabel ? <p className="price-check">{product.stockLabel}</p> : null}
       {product.storeUrl ? (
-        <a className="store-link" href={product.storeUrl} target="_blank" rel="noreferrer">
-          官方商城
+        <a className="btn-primary store-cta" href={product.storeUrl} target="_blank" rel="noreferrer">
+          以官网为准，去官网查看 →
         </a>
       ) : null}
     </div>
@@ -84,7 +84,7 @@ export default function OfficialPrice({ product, size = '' }) {
 }
 
 export function BundlePrices({ product }) {
-  if (!product || product.priceUncertain || !product.bundles || product.bundles.length < 2) return null
+  if (!product?.bundles?.length || product.pendingCopy) return null
   return (
     <ul className="bundle-list">
       {product.bundles.map((bundle) => (

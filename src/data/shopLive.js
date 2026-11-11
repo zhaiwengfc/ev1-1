@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { products as catalogProducts } from './catalog.js'
+import { productIntroById } from './productIntros.js'
 
 export const PRICE_STALE_MS = 48 * 60 * 60 * 1000
 
@@ -62,6 +63,13 @@ export function chooseMainBundle(bundles, slug) {
   return available.find((bundle) => bundle.id === slug) || available.slice().sort((a, b) => a.price - b.price)[0] || null
 }
 
+const NEW_LAUNCH_MS = 30 * 24 * 60 * 60 * 1000
+
+export function isRecentLaunch(firstSeenAt, now = Date.now()) {
+  const time = Date.parse(firstSeenAt || '')
+  if (!Number.isFinite(time)) return false
+  return now - time <= NEW_LAUNCH_MS
+}
 export function hasFilterPrice(product) {
   return (
     product?.price != null &&
@@ -162,18 +170,30 @@ export function applyLiveProduct(product, live, now = Date.now(), { pending = fa
 export function launchProduct(item, now = Date.now()) {
   const checkedAt = item.checkedAt || item.firstSeenAt || ''
   const bundles = sanitizeBundles(item.bundles)
-  const main = chooseMainBundle(bundles, item.id)
+  let main = chooseMainBundle(bundles, item.id)
+  if (!main && !offerUnavailable(item.officialPrice, item.availability == null ? 'in_stock' : item.availability)) {
+    main = {
+      name: item.priceLabel || '',
+      price: Number(item.officialPrice),
+      listPrice: item.listPrice,
+      status: 'in_stock',
+    }
+  }
   const price = main?.price ?? null
   const image = localProductImage(item.image)
+  const intro = productIntroById[item.id]
+  const written = Boolean(intro)
   const next = {
     id: item.id,
-    name: item.name,
-    brand: item.brand || '',
-    brandTag: item.brand || '',
+    name: intro?.name || item.name,
+    brand: item.brand || 'DJI',
+    brandTag: item.brand || 'DJI',
     category: 'aerial',
     categoryLabel: '航拍',
-    tag: '新品',
-    pendingCopy: true,
+    tag: '航拍',
+    pendingCopy: !written,
+    recentLaunch: isRecentLaunch(item.firstSeenAt, now),
+    firstSeenAt: item.firstSeenAt || '',
     price,
     listPrice: main?.listPrice > price ? main.listPrice : null,
     priceLabel: main?.name || item.priceLabel || '',
@@ -182,20 +202,24 @@ export function launchProduct(item, now = Date.now()) {
     availability: price == null ? 'out_of_stock' : 'in_stock',
     priceUnavailable: price == null,
     stockLabel: price == null ? '缺货/暂无报价' : stockLabel('in_stock'),
-    storeUrl: item.sourceUrl || '',
+    storeUrl: intro?.sources?.find((source) => source.url?.includes('store.dji.com'))?.url || item.sourceUrl || '',
     checkedAt,
     officialFetched: Boolean(item.ok !== false && (item.officialPrice != null || bundles.length)),
     priceStale: isPriceStale(checkedAt, now),
     pricePending: false,
     image,
     imageCredit: image ? '品牌官网' : '',
-    officialBlurb: item.officialBlurb || '',
-    specs: Array.isArray(item.specs) ? item.specs : [],
-    specSource: item.specSource || '',
+    officialBlurb: written ? '' : item.officialBlurb || '',
+    tagline: intro?.tagline || '',
+    highlights: intro?.highlights || [],
+    suitableFor: intro?.suitableFor || '',
+    checkedDate: intro?.checkedDate || '',
+    writtenIntro: written,
+    specs: intro?.specs || [],
+    specSource: '',
     intro: [],
-    highlights: [],
     techBody: [],
-    sources: item.sourceUrl ? [{ label: '官方商城', url: item.sourceUrl }] : [],
+    sources: intro?.sources || (item.sourceUrl ? [{ label: '官方商城', url: item.sourceUrl }] : []),
     accent: '#FFE500',
     variant: 'quad',
   }

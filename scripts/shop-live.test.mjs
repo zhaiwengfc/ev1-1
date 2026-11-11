@@ -79,8 +79,25 @@ test('overlays the official price and leaves the hand-written copy alone', () =>
       },
     ],
   }, now).find((item) => item.id === 'dji-avata-360')
-  assert.equal(launch.pendingCopy, true)
-  assert.equal(isPriceUncertain(launch), true)
+  assert.equal(launch.pendingCopy, false)
+  assert.equal(launch.name, 'DJI Avata 360')
+  assert.equal(launch.tagline.startsWith('“8K 全景旗舰无人机”'), true)
+  assert.equal(launch.price, 2788)
+  assert.equal(isPriceUncertain(launch), false)
+  const future = mergeShop(catalog, {
+    newLaunches: [
+      {
+        id: 'dji-future-drone',
+        name: 'DJI Future',
+        officialPrice: 1999,
+        currency: 'CNY',
+        sourceUrl: 'https://store.dji.com/cn/product/dji-future-drone',
+        checkedAt: '2026-11-11T18:00:00+08:00',
+      },
+    ],
+  }, now).find((item) => item.id === 'dji-future-drone')
+  assert.equal(future.pendingCopy, true)
+  assert.equal(isPriceUncertain(future), true)
   assert.equal(launch.image, 'images/products/dji-avata-360.webp')
 })
 

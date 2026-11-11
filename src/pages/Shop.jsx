@@ -25,13 +25,10 @@ export default function Shop() {
       const okPrice =
         !range ||
         range.id === 'all' ||
-        (item.price != null && hasFilterPrice(item) && item.price >= range.min && item.price < range.max)
+        (hasFilterPrice(item) && item.price >= range.min && item.price < range.max)
       return okCat && okPrice
     })
   }, [cat, price, shop.products])
-
-  const known = list.filter((item) => !item.pendingCopy)
-  const fresh = list.filter((item) => item.pendingCopy)
 
   return (
     <div className="shop-page">
@@ -76,27 +73,11 @@ export default function Shop() {
       {list.length === 0 ? (
         <p className="empty-hint">这个筛选条件下没有机型，试试其他类型或价位。</p>
       ) : (
-        <>
-          {known.length > 0 ? (
-            <div className="product-grid">
-              {known.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-          ) : null}
-          {fresh.length > 0 ? (
-            <section className="section-block">
-              <div className="section-head">
-                <h2 className="graffiti-title sm">新品</h2>
-              </div>
-              <div className="product-grid">
-                {fresh.map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
-              </div>
-            </section>
-          ) : null}
-        </>
+        <div className="product-grid">
+          {list.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
       )}
 
       <section className="section-block" id="reading">
@@ -130,8 +111,10 @@ function ProductCard({ product }) {
         <div className="card-meta">
           <ProductTags product={product} />
           {product.pendingCopy ? <span className="copy-badge">待补充介绍</span> : null}
+          {product.recentLaunch ? <span className="tag-sticker">新品</span> : null}
         </div>
         <h2>{product.name}</h2>
+        {product.tagline ? <p className="product-tagline">{product.tagline}</p> : null}
         <OfficialPrice product={product} size="lg" />
       </div>
     </Link>

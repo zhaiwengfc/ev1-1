@@ -871,8 +871,10 @@ p {
   margin: 8px 0 0;
 }
 
-.store-cta {
-  margin-top: 8px;
+.product-tagline {
+  font-family: var(--font-body);
+  margin: 0 0 8px;
+  color: #2c261c;
 }
 
 .product-stage.has-photo {
