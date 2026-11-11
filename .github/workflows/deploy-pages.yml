@@ -1,22 +1,26 @@
-# Build the Vite app and publish dist/ to GitHub Pages.
-# Expected site: https://zhaiwengfc.github.io/ev1-1/
+# Fetch news, build the Vite app, and publish dist/ to GitHub Pages.
+# One workflow does all three: a push made with GITHUB_TOKEN does not
+# start other workflows, so this file must not depend on a follow-up commit.
 #
-# actions/configure-pages accepts enablement: true, but that input
-# requires a personal access token or GitHub App token with
-# administration rights. The default GITHUB_TOKEN cannot create a Pages
-# site and fails with "Resource not accessible by integration", so
-# enablement is omitted. Before the first deploy, set
-# Settings → Pages → Build and deployment → Source to "GitHub Actions".
+# actions/configure-pages accepts enablement: true, but that input needs a
+# personal access token or GitHub App token. The default GITHUB_TOKEN cannot
+# create a Pages site, so enablement is omitted. Pages for this repo is
+# already set to GitHub Actions.
 
-name: Deploy to GitHub Pages
+name: 更新资讯并发布到 GitHub Pages
 
 on:
+  schedule:
+    - cron: '0 */3 * * *'
+  issues:
+    types: [opened, edited, closed, reopened, labeled, unlabeled]
   push:
     branches: [main]
   workflow_dispatch:
 
 permissions:
   contents: read
+  issues: write
   pages: write
   id-token: write
 
@@ -26,6 +30,10 @@ concurrency:
 
 jobs:
   build:
+    if: >-
+      github.event_name != 'issues' ||
+      github.event.label.name == '资讯' ||
+      contains(github.event.issue.labels.*.name, '资讯')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -36,6 +44,25 @@ jobs:
         with:
           node-version: 22
           cache: npm
+
+      - name: Ensure 资讯 label
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create "资讯" \
+            --color FFE500 \
+            --description "站长发布的资讯。关闭这条 Issue 后，网站会撤下对应内容。" \
+            --force
+
+      - name: Check news script
+        run: node --test scripts/fetch-news.test.mjs
+
+      - name: Fetch news
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: node scripts/fetch-news.mjs
 
       - name: Install dependencies
         run: npm ci

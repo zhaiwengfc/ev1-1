@@ -1,20 +1,22 @@
 import { useMemo, useState } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
 import SampleBadge from '../components/SampleBadge.jsx'
-import { news, newsCategories, categoryLabel } from '../data/content.js'
+import NewsCard from '../components/NewsCard.jsx'
+import { intros, newsCategories } from '../data/content.js'
+import { PUBLISH_URL, formatUpdated, useNewsFeed } from '../data/newsFeed.js'
+import { useSearchParams } from 'react-router-dom'
 
 export default function News() {
+  const feed = useNewsFeed()
   const [params, setParams] = useSearchParams()
   const initial = params.get('cat') || 'all'
   const [category, setCategory] = useState(
     newsCategories.some((item) => item.id === initial) ? initial : 'all',
   )
 
-  const list = useMemo(
-    () =>
-      category === 'all' ? news : news.filter((item) => item.category === category),
-    [category],
-  )
+  const list = useMemo(() => {
+    if (category === 'all') return feed.items
+    return feed.items.filter((item) => item.category === category)
+  }, [category, feed.items])
 
   const select = (id) => {
     setCategory(id)
@@ -22,15 +24,38 @@ export default function News() {
     else setParams({ cat: id })
   }
 
+  const ready = feed.status === 'ready'
+  const leads = {
+    all: intros.news,
+    policy: intros.policy,
+    tech: intros.tech,
+    contest: intros.contest,
+    release: intros.release,
+  }
+  const lead = leads[category] || intros.news
+
   return (
     <div className="news-page">
       <header className="page-hero">
-        <p className="hero-kicker">
-          <SampleBadge /> 低空行业信息交流
-        </p>
-        <h1 className="graffiti-title">行业资讯</h1>
-        <p className="page-lead">
-          按四个栏目浏览示例资讯：政府政策、科技创新与供应链、比赛信息、无人机新品发布。点击卡片可进入详情。所有稿件均为占位文本，不含真实文号或新闻事实。
+        <div className="news-toolbar">
+          <div>
+            <p className="hero-kicker">
+              {ready && feed.sample ? <SampleBadge /> : null}
+              低空行业信息交流
+            </p>
+            <h1 className="graffiti-title">行业资讯</h1>
+          </div>
+          <a className="btn-primary publish-btn" href={PUBLISH_URL} target="_blank" rel="noreferrer">
+            发布资讯
+          </a>
+        </div>
+        <p className="page-lead">{lead}</p>
+        <p className="news-updated">
+          {!ready
+            ? '正在读取资讯…'
+            : feed.sample
+              ? '当前显示的是示例资讯。自动更新完成后，这里会换成公开报道。'
+              : formatUpdated(feed.updatedAt)}
         </p>
       </header>
 
@@ -49,20 +74,22 @@ export default function News() {
         ))}
       </div>
 
-      <p className="result-count">共 {list.length} 条示例资讯</p>
-      <div className="news-grid">
-        {list.map((item) => (
-          <Link key={item.id} to={`/news/${item.id}`} className="sticker-card">
-            <div className="card-meta">
-              <span className="tag-sticker">{categoryLabel(item.category)}</span>
-              <SampleBadge />
-            </div>
-            <h2>{item.title}</h2>
-            <p>{item.summary}</p>
-            <span className="card-date">{item.date}</span>
-          </Link>
-        ))}
-      </div>
+      {!ready ? (
+        <p className="result-count">正在读取资讯…</p>
+      ) : list.length === 0 ? (
+        <p className="empty-hint">这个分类暂时没有资讯。</p>
+      ) : (
+        <>
+          <p className="result-count">
+            {feed.sample ? `共 ${list.length} 条示例资讯` : `共 ${list.length} 条`}
+          </p>
+          <div className="news-grid">
+            {list.map((item) => (
+              <NewsCard key={item.id} item={item} />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   )
 }

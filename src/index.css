@@ -263,6 +263,8 @@ p {
 .tab-sticker,
 .tag-sticker,
 .sample-badge,
+.official-badge,
+.pending-badge,
 .btn-primary,
 .btn-ghost,
 .cart-btn {
@@ -637,6 +639,123 @@ p {
   align-items: center;
   gap: 12px;
   margin-bottom: 16px;
+}
+
+.section-head.spread,
+.news-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.news-toolbar {
+  margin-bottom: 10px;
+}
+
+.news-toolbar .graffiti-title {
+  margin-bottom: 0;
+}
+
+.news-updated {
+  color: var(--cream-2);
+  margin: 0 0 14px;
+  font-size: 0.92rem;
+}
+
+.publish-btn {
+  font-size: 1.05rem;
+  padding: 12px 18px;
+  transform: rotate(-2deg);
+}
+
+.official-badge {
+  background: #111;
+  color: var(--yellow);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  transform: rotate(4deg);
+  border: 2px solid var(--yellow);
+  box-shadow: 2px 2px 0 #000;
+  white-space: nowrap;
+}
+
+.news-source,
+.detail-source {
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.news-thumb,
+.detail-cover {
+  width: 100%;
+  object-fit: cover;
+  border: 3px solid #111;
+  background: #111;
+}
+
+.news-thumb {
+  height: 140px;
+}
+
+.detail-cover {
+  display: block;
+  max-height: 420px;
+  box-shadow: 4px 4px 0 #000;
+  margin: 8px 0 16px;
+}
+
+.detail-actions {
+  margin-top: 8px;
+}
+
+.pending-badge {
+  background: #fff;
+  color: #111;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  transform: rotate(-3deg);
+  border-style: dashed;
+  white-space: nowrap;
+}
+
+.pending-note {
+  font-weight: 800;
+  background: #fff6cc;
+  border: 3px dashed #111;
+  padding: 8px 12px;
+}
+
+.score-label {
+  margin-left: 8px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #111;
+}
+
+.section-intro {
+  color: var(--cream);
+  max-width: 760px;
+  margin: 0 0 16px;
+}
+
+.source-list {
+  margin-top: 20px;
+}
+
+.source-list h2 {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+}
+
+.source-list a {
+  color: #111;
+  font-weight: 800;
 }
 
 .highlight-grid,
