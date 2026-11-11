@@ -8,8 +8,16 @@ import {
   priceFilters,
   labArticles,
   formatSamplePrice,
-  productCategoryLabel,
 } from '../data/content.js'
+
+function ProductTags({ product }) {
+  const tags = [product.brandTag || product.brand, product.formTag, product.useTag].filter(Boolean)
+  return tags.map((tag) => (
+    <span key={tag} className="tag-sticker">
+      {tag}
+    </span>
+  ))
+}
 
 export default function Shop() {
   const [cat, setCat] = useState('all')
@@ -28,7 +36,6 @@ export default function Shop() {
   return (
     <div className="shop-page">
       <header className="page-hero">
-        <p className="hero-kicker">看参数，再读评测</p>
         <h1 className="graffiti-title">无人机商城</h1>
         <p className="page-lead">{intros.shop}</p>
         <p className="page-lead">
@@ -82,10 +89,9 @@ export default function Shop() {
               </div>
               <div className="product-body">
                 <div className="card-meta">
-                  <span className="muted">{product.categoryLabel || productCategoryLabel(product.category)}</span>
+                  <ProductTags product={product} />
                 </div>
                 <h2>{product.name}</h2>
-                <p>{product.blurb}</p>
                 <p className="sample-price lg">
                   {formatSamplePrice(product.price)}
                   <span> {product.priceLabel}</span>

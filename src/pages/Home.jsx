@@ -19,11 +19,9 @@ export default function Home() {
   return (
     <div className="home-page">
       <section className="hero">
-        <p className="hero-kicker">{SITE.heroKicker}</p>
         <div className="hero-mark-wrap">
           <Wordmark size="hero" />
         </div>
-        <p className="hero-tag">{SITE.tagline}</p>
         <p className="hero-lead">{SITE.heroLead}</p>
         <div className="hero-actions">
           <Link to="/news" className="btn-primary">
@@ -87,13 +85,22 @@ export default function Home() {
   )
 }
 
+function ProductTags({ product }) {
+  const tags = [product.brandTag || product.brand, product.formTag, product.useTag].filter(Boolean)
+  return tags.map((tag) => (
+    <span key={tag} className="tag-sticker">
+      {tag}
+    </span>
+  ))
+}
+
 function HighlightCard({ item }) {
   if (item.kind === 'product') {
     const product = getProduct(item.id)
     return (
       <Link to={`/shop/${product.id}`} className="sticker-card product-mini">
         <div className="card-meta">
-          <span className="tag-sticker">{product.tag}</span>
+          <ProductTags product={product} />
         </div>
         <DroneArt variant={product.variant} accent={product.accent} />
         <h3>{product.name}</h3>

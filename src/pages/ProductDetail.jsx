@@ -1,14 +1,27 @@
+import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import Stars from '../components/Stars.jsx'
 import Sources from '../components/Sources.jsx'
 import DroneArt from '../components/DroneArt.jsx'
-import {
-  getProduct,
-  getLabItem,
-  formatSamplePrice,
-  productCategoryLabel,
-  labArticles,
-} from '../data/content.js'
+import { getProduct, getLabItem, formatSamplePrice, labArticles } from '../data/content.js'
+
+function Fold({ title, tease, children }) {
+  const [open, setOpen] = useState(false)
+  return (
+    <section className="fold-card">
+      <h2>{title}</h2>
+      {open ? children : <p className="fold-tease">{tease}</p>}
+      <button
+        type="button"
+        className="btn-ghost fold-toggle"
+        aria-expanded={open}
+        onClick={() => setOpen((value) => !value)}
+      >
+        {open ? '收起' : '展开查看'}
+      </button>
+    </section>
+  )
+}
 
 export default function ProductDetail() {
   const { id } = useParams()
@@ -31,6 +44,7 @@ export default function ProductDetail() {
     .filter(Boolean)
   const intro = Array.isArray(product.intro) ? product.intro : product.intro ? [product.intro] : []
   const highlights = product.highlights || []
+  const tags = [product.brandTag || product.brand, product.formTag, product.useTag].filter(Boolean)
 
   return (
     <article className="product-detail">
@@ -41,10 +55,13 @@ export default function ProductDetail() {
         <div className="product-stage">
           <DroneArt variant={product.variant} accent={product.accent} />
         </div>
-        <div>
+        <div className="product-intro-card">
           <div className="card-meta">
-            <span className="tag-sticker">{productCategoryLabel(product.category)}</span>
-            <span className="tag-sticker">{product.categoryLabel || product.tag}</span>
+            {tags.map((tag) => (
+              <span key={tag} className="tag-sticker">
+                {tag}
+              </span>
+            ))}
           </div>
           <h1 className="detail-title">{product.name}</h1>
           <p className="sample-price xl">
@@ -53,25 +70,24 @@ export default function ProductDetail() {
           </p>
           {product.priceNote ? <p className="detail-summary">{product.priceNote}</p> : null}
           <p className="tiny-note">本站只做资料整理，没有购买或比价下单。</p>
+          <Sources sources={product.sources} />
         </div>
       </div>
 
-      <section className="spec-board">
-        <h2>产品介绍</h2>
-        {intro.map((para) => (
-          <p key={para.slice(0, 24)}>{para}</p>
+      <Fold title="产品介绍" tease={intro[0] || ''}>
+        {intro.map((para, index) => (
+          <p key={`${index}-${para.slice(0, 16)}`}>{para}</p>
         ))}
-      </section>
+      </Fold>
 
-      <section className="spec-board">
-        <h2>技术亮点与解读</h2>
+      <Fold title="技术亮点与解读" tease={highlights.slice(0, 2).join('；')}>
         <ul className="highlight-list">
           {highlights.map((line) => (
             <li key={line}>{line}</li>
           ))}
         </ul>
-        {(product.techBody || []).map((para) => (
-          <p key={para.slice(0, 24)}>{para}</p>
+        {(product.techBody || []).map((para, index) => (
+          <p key={`${index}-${para.slice(0, 16)}`}>{para}</p>
         ))}
         <dl>
           {product.specs.map(([label, value]) => (
@@ -81,12 +97,10 @@ export default function ProductDetail() {
             </div>
           ))}
         </dl>
-        <Sources sources={product.sources} />
-      </section>
+      </Fold>
 
       {review ? (
-        <section className="spec-board" id="review">
-          <h2>资料评测</h2>
+        <Fold title="资料评测" tease={review.summary}>
           <div className="card-meta">
             {review.unverifiedNote ? <span className="pending-badge">待核实</span> : null}
             <span className="card-date">{review.date}</span>
@@ -115,17 +129,17 @@ export default function ProductDetail() {
           </div>
           <div className="detail-body">
             {review.body.map((para, index) => (
-              <p key={`${index}-${para.slice(0, 24)}`}>{para}</p>
+              <p key={`${index}-${para.slice(0, 16)}`}>{para}</p>
             ))}
           </div>
           <Sources sources={review.sources} />
-        </section>
+        </Fold>
       ) : null}
 
       {reading.length > 0 ? (
-        <section className="related">
+        <section className="fold-card">
           <h2>相关科普</h2>
-          <ul>
+          <ul className="reading-links">
             {reading.map((item) => (
               <li key={item.id}>
                 <Link to={`/shop/read/${item.id}`}>{item.title}</Link>
