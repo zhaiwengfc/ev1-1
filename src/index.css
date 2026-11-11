@@ -16,7 +16,7 @@
   --go: #1f8a3b;
   --shadow: 6px 6px 0 #000;
   --shadow-lg: 10px 10px 0 #000;
-  --font-body: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-body: -apple-system, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
   --font-display: 'ZCOOL KuaiLe', 'Noto Sans SC', sans-serif;
   --font-arcade: 'Bungee', 'Noto Sans SC', sans-serif;
   --font-micro: 'Press Start 2P', 'Noto Sans SC', sans-serif;
@@ -273,27 +273,27 @@ p {
   color: var(--ink);
   padding: 6px 12px;
   font-size: 0.92rem;
-  transform: rotate(-1.5deg);
+  transform: none;
 }
 
 .nav-sticker:nth-child(even) {
-  transform: rotate(1.8deg);
+  transform: none;
 }
 
 .nav-sticker.is-active,
 .tab-sticker.is-active {
   background: var(--yellow);
-  transform: rotate(-2deg) scale(1.04);
+  transform: none;
 }
 
 .cart-btn {
   background: var(--yellow);
   color: var(--ink);
   padding: 8px 12px 8px 14px;
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: 1rem;
   gap: 8px;
-  transform: rotate(2deg);
+  transform: none;
 }
 
 .cart-count {
@@ -355,7 +355,7 @@ p {
   paint-order: stroke fill;
   letter-spacing: 0.02em;
   text-shadow: 4px 4px 0 #000;
-  transform: rotate(-1.5deg);
+  transform: none;
   display: inline-block;
   margin-bottom: 0.6rem;
 }
@@ -509,7 +509,7 @@ p {
 .product-card:hover,
 .review-card:hover,
 .module-card:hover {
-  transform: rotate(-1.2deg) translate(-3px, -3px);
+  transform: translate(-3px, -3px);
   box-shadow: var(--shadow-lg);
 }
 
@@ -518,7 +518,8 @@ p {
 .product-card h2,
 .review-card h3,
 .module-card h2 {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
+  font-weight: 800;
   font-size: 1.35rem;
   color: #111;
 }
@@ -546,7 +547,8 @@ p {
 }
 
 .sample-price {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
+  font-weight: 800;
   font-size: 1.25rem;
   color: #111;
   margin: 0;
@@ -606,20 +608,18 @@ p {
   padding: 22px;
 }
 
-.module-card.tilt-left {
-  transform: rotate(-1.5deg);
-}
-
+.module-card.tilt-left,
 .module-card.tilt-right {
-  transform: rotate(1.5deg);
+  transform: none;
 }
 
 .module-card:hover {
-  transform: rotate(0deg) translate(-4px, -4px);
+  transform: translate(-3px, -3px);
 }
 
 .module-no {
-  font-family: var(--font-arcade);
+  font-family: var(--font-body);
+  font-weight: 800;
   font-size: 1.2rem;
   color: #111;
 }
@@ -666,7 +666,7 @@ p {
 .publish-btn {
   font-size: 1.05rem;
   padding: 12px 18px;
-  transform: rotate(-2deg);
+  transform: none;
 }
 
 .official-badge {
@@ -748,8 +748,9 @@ p {
 }
 
 .source-list h2 {
-  font-family: var(--font-display);
-  font-size: 1.4rem;
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 1.2rem;
 }
 
 .source-list a {
@@ -798,7 +799,7 @@ p {
   background: var(--cream-2);
   display: grid;
   gap: 12px;
-  transform: rotate(-0.4deg);
+  transform: none;
 }
 
 .filter-label {
@@ -871,7 +872,8 @@ p {
 .pros h4,
 .cons h2,
 .cons h4 {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
+  font-weight: 800;
   margin: 0 0 6px;
   font-size: 1rem;
 }
@@ -956,7 +958,8 @@ p {
 }
 
 .detail-title {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
+  font-weight: 800;
   font-size: clamp(1.7rem, 3vw, 2.4rem);
   margin: 8px 0 12px;
 }
@@ -1029,8 +1032,10 @@ p {
   background: var(--cream-2);
 }
 
-.spec-board h2 {
-  font-family: var(--font-display);
+.spec-board h2,
+.fold-card h2 {
+  font-family: var(--font-body);
+  font-weight: 800;
 }
 
 .spec-row {
@@ -1088,7 +1093,8 @@ p {
 }
 
 .drawer-head h2 {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
+  font-weight: 800;
   flex: 1;
   margin: 0;
 }
